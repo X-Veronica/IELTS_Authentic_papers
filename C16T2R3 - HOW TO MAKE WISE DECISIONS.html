@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Practice - How to make wise decisions?</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #333;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+            background-color: #f4f6f9;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            gap: 10px;
+        }
+        .panel {
+            flex: 1;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .panel-header {
+            background: #004080;
+            color: #fff;
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .panel-content {
+            padding: 25px;
+            overflow-y: auto;
+            flex: 1;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+        .article h2 {
+            margin-bottom: 20px;
+            color: #004080;
+            font-size: 22px;
+        }
+        .article p {
+            margin-bottom: 16px;
+            text-align: justify;
+        }
+        .highlight {
+            background-color: #ffeb3b;
+            cursor: pointer;
+        }
+        .question-group {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        .question-group h3 {
+            font-size: 16px;
+            color: #004080;
+            margin-bottom: 15px;
+            background: #eef2f7;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+        .question-item {
+            margin-bottom: 15px;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .question-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .options label {
+            display: block;
+            margin-bottom: 6px;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .options label:hover {
+            background-color: #f0f4f8;
+        }
+        .options input[type="radio"] {
+            margin-right: 8px;
+        }
+        input.blank-input {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 14px;
+            width: 90px;
+            text-align: center;
+            margin: 0 4px;
+            /* 已取消 text-transform: uppercase，允许自由选择大小写输入 */
+        }
+        input.blank-input:focus {
+            border-color: #004080;
+            outline: none;
+            box-shadow: 0 0 4px rgba(0,64,128,0.2);
+        }
+        input.blank-input.incorrect {
+            background-color: #ffebee;
+            border-color: #f44336;
+            color: #c62828;
+        }
+        .blank-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .fill-content {
+            line-height: 2.5;
+        }
+        /* 批改错误样式提示 */
+        .question-item.incorrect {
+            background-color: #ffebee;
+            border-left: 4px solid #f44336;
+            padding-left: 12px;
+        }
+        .error-tag {
+            color: #c62828;
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 5px;
+            display: none;
+        }
+        .show-error .error-tag {
+            display: inline-block;
+        }
+        /* 提交按钮区域 */
+        .submit-section {
+            text-align: center;
+            margin: 20px 0 40px 0;
+        }
+        .submit-btn {
+            background-color: #004080;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .submit-btn:hover {
+            background-color: #002b5c;
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        .submit-btn:active {
+            transform: translateY(1px);
+        }
+        .score-board {
+            margin-top: 15px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #004080;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 左侧：阅读文章面板 -->
+    <div class="panel">
+        <div class="panel-header">Reading Text (Right-click to highlight)</div>
+        <div class="panel-content article" id="readingText">
+             <!-- ========================================== -->
+             <!-- 【可替换区域 1：在此处替换阅读文章的标题与正文段落】 -->
+             <!-- ========================================== -->
+             <h2>How to make wise decisions?</h2>
+            <p>Across cultures, wisdom has been considered one of the most revered human qualities. Although the truly wise may seem few and far between, empirical research examining wisdom suggests that it isn't an exceptional trait possessed by a small handful of bearded philosophers after all- in fact, the latest studies suggest that most of us have the ability to make wise decisions, given the right context.</p>
+            <p>'It appears that experiential, situational, and cultural factors are even more powerful in shaping wisdom than previously imagined' says Associate Professor Igor Grossmann of the University of Waterloo in Ontario, Canada. 'Recent empirical findings from cognitive, developmental, social, and personality psychology cumulatively suggest that people's ability to reason wisely varies dramatically across experiential and situational contexts. Understanding the role of such contextual factors offers unique insights into understanding wisdom in daily life, as well as how it can be enhanced and taught.'</p>
+            <p>It seems that it's not so much that some people simply possess wisdom and others lack it, but that our ability to reason wisely depends on a variety of external factors. 'It is impossible to characterize thought processes attributed to wisdom without considering the role of contextual factors,' explains Grossmann. °In other words, wisdom is not solely an "inner quality” but rather unfolds as a function of situations people happen to be in. Some situations are more likely to promote wisdom than others.'</p>
+            <p>Coming up with a definition of wisdom is challenging, but Grossmann and his colleagues have identified four key characteristics as part of a framework of wise reasoning. One is intellectual humility or recognition of the limits of our own knowledge, and another is appreciation of perspectives wider than the issue at hand. Sensitivity to the possibility of change in social relations is also key, along with compromise or integration of different attitudes and beliefs.</p>
+            <p>Grossmann and his colleagues have also found that one of the most reliable ways to support wisdom in our own day-to-day decisions is to look at scenarios from a third-party perspective, as though giving advice to a friend. Research suggests that when adopting a first-person viewpoint we focus on ‘the focal features of the environment' and when we adopt a third- person, ‘observer' viewpoint we reason more broadly and focus more on interpersonal and moral ideals such as justice and impartiality. Looking at problems from this more expansive viewpoint appears to foster cognitive processes related to wise decisions.</p>
+            <p>What are we to do, then, when confronted with situations like a disagreement with a spouse or negotiating a contract at work, that require us to take a personal stake? Grossmann argues that even when we aren't able to change the situation, we can still evaluate these experiences from different perspectives.</p>
+            <p>For example, in one experiment that took place during the peak of a recent economic recession, graduating college seniors were asked to reflect on their job prospects. The students were instructed to imagine their career either ‘as if you were a distant observer' or ‘before your own eyes as if you were right there'. Participants in the group assigned to the ‘distant observer' role displayed more wisdom-related reasoning (intellectual humility and recognition of change) than did participants in the control group. .</p>
+            <p>In another study, couples in long- term romantic relationships were instructed to visualize an unresolved relationship conflict either through the eyes of an outsider or from their own perspective. Participants then discussed the incident with their partner for 10 minutes, after which they wrote down their thoughts about it. Couples in the ‘other's eyes' condition were significantly more likely to rely on wise reasoning - recognizing others' perspectives and searching for a compromise - compared to the couples in the egocentric condition.</p>
+            <p>Ego-decentering promotes greater focus on others and enables a bigger picture, conceptual view of the experience, affording recognition of intellectual humility and change,' says Grossmann.</p>
+            <p>We might associate wisdom with intelligence or particular personality traits, but research shows only a small positive relationship between wise thinking and crystallized intelligence and the personality traits of openness and agreeableness. 'It is remarkable how much people can vary in their wisdom from one situation to the next, and how much stronger such contextual effects are for understanding the relationship between wise judgment and its social and affective outcomes as compared to the generalized “traits",' Grossmann explains. “That is, knowing how wisely a person behaves in a given situation is more informative for understanding their emotions or likelihood to forgive [or] retaliate as compared to knowing whether the person may be wise “in general","</p>
+             <!-- ========================================== -->
+             <!-- 【文章替换区域结束】 -->
+             <!-- ========================================== -->
+        </div>
+    </div>
+
+    <!-- 右侧：题目面板 -->
+    <div class="panel">
+        <div class="panel-header">Questions</div>
+        <div class="panel-content" id="questionsContainer">
+            
+            <!-- ========================================== -->
+            <!-- 【可替换区域 2：在此处替换所有题目组及题目内容】 -->
+            <!-- ========================================== -->
+
+                        <div class="question-group">
+                <h3>Questions 27-30: Multiple Choice</h3>
+                
+                <div class="question-item" id="item-q27">
+                    <div class="question-title">27. What point does the writer make in the first paragraph?</div>
+                    <div class="options">
+                        <label><input type="radio" name="q27" value="A"> A. Wisdom appears to be unique to the human race.</label>
+                        <label><input type="radio" name="q27" value="B"> B. A basic assumption about wisdom may be wrong.</label>
+                        <label><input type="radio" name="q27" value="C"> C. Concepts of wisdom may depend on the society we belong to.</label>
+                        <label><input type="radio" name="q27" value="D"> D. There is still much to be discovered about the nature of wisdom.</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+
+                <div class="question-item" id="item-q28">
+                    <div class="question-title">28. What does Igor Grossmann suggest about the ability to make wise decisions?</div>
+                    <div class="options">
+                        <label><input type="radio" name="q28" value="A"> A. It can vary greatly from one person to another.</label>
+                        <label><input type="radio" name="q28" value="B"> B. Earlier research into it was based on unreliable data.</label>
+                        <label><input type="radio" name="q28" value="C"> C. The importance of certain influences on it was underestimated.</label>
+                        <label><input type="radio" name="q28" value="D"> D.  Various branches of psychology define it according to their own criteria.</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+
+                <div class="question-item" id="item-q29">
+                    <div class="question-title">29. According to the third paragraph, Grossmann claims that the level of wisdom an individual shows</div>
+                    <div class="options">
+                        <label><input type="radio" name="q29" value="A"> A. can be greater than they think it is.</label>
+                        <label><input type="radio" name="q29" value="B"> B. will be different in different circumstances.</label>
+                        <label><input type="radio" name="q29" value="C"> C. may be determined by particular aspects of their personality.</label>
+                        <label><input type="radio" name="q29" value="D"> D.  should develop over time as a result of their life experiences.</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+
+                <div class="question-item" id="item-q30">
+                    <div class="question-title">30. What is described in the fifth paragraph?</div>
+                    <div class="options">
+                        <label><input type="radio" name="q30" value="A"> A. a difficulty encountered when attempting to reason wisely</label>
+                        <label><input type="radio" name="q30" value="B"> B. an example of the type of person who is likely to reason wisely</label>
+                        <label><input type="radio" name="q30" value="C"> C. a controversial view about the benefits of reasoning wisely</label>
+                        <label><input type="radio" name="q30" value="D"> D.  a recommended strategy that can help people to reason wisely</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+            </div>
+
+                        <div class="question-group summary-completion">
+                <h3>Questions 31-35: Summary Completion</h3>
+                <div class="word-bank"><strong>Word Bank:</strong> A. opinions | B. confidence | C. view | D. modesty | E. problems | F. objectivity | G. fairness | H. experiences | I. range | J. reasons</div>
+                <div class="question-item">
+                    <div class="fill-content">
+                        Igor Grossmann and colleagues have established four characteristics which enable us to make wise decisions. It is important to have a certain degree of <span class="blank-wrapper"><input type="text" class="blank-input" name="q31" placeholder="31"></span> regarding the extent of our knowledge, and to take into account <span class="blank-wrapper"><input type="text" class="blank-input" name="q32" placeholder="32"></span> which may not be the same as our own. We should also be able to take a board <span class="blank-wrapper"><input type="text" class="blank-input" name="q33" placeholder="33"></span> of any situation. Another key characteristic is being aware of the likelihood of alterations in the way that people relate to each other. 
+
+Grossmann also believes that it is better to regard scenarios with <span class="blank-wrapper"><input type="text" class="blank-input" name="q34" placeholder="34"></span> By avoiding the first-person perspective, we focus more on <span class="blank-wrapper"><input type="text" class="blank-input" name="q35" placeholder="35"></span> and on other moral ideals, which in turn leads to wiser decision-making.
+                    </div>
+                </div>
+            </div>
+			
+			            <div class="question-group">
+                <h3>Questions 36-40: TRUE / FALSE / NOT GIVEN</h3>
+                
+                <div class="question-item" id="item-q36">
+                    <div class="question-title">36. Students participating in the job prospects experiment could choose one of two perspectives to take.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q36" value="TRUE"> TRUE</label>
+                        <label><input type="radio" name="q36" value="FALSE"> FALSE</label>
+                        <label><input type="radio" name="q36" value="NOT GIVEN"> NOT GIVEN</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+
+                <div class="question-item" id="item-q37">
+                    <div class="question-title">37. Participants in the couples experiment were aware that they were taking part in a study about wise reasoning.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q37" value="TRUE"> TRUE</label>
+                        <label><input type="radio" name="q37" value="FALSE"> FALSE</label>
+                        <label><input type="radio" name="q37" value="NOT GIVEN"> NOT GIVEN</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+
+                <div class="question-item" id="item-q38">
+                    <div class="question-title">38. In the couples experiments, the length of the couples' relationships had an impact on the results.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q38" value="TRUE"> TRUE</label>
+                        <label><input type="radio" name="q38" value="FALSE"> FALSE</label>
+                        <label><input type="radio" name="q38" value="NOT GIVEN"> NOT GIVEN</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+
+                <div class="question-item" id="item-q39">
+                    <div class="question-title">39. In both experiments, the participants who looked at the situation from a more detached viewpoint tended to make wiser decisions.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q39" value="TRUE"> TRUE</label>
+                        <label><input type="radio" name="q39" value="FALSE"> FALSE</label>
+                        <label><input type="radio" name="q39" value="NOT GIVEN"> NOT GIVEN</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+
+                <div class="question-item" id="item-q40">
+                    <div class="question-title">40. Grossmann believes that a person's wisdom is determined by their intelligence to only a very limited extent.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q40" value="TRUE"> TRUE</label>
+                        <label><input type="radio" name="q40" value="FALSE"> FALSE</label>
+                        <label><input type="radio" name="q40" value="NOT GIVEN"> NOT GIVEN</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+            </div>
+			
+            <!-- ========================================== -->
+            <!-- 【题目替换区域结束】 -->
+            <!-- ========================================== -->
+
+            <!-- 提交按钮与分数面板区域（切勿随意删除此结构） -->
+            <div class="submit-section">
+                <button class="submit-btn" id="submitBtn">提交答案</button>
+                <div class="score-board" id="scoreBoard"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    // 1. 实现右键高亮与取消高亮逻辑
+    const readingText = document.getElementById('readingText');
+    
+    readingText.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        if (e.target.classList.contains('highlight')) {
+            const parent = e.target.parentNode;
+            parent.replaceChild(document.createTextNode(e.target.textContent), e.target);
+            parent.normalize();
+            return;
+        }
+        const selection = window.getSelection();
+        if (!selection.isCollapsed && selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            const span = document.createElement('span');
+            span.className = 'highlight';
+            try {
+                span.appendChild(range.extractContents());
+                range.insertNode(span);
+                selection.removeAllRanges();
+            } catch (err) {
+                console.log("Highlight error:", err);
+            }
+        }
+    });
+
+    // 2. 实现单选按钮“再次点击取消选中”功能
+    document.addEventListener('DOMContentLoaded', function() {
+        const radioButtons = document.querySelectorAll('input[type="radio"]');
+        
+        radioButtons.forEach(radio => {
+            radio.dataset.wasChecked = radio.checked;
+            radio.addEventListener('click', function() {
+                if (this.dataset.wasChecked === 'true') {
+                    this.checked = false;
+                    this.dataset.wasChecked = 'false';
+                    document.querySelectorAll(`input[name="${this.name}"]`).forEach(r => r.dataset.wasChecked = 'false');
+                } else {
+                    document.querySelectorAll(`input[name="${this.name}"]`).forEach(r => r.dataset.wasChecked = 'false');
+                    this.checked = true;
+                    this.dataset.wasChecked = 'true';
+                }
+            });
+        });
+    });
+
+    // 正确答案字典
+    const correctAnswers = {
+        q27: 'B',
+        q28: 'C',
+        q29: 'B',
+        q30: 'D',
+        q31: 'D',
+        q32: 'A',
+        q33: 'C',
+        q34: 'F',
+        q35: 'G',
+        q36: 'FALSE',
+        q37: 'NOT GIVEN',
+        q38: 'NOT GIVEN',
+        q39: 'TRUE',
+        q40: 'TRUE'
+    };
+
+    document.getElementById('submitBtn').addEventListener('click', function() {
+        let score = 0;
+        let total = 14; // 总题数 27-40 共 14 题
+
+        // 1. 检查单选/判断题 (Q27-Q30, Q36-Q40)
+        const choiceQuestions = ['q27', 'q28', 'q29', 'q30', 'q36', 'q37', 'q38', 'q39', 'q40'];
+        choiceQuestions.forEach(q => {
+            const selected = document.querySelector(`input[name="${q}"]:checked`);
+            const itemElem = document.getElementById(`item-${q}`);
+            const userVal = selected ? selected.value : '';
+            
+            if (userVal === correctAnswers[q]) {
+                score++;
+                if (itemElem) {
+                    itemElem.classList.remove('incorrect');
+                    itemElem.classList.remove('show-error');
+                }
+            } else {
+                if (itemElem) {
+                    itemElem.classList.add('incorrect');
+                    itemElem.classList.add('show-error');
+                }
+            }
+        });
+
+        // 2. 检查 Summary 填空题 (Q31-Q35)
+        // 注意：HTML 中前面填空的 name 对应 q31, q32, q33，后面两个填空在 HTML 中写错了名字（原为 q8, q9），
+        // 建议你在 HTML 中把后面两个填空的 name 也改成 q34 和 q35，这里按 q31-q35 统一处理。
+        const fillQuestions = ['q31', 'q32', 'q33', 'q34', 'q35'];
+        fillQuestions.forEach(q => {
+            const inputElem = document.querySelector(`input[name="${q}"]`);
+            const userVal = inputElem ? inputElem.value.trim().toLowerCase() : '';
+            const correctVal = correctAnswers[q] ? correctAnswers[q].toLowerCase() : '';
+            
+            if (inputElem) {
+                if (userVal === correctVal) {
+                    score++;
+                    inputElem.classList.remove('incorrect');
+                } else {
+                    inputElem.classList.add('incorrect');
+                }
+            }
+        });
+
+        // 显示得分
+        const scoreBoard = document.getElementById('scoreBoard');
+        scoreBoard.style.display = 'block';
+        scoreBoard.textContent = `${score} / ${total}`;
+    });
+</script>
+
+</body>
+</html>
