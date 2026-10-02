@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Practice - Changes in reading habits</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #333;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+            background-color: #f4f6f9;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            gap: 10px;
+        }
+        .panel {
+            flex: 1;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .panel-header {
+            background: #004080;
+            color: #fff;
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .panel-content {
+            padding: 25px;
+            overflow-y: auto;
+            flex: 1;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+        .article h2 {
+            margin-bottom: 20px;
+            color: #004080;
+            font-size: 22px;
+        }
+        .article p {
+            margin-bottom: 16px;
+            text-align: justify;
+        }
+        .highlight {
+            background-color: #ffeb3b;
+            cursor: pointer;
+        }
+        .question-group {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        .question-group h3 {
+            font-size: 16px;
+            color: #004080;
+            margin-bottom: 15px;
+            background: #eef2f7;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+        .question-item {
+            margin-bottom: 15px;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .question-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .options label {
+            display: block;
+            margin-bottom: 6px;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .options label:hover {
+            background-color: #f0f4f8;
+        }
+        .options input[type="checkbox"], .options input[type="radio"] {
+            margin-right: 8px;
+        }
+        input.blank-input {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 14px;
+            width: 90px;
+            text-align: center;
+            margin: 0 4px;
+        }
+        input.blank-input:focus {
+            border-color: #004080;
+            outline: none;
+            box-shadow: 0 0 4px rgba(0,64,128,0.2);
+        }
+        input.blank-input.incorrect {
+            background-color: #ffebee;
+            border-color: #f44336;
+            color: #c62828;
+        }
+        .blank-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .fill-content {
+            line-height: 2.5;
+        }
+        /* 批改错误样式提示 */
+        .question-item.incorrect {
+            background-color: #ffebee;
+            border-left: 4px solid #f44336;
+            padding-left: 12px;
+        }
+        .error-tag {
+            color: #c62828;
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 5px;
+            display: none;
+        }
+        .show-error .error-tag, .question-item.incorrect .error-tag {
+            display: inline-block;
+        }
+        /* 提交按钮区域 */
+        .submit-section {
+            text-align: center;
+            margin: 20px 0 40px 0;
+        }
+        .submit-btn {
+            background-color: #004080;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .submit-btn:hover {
+            background-color: #002b5c;
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        .submit-btn:active {
+            transform: translateY(1px);
+        }
+        .score-board {
+            margin-top: 15px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #004080;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 左侧：阅读文章面板 -->
+    <div class="panel">
+        <div class="panel-header">Reading Text (Right-click to highlight)</div>
+        <div class="panel-content article" id="readingText">
+                         <h2>How tennis rackets have changed</h2>
+            <p>In 2016, the British professional tennis player Andy Murray was ranked as the world's number one. It was an incredible achievement by any standard made even more remarkable by the fact that he did this during a period considered to be one of the strongest in the sport's history, competing against the likes of Rafael Nadal, Roger Federer and Novak Djokovic, to name just a few. Yet five years previously, he had been regarded as a talented outsider who entered but never won the major tournaments.</p>
+            <p>Of the changes that account for this transformation, one was visible and widely publicised: in 2011, Murray invited former number one player Ivan Lendl onto his coaching team a valuable addition that had a visible impact on the player's playing style. Another change was so subtle as to pass more or less unnoticed. Like many players, Murray has long preferred a racket that consists of two types of string: one for the mains (verticals) and another for the crosses (horizontals). While he continued to use natural string in the crosses, in 2012 he switched to a synthetic string for the mains. A small change, perhaps, but its importance should not be underestimated.</p>
+            <p>The modification that Murray made is just one of a number of options available to players looking to tweak their rackets in order to improve their games. 'Touring professionals have their rackets customised to their specific needs,' says Colin Triplow, a UK-based professional racket stringer. 'It's a highly important part of performance maximisation.' Consequently, the specific rackets used by the world's elite are not actually readily available to the public; rather, each racket is individually made to suit the player who uses it. Take the US professional tennis players Mike and Bob Bryan, for example: 'We're very particular with our racket specifications, they say. 'All our rackets are sent from our manufacturer to Tampa, Florida, where our frames go through a... thorough customisation process. They explain how they have adjusted not only racket length, but even experimented with different kinds of paint. The rackets they use now weigh more than the average model and also have a denser string pattern (i.e. more crosses and mains).</p>
+            <p>The primary reason for these modifications is simple: as the line between winning and losing becomes thinner and thinner, even these slight changes become more and more important. As a result, players and their teams are becoming increasingly creative with the modifications to their rackets as they look to maximise their competitive advantage.</p>
+            <p>Racket modifications mainly date back to the 1970s, when the amateur German tennis player Werner Fischer started playing with the so-called spaghetti-strung racket. It created a string bed that generated so much topspin that it was quickly banned by the International Tennis Federation. However, within a decade or two, racket modification became a regularity. Today it is, in many ways, an aspect of the game that is equal in significance to nutrition or training.</p>
+            <p>Modifications can be divided into two categories: those to the string bed and those to the racket frame. The former is far more common than the latter: the choice of the strings and the tension with which they are installed is something that nearly all professional players experiment with. They will continually change it depending on various factors including the court surface, climatic conditions, and game styles. Some will even change it depending on how they feel at the time.</p>
+            <p>At one time, all tennis rackets were strung with natural gut made from the outer layer of sheep or cow intestines. This all changed in the early 1990s with the development of synthetic strings that were cheaper and more durable. They are made from three materials: nylon (relatively durable and affordable), Kevlar (too stiff to be used alone) or co-polyester (polyester combined with additives that enhance its performance). Even so, many professional players continue to use a 'hybrid set-up', where a combination of both synthetic and natural strings are used.</p>
+            <p>Of the synthetics, co-polyester is by far the most widely used. It's a perfect fit for the style of tennis now played, where players tend to battle it out from the back of the court rather than coming to the net. Studies indicate that the average spin from a co-polyester string is 25% greater than that from natural string or other synthetics. In a sense, the development of co-polyester strings has revolutionised the game.</p>
+            <p>However, many players go beyond these basic adjustments to the strings and make changes to the racket frame itself. For example, much of the serving power of US professional player Pete Sampras was attributed to the addition of four to five lead weights onto his rackets, and today many professionals have the weight adjusted during the manufacturing process.</p>
+            <p>Other changes to the frame involve the handle. Players have individual preferences for the shape of the handle and some will have the handle of one racket moulded onto the frame of a different racket. Other players make different changes. The professional Portuguese player Gonçalo Oliveira replaced the original grips of his rackets with something thinner because they had previously felt uncomfortable to hold.</p>
+            <p>Racket customisation and modification have pushed the standards of the game to greater levels that few could have anticipated in the days of natural strings and heavy, wooden frames, and it's exciting to see what further developments there will be in the future.</p>
+        </div>
+    </div>
+
+    <!-- 右侧：题目面板 -->
+    <div class="panel">
+        <div class="panel-header">Questions</div>
+        <div class="panel-content" id="questionsContainer">
+            
+            <div class="question-group">
+                <h3>Questions 1-7: TRUE / FALSE / NOT GIVEN</h3>
+                
+                <div class="question-item" id="item-q1">
+                    <div class="question-title">1. People had expected Andy Murray to become the world's top tennis player for at least five years before 2016.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q1" value="TRUE"> TRUE</label>
+                        <label><input type="radio" name="q1" value="FALSE"> FALSE</label>
+                        <label><input type="radio" name="q1" value="NOT GIVEN"> NOT GIVEN</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+
+                <div class="question-item" id="item-q2">
+                    <div class="question-title">2. The change that Andy Murray made to his rackets attracted a lot of attention.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q2" value="TRUE"> TRUE</label>
+                        <label><input type="radio" name="q2" value="FALSE"> FALSE</label>
+                        <label><input type="radio" name="q2" value="NOT GIVEN"> NOT GIVEN</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+
+                <div class="question-item" id="item-q3">
+                    <div class="question-title">3. Most of the world's top players take a professional racket stringer on tour with them.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q3" value="TRUE"> TRUE</label>
+                        <label><input type="radio" name="q3" value="FALSE"> FALSE</label>
+                        <label><input type="radio" name="q3" value="NOT GIVEN"> NOT GIVEN</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+
+                <div class="question-item" id="item-q4">
+                    <div class="question-title">4. Mike and Bob Bryan use rackets that are light in comparison to the majority of rackets.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q4" value="TRUE"> TRUE</label>
+                        <label><input type="radio" name="q4" value="FALSE"> FALSE</label>
+                        <label><input type="radio" name="q4" value="NOT GIVEN"> NOT GIVEN</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+
+                <div class="question-item" id="item-q5">
+                    <div class="question-title">5. Werner Fischer played with a spaghetti-strung racket that he designed himself.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q5" value="TRUE"> TRUE</label>
+                        <label><input type="radio" name="q5" value="FALSE"> FALSE</label>
+                        <label><input type="radio" name="q5" value="NOT GIVEN"> NOT GIVEN</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+
+                <div class="question-item" id="item-q6">
+                    <div class="question-title">6. The weather can affect how professional players adjust the strings on their rackets.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q6" value="TRUE"> TRUE</label>
+                        <label><input type="radio" name="q6" value="FALSE"> FALSE</label>
+                        <label><input type="radio" name="q6" value="NOT GIVEN"> NOT GIVEN</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+
+                <div class="question-item" id="item-q7">
+                    <div class="question-title">7. It was believed that the change Pete Sampras made to his rackets contributed to his strong serve.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q7" value="TRUE"> TRUE</label>
+                        <label><input type="radio" name="q7" value="FALSE"> FALSE</label>
+                        <label><input type="radio" name="q7" value="NOT GIVEN"> NOT GIVEN</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+            </div>
+               
+
+                 
+
+                <div class="question-item">
+                    <div class="fill-content">
+                        <div class="question-group summary-completion-2">
+    <h3>Questions 8-13: Note Completion (ONE WORD ONLY)</h3>
+
+    <div class="question-item" id="item-q8">
+        <div class="question-title">8. Mike and Bob Bryan made changes to the types of <span class="blank-wrapper"><input type="text" class="blank-input" name="q8" placeholder="8"></span> used on their racket frames.</div>
+        <div class="error-tag">❌ Incorrect</div>
+    </div>
+
+    <div class="question-item" id="item-q9">
+        <div class="question-title">9. Players were not allowed to use the spaghetti-strung racket because of the amount of <span class="blank-wrapper"><input type="text" class="blank-input" name="q9" placeholder="9"></span> it created.</div>
+        <div class="error-tag">❌ Incorrect</div>
+    </div>
+
+    <div class="question-item" id="item-q10">
+        <div class="question-title">10. Changes to rackets can be regarded as being as important as players' diets or the <span class="blank-wrapper"><input type="text" class="blank-input" name="q10" placeholder="10"></span> they do.</div>
+        <div class="error-tag">❌ Incorrect</div>
+    </div>
+
+    <div class="question-item" id="item-q11">
+        <div class="question-title">11. All rackets used to have natural strings made from the <span class="blank-wrapper"><input type="text" class="blank-input" name="q11" placeholder="11"></span> of animals.</div>
+        <div class="error-tag">❌ Incorrect</div>
+    </div>
+
+    <div class="question-item" id="item-q12">
+        <div class="question-title">12. Pete Sampras had metal <span class="blank-wrapper"><input type="text" class="blank-input" name="q12" placeholder="12"></span> put into the frames of his rackets.</div>
+        <div class="error-tag">❌ Incorrect</div>
+    </div>
+
+    <div class="question-item" id="item-q13">
+        <div class="question-title">13. Gonçalo Oliveira changed the <span class="blank-wrapper"><input type="text" class="blank-input" name="q13" placeholder="13"></span> on his racket handles.</div>
+        <div class="error-tag">❌ Incorrect</div>
+    </div>
+</div>
+                   
+
+            <!-- 提交按钮与分数面板区域 -->
+            <div class="submit-section">
+                <button class="submit-btn" id="submitBtn">提交答案</button>
+                <div class="score-board" id="scoreBoard"></div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<script>
+    // 1. 实现右键高亮与取消高亮逻辑
+    const readingText = document.getElementById('readingText');
+    
+    readingText.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        if (e.target.classList.contains('highlight')) {
+            const parent = e.target.parentNode;
+            parent.replaceChild(document.createTextNode(e.target.textContent), e.target);
+            parent.normalize();
+            return;
+        }
+        const selection = window.getSelection();
+        if (!selection.isCollapsed && selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            const span = document.createElement('span');
+            span.className = 'highlight';
+            try {
+                span.appendChild(range.extractContents());
+                range.insertNode(span);
+                selection.removeAllRanges();
+            } catch (err) {
+                console.log("Highlight error:", err);
+            }
+        }
+    });
+
+    // 2. 单选按钮点击取消选中
+    document.addEventListener('DOMContentLoaded', function() {
+        const radioButtons = document.querySelectorAll('input[type="radio"]');
+        radioButtons.forEach(radio => {
+            radio.dataset.wasChecked = radio.checked;
+            radio.addEventListener('click', function() {
+                if (this.dataset.wasChecked === 'true') {
+                    this.checked = false;
+                    this.dataset.wasChecked = 'false';
+                    document.querySelectorAll(`input[name="${this.name}"]`).forEach(r => r.dataset.wasChecked = 'false');
+                } else {
+                    document.querySelectorAll(`input[name="${this.name}"]`).forEach(r => r.dataset.wasChecked = 'false');
+                    this.checked = true;
+                    this.dataset.wasChecked = 'true';
+                }
+            });
+        });
+    });
+
+    // ==========================================
+    // 💡 标准答案配置（X-X题）
+    // ==========================================
+    const correctAnswers = {
+        q1: 'FALSE',
+        q2: 'FALSE',
+        q3: 'NOT GIVEN',
+        q4: 'FALSE',
+        q5: 'NOT GIVEN',
+        q6: 'TRUE',
+        q7: 'TRUE',
+		q8: 'paint',
+        q9: 'topspin',
+        q10: 'training',
+        q11: 'gut',
+        q12: 'weights',
+        q13: 'grips',
+    };
+
+    function getPageQuestions() {
+        return Object.keys(correctAnswers);
+    }
+
+    // ==========================================
+    // 🚀 【严格判定核心】未作答题目一律计为错误
+    // ==========================================
+    document.getElementById('submitBtn').addEventListener('click', function() {
+        // 清除上一轮的所有错题红框样式
+        document.querySelectorAll('.incorrect').forEach(el => el.classList.remove('incorrect'));
+
+        const activeQuestions = getPageQuestions();
+        let score = 0;
+        let total = activeQuestions.length;
+
+        console.log(`--- 📝 严格批改系统启动 (总题数: ${total}) ---`);
+
+        activeQuestions.forEach(q => {
+            const correctVal = correctAnswers[q];
+            if (correctVal === undefined) return;
+
+            let isCorrect = false;
+            const itemElem = document.getElementById(`item-${q}`);
+
+            // 1. 单选题 / 判断题 / 核心单选判定 (Radio Single Choice / TFNG / YNNG)
+            const checkedRadio = document.querySelector(`input[type="radio"][name="${q}"]:checked`);
+            const checkboxes = document.querySelectorAll(`input[type="checkbox"][name="${q}"]:checked`);
+
+            if (checkedRadio) {
+                // 已勾选，进行对错比对
+                const userVal = checkedRadio.value.trim();
+                isCorrect = (userVal.toUpperCase() === String(correctVal).toUpperCase());
+            } else if (document.querySelector(`input[type="radio"][name="${q}"]`)) {
+                // 如果是单选/判断题但没有任何一个被选中，强制判定为错！
+                isCorrect = false;
+            } 
+            else if (checkboxes.length > 0 || String(correctVal).includes(',')) {
+                // 多选
+                let userSelected = Array.from(checkboxes).map(cb => cb.value.trim().toUpperCase()).sort();
+                let correctArray = Array.isArray(correctVal) 
+                    ? correctVal.map(s => s.toUpperCase()).sort() 
+                    : String(correctVal).split(',').map(s => s.trim().toUpperCase()).sort();
+
+                isCorrect = (userSelected.length === correctArray.length && 
+                             userSelected.every((val, idx) => val === correctArray[idx]));
+            } 
+            else if (document.querySelector(`input[name="${q}"].match-input, select[name="${q}"]`)) {
+                // 匹配题
+                const matchElem = document.querySelector(`input[name="${q}"], select[name="${q}"]`);
+                if (matchElem && matchElem.value.trim() !== '') {
+                    const userVal = matchElem.value.trim().toUpperCase();
+                    const correctStr = String(correctVal).trim().toUpperCase();
+                    isCorrect = (userVal.charAt(0) === correctStr.charAt(0));
+                } else {
+                    isCorrect = false; // 未作答视为错误
+                }
+            }
+            else {
+                // 填空题 (Text input)
+                const inputElem = document.querySelector(`input[name="${q}"]`);
+                if (inputElem && inputElem.value.trim() !== '') {
+                    const userVal = inputElem.value.trim().toLowerCase();
+                    const correctStr = String(correctVal).trim().toLowerCase();
+                    
+                    let possibleAnswers = correctStr.split('/').map(s => s.trim());
+                    isCorrect = possibleAnswers.includes(userVal);
+                } else {
+                    isCorrect = false; // 未作答视为错误
+                }
+            }
+
+            // ====================================================================
+            // 错误样式渲染
+            // ====================================================================
+            if (!isCorrect) {
+                if (itemElem) itemElem.classList.add('incorrect');
+                const specificInput = document.querySelector(`input[name="${q}"]`);
+                if (specificInput && specificInput.type === 'text') {
+                    specificInput.classList.add('incorrect');
+                }
+            } else {
+                score++;
+            }
+        });
+
+        // 显示最终得分
+        const scoreBoard = document.getElementById('scoreBoard');
+        scoreBoard.style.display = 'block';
+        scoreBoard.textContent = `${score} / ${total}`;
+    });
+</script>
+
+</body>
+</html>
