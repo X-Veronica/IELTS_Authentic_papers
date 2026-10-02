@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Listening Practice - Complete Parts 1-4</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f6f9;
+        }
+        input.answer-input, input.blank-input, input.match-input {
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 4px 10px;
+            font-size: 14px;
+            text-align: center;
+            transition: all 0.2s;
+        }
+        input.answer-input:focus, input.blank-input:focus, input.match-input:focus {
+            border-color: #1e3a8a;
+            outline: none;
+            box-shadow: 0 0 4px rgba(30, 58, 138, 0.2);
+        }
+        input.correct, .correct-input {
+            background-color: #eafaf1 !important;
+            border-color: #2ecc71 !important;
+        }
+        input.incorrect, .incorrect-input {
+            background-color: #ffebee !important;
+            border-color: #f44336 !important;
+            color: #c62828 !important;
+        }
+        .question-item.incorrect, .question-row.incorrect {
+            background-color: #fff5f5;
+            border-left: 4px solid #f44336;
+            padding-left: 8px;
+            border-radius: 4px;
+        }
+        .options label.incorrect-option {
+            background-color: #ffebee;
+            border: 1px solid #f44336;
+            color: #c62828;
+            border-radius: 4px;
+            padding: 4px;
+        }
+        .tab-btn.active {
+            background-color: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+        }
+    </style>
+</head>
+<body class="min-h-screen py-6 px-4 flex flex-col items-center">
+
+    <div class="max-w-4xl w-full mb-6">
+        <div class="bg-white rounded-xl shadow-md p-4 flex flex-wrap items-center justify-between gap-4">
+            <h1 class="text-xl font-bold text-slate-800">IELTS Listening Practice (Parts 1 - 4)</h1>
+            <div class="flex flex-wrap gap-2">
+                <button onclick="switchTab(1)" id="tab-1" class="tab-btn active px-4 py-2 rounded-lg font-medium border border-slate-300 text-slate-700 hover:bg-slate-100 transition">Part 1 (Q1-10)</button>
+                <button onclick="switchTab(2)" id="tab-2" class="tab-btn px-4 py-2 rounded-lg font-medium border border-slate-300 text-slate-700 hover:bg-slate-100 transition">Part 2 (Q11-20)</button>
+                <button onclick="switchTab(3)" id="tab-3" class="tab-btn px-4 py-2 rounded-lg font-medium border border-slate-300 text-slate-700 hover:bg-slate-100 transition">Part 3 (Q21-30)</button>
+                <button onclick="switchTab(4)" id="tab-4" class="tab-btn px-4 py-2 rounded-lg font-medium border border-slate-300 text-slate-700 hover:bg-slate-100 transition">Part 4 (Q31-40)</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="part-1-container" class="max-w-4xl w-full bg-white rounded-xl shadow-lg overflow-hidden flex flex-col mb-8">
+        <div class="bg-blue-900 text-white p-6">
+            <h2 class="text-2xl font-bold">PART 1 | Questions 1–10: Oyster Bay Sailing Club Courses</h2>
+            <p class="text-blue-200 mt-1">Complete the table and notes below. Write ONE WORD AND/OR A NUMBER for each answer.</p>
+        </div>
+        <div class="p-6 md:p-8 space-y-6 text-gray-800 leading-relaxed">
+            <h3 class="font-bold text-blue-900 text-lg">Oyster Bay Sailing Club Courses</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full border-collapse border border-slate-300">
+                    <thead>
+                        <tr class="bg-slate-100">
+                            <th class="border border-slate-300 p-3 text-left">Name of course</th>
+                            <th class="border border-slate-300 p-3 text-left">What you learn</th>
+                            <th class="border border-slate-300 p-3 text-left">Cost</th>
+                            <th class="border border-slate-300 p-3 text-left">Other information</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border border-slate-300 p-3">Taster day</td>
+                            <td class="border border-slate-300 p-3">introduction to sailing</td>
+                            <td class="border border-slate-300 p-3">£120 if booking one place</td>
+                            <td class="border border-slate-300 p-3 question-row" id="item-q1">1. small groups (max <input type="text" class="answer-input" data-qid="1" style="width:90px;" placeholder="1"> people)</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-slate-300 p-3">Level 1</td>
+                            <td class="border border-slate-300 p-3 space-y-2">
+                                basic theory e.g.<br>
+                                understanding the <span class="question-row inline-block" id="item-q2">2. <input type="text" class="answer-input" data-qid="2" style="width:90px;" placeholder="2"></span> and tides<br>
+                                basic sailing skills including <span class="question-row inline-block" id="item-q3">3. <input type="text" class="answer-input" data-qid="3" style="width:90px;" placeholder="3"></span> information
+                            </td>
+                            <td class="border border-slate-300 p-3 space-y-2">
+                                £200<br>
+                                <span class="question-row inline-block" id="item-q4">4. <input type="text" class="answer-input" data-qid="4" style="width:90px;" placeholder="4"></span> available for club members<br>
+                                all inclusive (plus a useful <span class="question-row inline-block" id="item-q5">5. <input type="text" class="answer-input" data-qid="5" style="width:90px;" placeholder="5"></span> )
+                            </td>
+                            <td class="border border-slate-300 p-3 question-row" id="item-q6">
+                                6. <input type="text" class="answer-input" data-qid="6" style="width:90px;" placeholder="6"> at the end of the course for all participants
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3 class="font-bold text-blue-900 text-lg mt-6">General information</h3>
+            <ul class="list-disc pl-6 space-y-3">
+                <li>Participants must be able to swim.</li>
+                <li class="question-row" id="item-q7">Bring suitable clothing, a <input type="text" class="answer-input" data-qid="7" style="width:110px;" placeholder="7"> and toiletries (e.g. shampoo).</li>
+                <li class="question-row" id="item-q8">There is a <input type="text" class="answer-input" data-qid="8" style="width:110px;" placeholder="8"> at the club.</li>
+                <li class="question-row" id="item-q9">Online training <input type="text" class="answer-input" data-qid="9" style="width:110px;" placeholder="9"> are recommended.</li>
+                <li class="question-row" id="item-q10"><input type="text" class="answer-input" data-qid="10" style="width:110px;" placeholder="10"> are available for course participants.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="part-2-container" class="max-w-4xl w-full bg-white rounded-xl shadow-lg overflow-hidden flex flex-col mb-8 hidden">
+        <div class="bg-blue-900 text-white p-6">
+            <h2 class="text-2xl font-bold">PART 2 | Questions 11–20: Working as a makeup trainee</h2>
+            <p class="text-blue-200 mt-1">Choose the correct letter (A, B, or C) or write the correct letter for matching.</p>
+        </div>
+        <div class="p-6 md:p-8 space-y-6 text-gray-800 leading-relaxed">
+            <div class="border-b pb-3">
+                <h3 class="text-lg font-bold text-blue-900">Questions 11-16</h3>
+                <p class="text-gray-600 text-sm">Choose the correct letter, A, B or C.</p>
+            </div>
+
+            <!-- Q11 -->
+            <div class="question-item p-4 rounded-lg transition-colors" id="item-q11">
+                <p class="font-semibold text-gray-800 mb-3">11. What should trainees always expect to get when working on low budget short films?</p>
+                <div class="space-y-2 options">
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50 border border-transparent"><input type="radio" name="q11" value="A" class="mr-3"> A. travel expenses</label>
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50 border border-transparent"><input type="radio" name="q11" value="B" class="mr-3"> B. a minimum wage</label>
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50 border border-transparent"><input type="radio" name="q11" value="C" class="mr-3"> C. meals</label>
+                </div>
+            </div>
+
+            <!-- Q12 -->
+            <div class="question-item p-4 rounded-lg transition-colors" id="item-q12">
+                <p class="font-semibold text-gray-800 mb-3">12. According to the speaker, on big budget films trainees may get experience of</p>
+                <div class="space-y-2 options">
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50 border border-transparent"><input type="radio" name="q12" value="A" class="mr-3"> A. makeup for special effects.</label>
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50 border border-transparent"><input type="radio" name="q12" value="B" class="mr-3"> B. working with different ethnicities.</label>
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50 border border-transparent"><input type="radio" name="q12" value="C" class="mr-3"> C. creating a variety of hair styles.</label>
+                </div>
+            </div>
+
+            <!-- Q13 -->
+            <div class="question-item p-4 rounded-lg transition-colors" id="item-q13">
+                <p class="font-semibold text-gray-800 mb-3">13. The speaker says a problem for makeup artists is</p>
+                <div class="space-y-2 options">
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50 border border-transparent"><input type="radio" name="q13" value="A" class="mr-3"> A. dealing with difficult directors.</label>
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50 border border-transparent"><input type="radio" name="q13" value="B" class="mr-3"> B. being shouted at by their supervisor.</label>
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50 border border-transparent"><input type="radio" name="q13" value="C" class="mr-3"> C. waiting around for hours doing nothing.</label>
+                </div>
+            </div>
+
+            <!-- Q14 -->
+            <div class="question-item p-4 rounded-lg transition-colors" id="item-q14">
+                <p class="font-semibold text-gray-800 mb-3">14. How did the speaker feel when she met famous actors for the first time?</p>
+                <div class="space-y-2 options">
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50 border border-transparent"><input type="radio" name="q14" value="A" class="mr-3"> A. very shy</label>
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50 border border-transparent"><input type="radio" name="q14" value="B" class="mr-3"> B. very proud</label>
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50 border border-transparent"><input type="radio" name="q14" value="C" class="mr-3"> C. very disappointed</label>
+                </div>
+            </div>
+
+            <!-- Q15 -->
+            <div class="question-item p-4 rounded-lg transition-colors" id="item-q15">
+                <p class="font-semibold text-gray-800 mb-3">15. What advice does the speaker give about makeup kits?</p>
+                <div class="space-y-2 options">
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50 border border-transparent"><input type="radio" name="q15" value="A" class="mr-3"> A. Always carry a basic kit with you.</label>
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50 border border-transparent"><input type="radio" name="q15" value="B" class="mr-3"> B. Only buy the best products for a makeup kit.</label>
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50 border border-transparent"><input type="radio" name="q15" value="C" class="mr-3"> C. Ask other makeup artists to check your kit.</label>
+                </div>
+            </div>
+
+            <!-- Q16 -->
+            <div class="question-item p-4 rounded-lg transition-colors" id="item-q16">
+                <p class="font-semibold text-gray-800 mb-3">16. What advice does the speaker give about creating a portfolio?</p>
+                <div class="space-y-2 options">
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50 border border-transparent"><input type="radio" name="q16" value="A" class="mr-3"> A. Keep print and digital photos.</label>
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50 border border-transparent"><input type="radio" name="q16" value="B" class="mr-3"> B. Only include a small selection of photos.</label>
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50 border border-transparent"><input type="radio" name="q16" value="C" class="mr-3"> C. Get permission to use photos.</label>
+                </div>
+            </div>
+
+            <div class="border-b pb-3 pt-4">
+                <h3 class="text-lg font-bold text-blue-900">Questions 17-20</h3>
+                <p class="text-gray-600 text-sm">What ability is required for each of the following duties? Write A, B, or C.</p>
+                <div class="bg-gray-50 border p-4 rounded-lg mt-3 text-base space-y-2 font-medium">
+                    <div><strong>A.</strong> being well-organised</div>
+                    <div><strong>B.</strong> being flexible</div>
+                    <div><strong>C.</strong> working quickly</div>
+                </div>
+            </div>
+
+            <div class="space-y-4">
+                <div class="question-item p-4 rounded-lg flex items-center justify-between" id="item-q17">
+                    <span class="font-medium">17. Prepping an actor</span>
+                    <input type="text" maxlength="1" class="match-input" name="q17" placeholder="A/B/C" style="width:70px;">
+                </div>
+                <div class="question-item p-4 rounded-lg flex items-center justify-between" id="item-q18">
+                    <span class="font-medium">18. Continuity</span>
+                    <input type="text" maxlength="1" class="match-input" name="q18" placeholder="A/B/C" style="width:70px;">
+                </div>
+                <div class="question-item p-4 rounded-lg flex items-center justify-between" id="item-q19">
+                    <span class="font-medium">19. General</span>
+                    <input type="text" maxlength="1" class="match-input" name="q19" placeholder="A/B/C" style="width:70px;">
+                </div>
+                <div class="question-item p-4 rounded-lg flex items-center justify-between" id="item-q20">
+                    <span class="font-medium">20. Applying makeup</span>
+                    <input type="text" maxlength="1" class="match-input" name="q20" placeholder="A/B/C" style="width:70px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="part-3-container" class="max-w-4xl w-full bg-white rounded-xl shadow-lg overflow-hidden flex flex-col mb-8 hidden">
+        <div class="bg-indigo-900 text-white p-6">
+            <h2 class="text-2xl font-bold">PART 3 | Questions 21–30: Ocean biodiversity</h2>
+            <p class="text-indigo-200 mt-1">Choose multiple letters or matching options as required.</p>
+        </div>
+        <div class="p-6 md:p-8 space-y-6 text-gray-800 leading-relaxed">
+            <!-- Q21-22 -->
+            <div class="question-item p-4 rounded-lg" id="item-q21-22">
+                <h3 class="font-bold text-indigo-900 mb-2">Questions 21 and 22 (Choose TWO letters)</h3>
+                <p class="font-semibold mb-3">Which TWO features of the lecture on ocean biodiversity had the greatest impact on the students?</p>
+                <div class="space-y-2 options">
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50"><input type="checkbox" name="q21-22[]" value="A" class="mr-3"> A. the references to local problems</label>
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50"><input type="checkbox" name="q21-22[]" value="B" class="mr-3"> B. the broad focus of the examples</label>
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50"><input type="checkbox" name="q21-22[]" value="C" class="mr-3"> C. the practical suggestions for solutions</label>
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50"><input type="checkbox" name="q21-22[]" value="D" class="mr-3"> D. the type of issues discussed</label>
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50"><input type="checkbox" name="q21-22[]" value="E" class="mr-3"> E. the implications for government policy</label>
+                </div>
+            </div>
+
+            <!-- Q23-24 -->
+            <div class="question-item p-4 rounded-lg" id="item-q23-24">
+                <h3 class="font-bold text-indigo-900 mb-2">Questions 23 and 24 (Choose TWO letters)</h3>
+                <p class="font-semibold mb-3">Which TWO details about the research project particularly impressed the students?</p>
+                <div class="space-y-2 options">
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50"><input type="checkbox" name="q23-24[]" value="A" class="mr-3"> A. the team's previous successes</label>
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50"><input type="checkbox" name="q23-24[]" value="B" class="mr-3"> B. its wide geographical scale</label>
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50"><input type="checkbox" name="q23-24[]" value="C" class="mr-3"> C. the use of new technology</label>
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50"><input type="checkbox" name="q23-24[]" value="D" class="mr-3"> D. the extensive statistical evidence</label>
+                    <label class="flex items-center p-2 rounded cursor-pointer hover:bg-gray-50"><input type="checkbox" name="q23-24[]" value="E" class="mr-3"> E. the large range of specialists involved</label>
+                </div>
+            </div>
+
+            <!-- Q25-30 -->
+            <div class="space-y-4">
+                <h3 class="font-bold text-indigo-900">Questions 25-30 (Matching A-H)</h3>
+                <div class="bg-gray-50 border p-4 rounded-lg text-base space-y-2">
+                    <div class="font-bold text-gray-700 text-sm uppercase tracking-wide mb-1">Options</div>
+                    <div><strong>A.</strong> This is aimed at a very specialist audience.</div>
+                    <div><strong>B.</strong> This is now rather outdated.</div>
+                    <div><strong>C.</strong> This was an effective description of a new danger.</div>
+                    <div><strong>D.</strong> This suggests possible ways to improve the situation.</div>
+                    <div><strong>E.</strong> This does not give a balanced account.</div>
+                    <div><strong>F.</strong> This is too predictable to be useful.</div>
+                    <div><strong>G.</strong> This gives insufficient evidence for its claims.</div>
+                    <div><strong>H.</strong> This gives a clear explanation of the problems.</div>
+                </div>
+
+                <div class="space-y-3">
+                    <div class="question-item p-3 rounded-lg flex items-center justify-between" id="item-q25">
+                        <span class="font-medium">25. Article on invasive lionfish</span>
+                        <input type="text" maxlength="1" class="match-input" name="q25" placeholder="A-H" style="width:70px;">
+                    </div>
+                    <div class="question-item p-3 rounded-lg flex items-center justify-between" id="item-q26">
+                        <span class="font-medium">26. Documentary on microplastics</span>
+                        <input type="text" maxlength="1" class="match-input" name="q26" placeholder="A-H" style="width:70px;">
+                    </div>
+                    <div class="question-item p-3 rounded-lg flex items-center justify-between" id="item-q27">
+                        <span class="font-medium">27. Podcast on ocean pollution</span>
+                        <input type="text" maxlength="1" class="match-input" name="q27" placeholder="A-H" style="width:70px;">
+                    </div>
+                    <div class="question-item p-3 rounded-lg flex items-center justify-between" id="item-q28">
+                        <span class="font-medium">28. Book on coastal ecosystems</span>
+                        <input type="text" maxlength="1" class="match-input" name="q28" placeholder="A-H" style="width:70px;">
+                    </div>
+                    <div class="question-item p-3 rounded-lg flex items-center justify-between" id="item-q29">
+                        <span class="font-medium">29. Article on metal toxicity</span>
+                        <input type="text" maxlength="1" class="match-input" name="q29" placeholder="A-H" style="width:70px;">
+                    </div>
+                    <div class="question-item p-3 rounded-lg flex items-center justify-between" id="item-q30">
+                        <span class="font-medium">30. Podcast on floating marine cities</span>
+                        <input type="text" maxlength="1" class="match-input" name="q30" placeholder="A-H" style="width:70px;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="part-4-container" class="max-w-4xl w-full bg-white rounded-xl shadow-lg overflow-hidden flex flex-col mb-8 hidden">
+        <div class="bg-blue-900 text-white p-6">
+            <h2 class="text-2xl font-bold">PART 4 | Questions 31–40: Sources of rubber</h2>
+            <p class="text-blue-200 mt-1">Complete the notes below. Write ONE WORD ONLY for each answer.</p>
+        </div>
+        <div class="p-6 md:p-8 space-y-6 text-gray-800 leading-relaxed">
+            <h3 class="font-bold text-blue-900 text-lg border-b pb-2">Sources of rubber</h3>
+            <p>Three resources which are essential for industrial civilisation:</p>
+            <ul class="list-disc pl-6 space-y-3">
+                <li class="question-row flex items-center flex-wrap gap-2 py-1" id="item-q31">
+                    <span>31.</span>
+                    <input type="text" class="blank-input" name="q31" placeholder="Answer 31">
+                </li>
+                <li>fossil fuels</li>
+                <li>rubber</li>
+            </ul>
+
+            <div class="mt-4 space-y-4">
+                <h4 class="font-bold text-blue-900">Natural rubber</h4>
+                <p class="text-gray-600 text-sm italic">This mainly comes from the Pará rubber tree, now cultivated in South-East Asia.</p>
+                <p class="font-medium text-gray-700">The supply is limited because:</p>
+                <ul class="list-disc pl-6 space-y-3">
+                    <li class="question-row flex items-center flex-wrap gap-2 py-1" id="item-q32">
+                        <span>32. the growth of the tree is</span>
+                        <input type="text" class="blank-input" name="q32" placeholder="Answer 32">
+                    </li>
+                    <li class="question-row flex items-center flex-wrap gap-2 py-1" id="item-q33">
+                        <span>33. production cannot easily be adjusted because of increasing or decreasing</span>
+                        <input type="text" class="blank-input" name="q33" placeholder="Answer 33">
+                    </li>
+                    <li class="question-row flex items-center flex-wrap gap-2 py-1" id="item-q34">
+                        <span>34. the tree only grows near the</span>
+                        <input type="text" class="blank-input" name="q34" placeholder="Answer 34">
+                    </li>
+                    <li>extracting the latex (rubber) is labour-intensive</li>
+                    <li class="question-row flex items-center flex-wrap gap-2 py-1" id="item-q35">
+                        <span>35. it is very difficult to</span>
+                        <input type="text" class="blank-input" name="q35" placeholder="Answer 35">
+                        <span>rubber after production.</span>
+                    </li>
+                </ul>
+
+                <h5 class="font-semibold text-gray-800 mt-4">New threats include:</h5>
+                <ul class="list-disc pl-6 space-y-3">
+                    <li class="question-row flex items-center flex-wrap gap-2 py-1" id="item-q36">
+                        <span>36. lack of genetic diversity, leading to danger of disease caused by a</span>
+                        <input type="text" class="blank-input" name="q36" placeholder="Answer 36">
+                    </li>
+                    <li>a shift to the cultivation of palm oil</li>
+                    <li class="question-row flex items-center flex-wrap gap-2 py-1" id="item-q37">
+                        <span>37. extreme</span>
+                        <input type="text" class="blank-input" name="q37" placeholder="Answer 37">
+                        <span> events.</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="mt-6 space-y-3">
+                <h4 class="font-bold text-blue-900">Synthetic rubber</h4>
+                <ul class="list-disc pl-6 space-y-3">
+                    <li>may be used for engine parts and cooking utensils</li>
+                    <li class="question-row flex items-center flex-wrap gap-2 py-1" id="item-q38">
+                        <span>38. is less</span>
+                        <input type="text" class="blank-input" name="q38" placeholder="Answer 38">
+                        <span>than natural rubber</span>
+                    </li>
+                    <li>is unsuitable for many purposes e.g. the tyres of aircraft.</li>
+                </ul>
+            </div>
+
+            <div class="mt-6 space-y-3">
+                <h4 class="font-bold text-blue-900">An alternative source of natural rubber</h4>
+                <ul class="list-disc pl-6 space-y-3">
+                    <li class="question-row flex items-center flex-wrap gap-2 py-1" id="item-q39">
+                        <span>39. A wild flower (a type of dandelion) has rubber in its</span>
+                        <input type="text" class="blank-input" name="q39" placeholder="Answer 39">
+                    </li>
+                    <li class="question-row flex items-center flex-wrap gap-2 py-1" id="item-q40">
+                        <span>40. It can be grown in many locations and does not require good</span>
+                        <input type="text" class="blank-input" name="q40" placeholder="Answer 40">
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="max-w-4xl w-full bg-white rounded-xl shadow-lg p-6 mb-12 text-center space-y-4">
+        <button id="submitBtn" class="bg-blue-900 hover:bg-blue-800 text-white font-bold px-10 py-4 rounded-xl shadow-lg transition transform active:scale-95 cursor-pointer text-lg">
+            提交全部答案 (Submit All Answers - Q1 to Q40)
+        </button>
+        <div id="scoreBoard" class="text-2xl font-bold text-blue-900 hidden"></div>
+    </div>
+
+    <script>
+        // Tab switching function
+        function switchTab(partNum) {
+            for (let i = 1; i <= 4; i++) {
+                const container = document.getElementById(`part-${i}-container`);
+                const btn = document.getElementById(`tab-${i}`);
+                if (i === partNum) {
+                    container.classList.remove('hidden');
+                    btn.classList.add('active');
+                } else {
+                    container.classList.add('hidden');
+                    btn.classList.remove('active');
+                }
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Correct answer definitions for all 4 parts (40 questions)
+        const correctAnswersPart1 = {
+            1: ["10", "ten"],
+            2: ["weather"],
+            3: ["safety"],
+            4: ["discount", "discounts"],
+            5: ["guide", "dictionary"],
+            6: ["certificate"],
+            7: ["towel"],
+            8: ["cafe", "cafeteria"],
+            9: ["videos"],
+            10: ["lockers", "locker"]
+        };
+
+        const correctAnswersPart2 = {
+            q11: 'A',
+            q12: 'B',
+            q13: 'A',
+            q14: 'A',
+            q15: 'A',
+            q16: 'C',
+            q17: 'C',
+            q18: 'A',
+            q19: 'B',
+            q20: 'C'
+        };
+
+        const correctAnswersPart3 = {
+            "q21-22": ['B', 'D'],
+            "q23-24": ['C', 'E'],
+            q25: 'G',
+            q26: 'B',
+            q27: 'F',
+            q28: 'H',
+            q29: 'A',
+            q30: 'E'
+        };
+
+        const correctAnswersPart4 = {
+            q31: ['metal', 'metals'],
+            q32: ['slow'],
+            q33: ['demand'],
+            q34: ['equator'],
+            q35: ['recycle'],
+            q36: ['fungus'],
+            q37: ['weather'],
+            q38: ['strong'],
+            q39: ['roots'],
+            q40: ['soil']
+        };
+
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            // Clear previous error/correct states
+            document.querySelectorAll('.incorrect').forEach(el => el.classList.remove('incorrect'));
+            document.querySelectorAll('.correct').forEach(el => el.classList.remove('correct'));
+            document.querySelectorAll('.incorrect-option').forEach(el => el.classList.remove('incorrect-option'));
+            document.querySelectorAll('.correct-input').forEach(el => el.classList.remove('correct-input'));
+            document.querySelectorAll('.incorrect-input').forEach(el => el.classList.remove('incorrect-input'));
+
+            let totalScore = 0;
+
+            // 1. Grade Part 1 (Q1-10)
+            Object.keys(correctAnswersPart1).forEach(qid => {
+                const allowed = correctAnswersPart1[qid];
+                const inputElem = document.querySelector(`input[data-qid="${qid}"]`);
+                const itemElem = document.getElementById(`item-${qid}`);
+                if (inputElem) {
+                    const userVal = inputElem.value.trim().toLowerCase();
+                    if (allowed.includes(userVal)) {
+                        totalScore++;
+                        inputElem.classList.add('correct');
+                    } else {
+                        inputElem.classList.add('incorrect');
+                        if (itemElem) itemElem.classList.add('incorrect');
+                    }
+                }
+            });
+
+            // 2. Grade Part 2 (Q11-20)
+            Object.keys(correctAnswersPart2).forEach(qKey => {
+                const correctVal = correctAnswersPart2[qKey];
+                const itemElem = document.getElementById(`item-${qKey}`);
+                let isCorrect = false;
+
+                const checkedRadio = document.querySelector(`input[type="radio"][name="${qKey}"]:checked`);
+                if (checkedRadio) {
+                    if (checkedRadio.value.trim().toUpperCase() === correctVal) {
+                        isCorrect = true;
+                    } else {
+                        checkedRadio.closest('label').classList.add('incorrect-option');
+                    }
+                }
+
+                const textInput = document.querySelector(`input[type="text"][name="${qKey}"]`);
+                if (textInput) {
+                    if (textInput.value.trim().toUpperCase() === correctVal) {
+                        isCorrect = true;
+                    } else {
+                        textInput.classList.add('incorrect');
+                    }
+                }
+
+                if (isCorrect) {
+                    totalScore++;
+                } else {
+                    if (itemElem) itemElem.classList.add('incorrect');
+                }
+            });
+
+            // 3. Grade Part 3 (Q21-30)
+            // Q21-22 & Q23-24 (Multiple Choice 2 letters)
+            ['q21-22', 'q23-24'].forEach(qKey => {
+                const correctArr = correctAnswersPart3[qKey];
+                const itemElem = document.getElementById(`item-${qKey}`);
+                const checkboxes = document.querySelectorAll(`input[type="checkbox"][name="${qKey}[]"]`);
+                let userSelected = [];
+                checkboxes.forEach(cb => {
+                    if (cb.checked) userSelected.push(cb.value.toUpperCase());
+                });
+
+                let subScore = 0;
+                userSelected.forEach(val => {
+                    if (correctArr.includes(val)) subScore++;
+                });
+
+                const isFullyCorrect = (userSelected.length === correctArr.length && userSelected.every(v => correctArr.includes(v)));
+                if (isFullyCorrect) {
+                    totalScore += 2;
+                } else {
+                    checkboxes.forEach(cb => {
+                        const val = cb.value.toUpperCase();
+                        const label = cb.closest('label');
+                        if (cb.checked && !correctArr.includes(val)) {
+                            label.classList.add('incorrect-option');
+                        }
+                    });
+                    if (userSelected.length === 0 || (userSelected.length === 2 && subScore === 0)) {
+                        if (itemElem) itemElem.classList.add('incorrect');
+                    }
+                    if (subScore > 0 && !isFullyCorrect) {
+                        totalScore += subScore; // partial credit if any
+                    }
+                }
+            });
+
+            // Q25-30 Matching
+            ['q25', 'q26', 'q27', 'q28', 'q29', 'q30'].forEach(qKey => {
+                const correctVal = correctAnswersPart3[qKey];
+                const itemElem = document.getElementById(`item-${qKey}`);
+                const textInput = document.querySelector(`input[type="text"][name="${qKey}"]`);
+                if (textInput) {
+                    if (textInput.value.trim().toUpperCase() === correctVal) {
+                        totalScore++;
+                    } else {
+                        if (itemElem) itemElem.classList.add('incorrect');
+                        textInput.classList.add('incorrect');
+                    }
+                }
+            });
+
+            // 4. Grade Part 4 (Q31-40)
+            Object.keys(correctAnswersPart4).forEach(qKey => {
+                const allowedVals = correctAnswersPart4[qKey];
+                const inputElem = document.querySelector(`input[name="${qKey}"]`);
+                const itemElem = document.getElementById(`item-${qKey}`);
+                if (inputElem) {
+                    const userVal = inputElem.value.trim().toLowerCase();
+                    if (allowedVals.includes(userVal)) {
+                        totalScore++;
+                        inputElem.classList.add('correct');
+                    } else {
+                        inputElem.classList.add('incorrect');
+                        if (itemElem) itemElem.classList.add('incorrect');
+                    }
+                }
+            });
+
+            // Display Score Board
+            const scoreBoard = document.getElementById('scoreBoard');
+            scoreBoard.classList.remove('hidden');
+            scoreBoard.textContent = `🎉 恭喜完成！您的总得分 (Total Score): ${totalScore} / 40`;
+            scoreBoard.scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+</body>
+</html>
