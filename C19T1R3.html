@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Practice - Changes in reading habits</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #333;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+            background-color: #f4f6f9;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            gap: 10px;
+        }
+        .panel {
+            flex: 1;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .panel-header {
+            background: #004080;
+            color: #fff;
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .panel-content {
+            padding: 25px;
+            overflow-y: auto;
+            flex: 1;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+        .article h2 {
+            margin-bottom: 20px;
+            color: #004080;
+            font-size: 22px;
+        }
+        .article p {
+            margin-bottom: 16px;
+            text-align: justify;
+        }
+        .highlight {
+            background-color: #ffeb3b;
+            cursor: pointer;
+        }
+        .question-group {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        .question-group h3 {
+            font-size: 16px;
+            color: #004080;
+            margin-bottom: 15px;
+            background: #eef2f7;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+        .question-item {
+            margin-bottom: 15px;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .question-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .options label {
+            display: block;
+            margin-bottom: 6px;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .options label:hover {
+            background-color: #f0f4f8;
+        }
+        .options input[type="checkbox"], .options input[type="radio"] {
+            margin-right: 8px;
+        }
+        input.blank-input {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 14px;
+            width: 90px;
+            text-align: center;
+            margin: 0 4px;
+        }
+        input.blank-input:focus {
+            border-color: #004080;
+            outline: none;
+            box-shadow: 0 0 4px rgba(0,64,128,0.2);
+        }
+        input.blank-input.incorrect {
+            background-color: #ffebee;
+            border-color: #f44336;
+            color: #c62828;
+        }
+        .blank-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        .fill-content {
+            line-height: 2.5;
+        }
+        /* 批改错误样式提示 */
+        .question-item.incorrect {
+            background-color: #ffebee;
+            border-left: 4px solid #f44336;
+            padding-left: 12px;
+        }
+        .error-tag {
+            color: #c62828;
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 5px;
+            display: none;
+        }
+        .show-error .error-tag, .question-item.incorrect .error-tag {
+            display: inline-block;
+        }
+        /* 提交按钮区域 */
+        .submit-section {
+            text-align: center;
+            margin: 20px 0 40px 0;
+        }
+        .submit-btn {
+            background-color: #004080;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .submit-btn:hover {
+            background-color: #002b5c;
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        .submit-btn:active {
+            transform: translateY(1px);
+        }
+        .score-board {
+            margin-top: 15px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #004080;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 左侧：阅读文章面板 -->
+    <div class="panel">
+        <div class="panel-header">Reading Text (Right-click to highlight)</div>
+        <div class="panel-content article" id="readingText">
+             <h2>The persistence and peril of misinformation</h2>
+            <p><i>Brian Southwell looks at how human brains verify information and discusses some of the challenges of battling widespread falsehoods</i></p>
+            <p>Misinformation - both deliberately promoted and accidentally shared - is perhaps an inevitable part of the world in which we live, but it is not a new problem. People likely have lied to one another for roughly as long as verbal communication has existed. Deceiving others can offer an apparent opportunity to gain strategic advantage, to motivate others to action, or even to protect interpersonal bonds. Moreover, people inadvertently have been sharing inaccurate information with one another for thousands of years.</p>
+            <p>However, we currently live in an era in which technology enables information to reach large audiences distributed across the globe, and thus the potential for immediate and widespread effects from misinformation now looms larger than in the past. Yet the means to correct misinformation might, over time, be found in those same patterns of mass communication and of the facilitated spread of information.</p>
+            <p>The main worry regarding misinformation is its potential to unduly influence attitudes and behavior, leading people to think and act differently than they would if they were correctly informed, as suggested by the research teams of Stephan Lewandowsky of the University of Bristol and Elizabeth Marsh of Duke University, among others. In other words, we worry that misinformation might lead people to hold misperceptions (or false beliefs) and that these misperceptions, especially when they occur among large groups of people, may have detrimental, downstream consequences for health, social harmony, and the political climate.</p>
+            <p>At least three observations related to misinformation in the contemporary mass-media environment warrant the attention of researchers, policy makers, and really everyone who watches television, listens to the radio, or reads information online. First of all, people who encounter misinformation tend to believe it, at least initially. Secondly, electronic and print media often do not block many types of misinformation before it appears in content available to large audiences. Thirdly, countering misinformation once it has enjoyed wide exposure can be a resource-intensive effort.</p>
+            <p>Knowing what happens when people initially encounter misinformation holds tremendous importance for estimating the potential for subsequent problems. Although it is fairly routine for individuals to come across information that is false, the question of exactly how - and when - we mentally label information as true or false has garnered philosophical debate. The dilemma is neatly summarized by a contrast between how the 17th-century philosophers René Descartes and Baruch Spinoza described human information engagement, with conflicting predictions that only recently have been empirically tested in robust ways. Descartes argued that a person only accepts or rejects information after considering its truth or falsehood; Spinoza argued that people accept all encountered information (or misinformation) by default and then subsequently verify or reject it through a separate cognitive process. In recent decades, empirical evidence from the research teams of Erik Asp of the University of Chicago and Daniel Gilbert at Harvard University, among others, has supported Spinoza's account: people appear to encode all new information as if it were true, even if only momentarily, and later tag the information as being either true or false, a pattern that seems consistent with the observation that mental resources for skepticism physically reside in a different part of the brain than the resources used in perceiving and encoding.</p>
+            <p>What about our second observation that misinformation often can appear in electronic or print media without being preemptively blocked? In support of this, one might consider the nature of regulatory structures in the United States: regulatory agencies here tend to focus on post hoc detection of broadcast information. Organizations such as the Food and Drug Administration (FDA) offer considerable monitoring and notification functions, but these roles typically do not involve preemptive censoring. The FDA oversees direct-to-consumer prescription drug advertising, for example, and has developed mechanisms such as the 'Bad Ad' program, through which people can report advertising in apparent violation of FDA guidelines on drug risks. Such programs, although laudable and useful, do not keep false advertising off the airwaves. In addition, even misinformation that is successfully corrected can continue to affect attitudes.</p>
+            <p>This leads us to our third observation: a campaign to correct misinformation, even if rhetorically compelling, requires resources and planning to accomplish necessary reach and frequency. For corrective campaigns to be persuasive, audiences need to be able to comprehend them, which requires either effort to frame messages in ways that are accessible or effort to educate and sensitize audiences to the possibility of misinformation. That some audiences might be unaware of the potential for misinformation also suggests the utility of media literacy efforts as early as elementary school. Even with journalists and scholars pointing to the phenomenon of 'fake news', people do not distinguish between demonstrably false stories and those based in fact when scanning and processing written information.</p>
+            <p>We live at a time when widespread misinformation is common. Yet at this time many people also are passionately developing potential solutions and remedies. The journey forward undoubtedly will be a long and arduous one. Future remedies will require not only continued theoretical consideration but also the development and maintenance of consistent monitoring tools and a recognition among fellow members of society that claims which find prominence in the media that are insufficiently based in scientific consensus and social reality should be countered.</p>
+            <p>Misinformation arises as a result of human fallibility and human information needs. To overcome the worst effects of the phenomenon, we will need coordinated efforts over time, rather than any singular one-time panacea we could hope to offer.</p>
+        </div>
+    </div>
+
+    <!-- 右侧：题目面板 -->
+    <div class="panel">
+        <div class="panel-header">Questions</div>
+        <div class="panel-content" id="questionsContainer">
+            
+                       <div class="question-group">
+                <h3>Questions 27-30: Multiple Choice</h3>
+                
+                <div class="question-item" id="item-q27">
+                    <div class="question-title">27. What point does the writer make about misinformation in the first paragraph?</div>
+                    <div class="options">
+                        <label><input type="radio" name="q27" value="A"> A. Misinformation is a relatively recent phenomenon.</label>
+                        <label><input type="radio" name="q27" value="B"> B. Some people find it easy to identify misinformation.</label>
+                        <label><input type="radio" name="q27" value="C"> C. Misinformation changes as it is passed from one person to another.</label>
+                        <label><input type="radio" name="q27" value="D"> D. There may be a number of reasons for the spread of misinformation.</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+
+                <div class="question-item" id="item-q28">
+                    <div class="question-title">28. What does the writer say about the role of technology?</div>
+                    <div class="options">
+                        <label><input type="radio" name="q28" value="A"> A. It may at some point provide us with a solution to misinformation.</label>
+                        <label><input type="radio" name="q28" value="B"> B. It could fundamentally alter the way in which people regard information.</label>
+                        <label><input type="radio" name="q28" value="C"> C. It has changed the way in which organisations use misinformation.</label>
+                        <label><input type="radio" name="q28" value="D"> D. It has made it easier for people to check whether information is accurate.</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+
+                <div class="question-item" id="item-q29">
+                    <div class="question-title">29. What is the writer doing in the fourth paragraph?</div>
+                    <div class="options">
+                        <label><input type="radio" name="q29" value="A"> A. comparing the different opinions people have of misinformation</label>
+                        <label><input type="radio" name="q29" value="B"> B. explaining how the effects of misinformation have changed over time</label>
+                        <label><input type="radio" name="q29" value="C"> C. outlining which issues connected with misinformation are significant today</label>
+                        <label><input type="radio" name="q29" value="D"> D. describing the attitude of policy makers towards misinformation in the media</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+
+                <div class="question-item" id="item-q30">
+                    <div class="question-title">30. What point does the writer make about regulation in the USA?</div>
+                    <div class="options">
+                        <label><input type="radio" name="q30" value="A"> A. The guidelines issued by the FDA need to be simplified.</label>
+                        <label><input type="radio" name="q30" value="B"> B. Regulation does not affect people's opinions of new prescription drugs.</label>
+                        <label><input type="radio" name="q30" value="C"> C. The USA has more regulatory bodies than most other countries.</label>
+                        <label><input type="radio" name="q30" value="D"> D. Regulation fails to prevent misinformation from appearing in the media.</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+            </div>
+
+                        <div class="question-group summary-completion">
+                <h3>Questions 31-36: Summary Completion</h3>
+<div class="word-bank" style="background:#fcfcfc; padding:10px; border:1px solid #ddd; margin-bottom:15px;">
+                <strong>Word Bank:</strong>
+                <div>A. constant conflict</div>
+                <div>B. additional evidence</div>
+                <div>C. different locations</div>
+                <div>D. experimental subjects</div>
+                <div>E. short period</div>
+                <div>F. extreme distrust</div>
+                <div>G. frequent exposure</div>
+                <div>H. mental operation</div>
+                <div>I. dubious reason</div>
+                <div>J. different ideas</div>
+            </div>
+                <div class="question-item">
+                    <div class="fill-content">
+                        <p><b>What happens when people encounter misinformation?</b></p>
+Although people have <span class="blank-wrapper"><input type="text" class="blank-input" name="q31" placeholder="31"></span> to misinformation, there is debate about precisely how and when we label something as true or untrue. The philosophers Descartes and Spinoza had <span class="blank-wrapper"><input type="text" class="blank-input" name="q32" placeholder="32"></span> about how people engage with information. While Descartes believed that people accept or reject information after considering whether it is true or not, Spinoza argued that people accepted all information they encountered (and by default misinformation) and did not verify or reject it until afterwards. Moreover, Spinoza believed that a distinct <span class="blank-wrapper"><input type="text" class="blank-input" name="q33" placeholder="33"></span> is involved in these stages. Recent research has provided <span class="blank-wrapper"><input type="text" class="blank-input" name="q34" placeholder="34"></span> for Spinoza's theory and it would appear that people accept all encountered information as if it were true, even if this is for an extremely <span class="blank-wrapper"><input type="text" class="blank-input" name="q35" placeholder="35"></span>, and do not label the information as true or false until later. This is consistent with the fact that the resources for scepticism and the resources for perceiving and encoding are in <span class="blank-wrapper"><input type="text" class="blank-input" name="q36" placeholder="36"></span>in the brain.
+
+                    </div>
+                </div>
+            </div>
+            
+                        <div class="question-group">
+                <h3>Questions 37-40: YES / NO / NOT GIVEN</h3>
+                
+                <div class="question-item" id="item-q37">
+                    <div class="question-title">37. Campaigns designed to correct misinformation will fail to achieve their purpose if people are unable to understand them.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q37" value="YES"> YES</label>
+                        <label><input type="radio" name="q37" value="NO"> NO</label>
+                        <label><input type="radio" name="q37" value="NOT GIVEN"> NOT GIVEN</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+
+                <div class="question-item" id="item-q38">
+                    <div class="question-title">38. Attempts to teach elementary school students about misinformation have been opposed.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q38" value="YES"> YES</label>
+                        <label><input type="radio" name="q38" value="NO"> NO</label>
+                        <label><input type="radio" name="q38" value="NOT GIVEN"> NOT GIVEN</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+
+                <div class="question-item" id="item-q39">
+                    <div class="question-title">39. It may be possible to overcome the problem of misinformation in a relatively short period.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q39" value="YES"> YES</label>
+                        <label><input type="radio" name="q39" value="NO"> NO</label>
+                        <label><input type="radio" name="q39" value="NOT GIVEN"> NOT GIVEN</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+
+                <div class="question-item" id="item-q40">
+                    <div class="question-title">40. The need to keep up with new information is hugely exaggerated in today's world.</div>
+                    <div class="options">
+                        <label><input type="radio" name="q40" value="YES"> YES</label>
+                        <label><input type="radio" name="q40" value="NO"> NO</label>
+                        <label><input type="radio" name="q40" value="NOT GIVEN"> NOT GIVEN</label>
+                    </div>
+                    <div class="error-tag">❌ Incorrect</div>
+                </div>
+            </div>
+
+            <!-- 提交按钮与分数面板区域 -->
+            <div class="submit-section">
+                <button class="submit-btn" id="submitBtn">提交答案</button>
+                <div class="score-board" id="scoreBoard"></div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+<script>
+    // 1. 实现右键高亮与取消高亮逻辑
+    const readingText = document.getElementById('readingText');
+    
+    readingText.addEventListener('contextmenu', function(e) {
+        e.preventDefault();
+        if (e.target.classList.contains('highlight')) {
+            const parent = e.target.parentNode;
+            parent.replaceChild(document.createTextNode(e.target.textContent), e.target);
+            parent.normalize();
+            return;
+        }
+        const selection = window.getSelection();
+        if (!selection.isCollapsed && selection.rangeCount > 0) {
+            const range = selection.getRangeAt(0);
+            const span = document.createElement('span');
+            span.className = 'highlight';
+            try {
+                span.appendChild(range.extractContents());
+                range.insertNode(span);
+                selection.removeAllRanges();
+            } catch (err) {
+                console.log("Highlight error:", err);
+            }
+        }
+    });
+
+    // 2. 单选按钮点击取消选中
+    document.addEventListener('DOMContentLoaded', function() {
+        const radioButtons = document.querySelectorAll('input[type="radio"]');
+        radioButtons.forEach(radio => {
+            radio.dataset.wasChecked = radio.checked;
+            radio.addEventListener('click', function() {
+                if (this.dataset.wasChecked === 'true') {
+                    this.checked = false;
+                    this.dataset.wasChecked = 'false';
+                    document.querySelectorAll(`input[name="${this.name}"]`).forEach(r => r.dataset.wasChecked = 'false');
+                } else {
+                    document.querySelectorAll(`input[name="${this.name}"]`).forEach(r => r.dataset.wasChecked = 'false');
+                    this.checked = true;
+                    this.dataset.wasChecked = 'true';
+                }
+            });
+        });
+    });
+
+    // ==========================================
+    // 💡 标准答案配置（X-X题）
+    // ==========================================
+    const correctAnswers = {
+        q27: 'D',
+        q28: 'A',
+        q29: 'C',
+        q30: 'D',
+		q31: 'G',
+        q32: 'J',
+        q33: 'H',
+        q34: 'B',
+		q35: 'E',
+        q36: 'C',
+		q37: 'YES',
+        q38: 'NOT GIVEN',
+        q39: 'NO',
+        q40: 'NOT GIVEN',
+    };
+
+    function getPageQuestions() {
+        return Object.keys(correctAnswers);
+    }
+
+    // ==========================================
+    // 🚀 【严格判定核心】未作答题目一律计为错误
+    // ==========================================
+    document.getElementById('submitBtn').addEventListener('click', function() {
+        // 清除上一轮的所有错题红框样式
+        document.querySelectorAll('.incorrect').forEach(el => el.classList.remove('incorrect'));
+
+        const activeQuestions = getPageQuestions();
+        let score = 0;
+        let total = activeQuestions.length;
+
+        console.log(`--- 📝 严格批改系统启动 (总题数: ${total}) ---`);
+
+        activeQuestions.forEach(q => {
+            const correctVal = correctAnswers[q];
+            if (correctVal === undefined) return;
+
+            let isCorrect = false;
+            const itemElem = document.getElementById(`item-${q}`);
+
+            // 1. 单选题 / 判断题 / 核心单选判定 (Radio Single Choice / TFNG / YNNG)
+            const checkedRadio = document.querySelector(`input[type="radio"][name="${q}"]:checked`);
+            const checkboxes = document.querySelectorAll(`input[type="checkbox"][name="${q}"]:checked`);
+
+            if (checkedRadio) {
+                // 已勾选，进行对错比对
+                const userVal = checkedRadio.value.trim();
+                isCorrect = (userVal.toUpperCase() === String(correctVal).toUpperCase());
+            } else if (document.querySelector(`input[type="radio"][name="${q}"]`)) {
+                // 如果是单选/判断题但没有任何一个被选中，强制判定为错！
+                isCorrect = false;
+            } 
+            else if (checkboxes.length > 0 || String(correctVal).includes(',')) {
+                // 多选
+                let userSelected = Array.from(checkboxes).map(cb => cb.value.trim().toUpperCase()).sort();
+                let correctArray = Array.isArray(correctVal) 
+                    ? correctVal.map(s => s.toUpperCase()).sort() 
+                    : String(correctVal).split(',').map(s => s.trim().toUpperCase()).sort();
+
+                isCorrect = (userSelected.length === correctArray.length && 
+                             userSelected.every((val, idx) => val === correctArray[idx]));
+            } 
+            else if (document.querySelector(`input[name="${q}"].match-input, select[name="${q}"]`)) {
+                // 匹配题
+                const matchElem = document.querySelector(`input[name="${q}"], select[name="${q}"]`);
+                if (matchElem && matchElem.value.trim() !== '') {
+                    const userVal = matchElem.value.trim().toUpperCase();
+                    const correctStr = String(correctVal).trim().toUpperCase();
+                    isCorrect = (userVal.charAt(0) === correctStr.charAt(0));
+                } else {
+                    isCorrect = false; // 未作答视为错误
+                }
+            }
+            else {
+                // 填空题 (Text input)
+                const inputElem = document.querySelector(`input[name="${q}"]`);
+                if (inputElem && inputElem.value.trim() !== '') {
+                    const userVal = inputElem.value.trim().toLowerCase();
+                    const correctStr = String(correctVal).trim().toLowerCase();
+                    
+                    let possibleAnswers = correctStr.split('/').map(s => s.trim());
+                    isCorrect = possibleAnswers.includes(userVal);
+                } else {
+                    isCorrect = false; // 未作答视为错误
+                }
+            }
+
+            // ====================================================================
+            // 错误样式渲染
+            // ====================================================================
+            if (!isCorrect) {
+                if (itemElem) itemElem.classList.add('incorrect');
+                const specificInput = document.querySelector(`input[name="${q}"]`);
+                if (specificInput && specificInput.type === 'text') {
+                    specificInput.classList.add('incorrect');
+                }
+            } else {
+                score++;
+            }
+        });
+
+        // 显示最终得分
+        const scoreBoard = document.getElementById('scoreBoard');
+        scoreBoard.style.display = 'block';
+        scoreBoard.textContent = `${score} / ${total}`;
+    });
+</script>
+
+</body>
+</html>
