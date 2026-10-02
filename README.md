@@ -17,7 +17,7 @@ Authentic papers reading in online form
   -----------------------------------------------------
   
 - **C19T1R1**：[How tennis rackets have changed](https://x-veronica.github.io/IELTS_Authentic_papers/C19T1R1.html)
-- **C19T1R2**：[The Pirates of the ancient Mediterranean](https://x-veronica.github.io/IELTS_Authentic_papers/C19T1R2.html)
+- **C19T1R2**：[Priates](https://x-veronica.github.io/IELTS_Authentic_papers/C19T1R2.html)
 - **C19T1R3**：[The persistence and peril of misinformation](https://x-veronica.github.io/IELTS_Authentic_papers/C19T1R3.html)
 
   -----------------------------------------------------
