@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Writing Practice System with AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen py-6 px-4 sm:px-6 lg:px-8">
+
+    <div class="max-w-6xl mx-auto space-y-6">
+
+        <!-- Header & Tab Navigation -->
+        <header class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-900 tracking-tight">IELTS Writing Practice</h1>
+            </div>
+
+            <!-- Tab Switching Buttons -->
+            <div class="flex items-center bg-slate-100 p-1.5 rounded-xl self-start md:self-auto">
+                <button id="tabTask1" type="button" onclick="switchTab('task1')" class="px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 bg-white text-indigo-700 shadow-sm">
+                    Writing Task 1
+                </button>
+                <button id="tabTask2" type="button" onclick="switchTab('task2')" class="px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 text-slate-600 hover:text-slate-900">
+                    Writing Task 2
+                </button>
+            </div>
+        </header>
+
+        <!-- ==================== TASK 1 SECTION ==================== -->
+        <main id="sectionTask1" class="space-y-6">
+            <!-- Timer & Banner -->
+            <div class="bg-gradient-to-r from-indigo-700 to-blue-600 text-white p-5 sm:p-6 rounded-2xl shadow-md flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h2 class="text-xl font-bold mt-1.5">Writing Task 1 Practice</h2>
+                    <p class="text-indigo-100 text-xs mt-0.5">Recommended Time: 20 Minutes • Minimum 150 Words</p>
+                </div>
+                
+                <div class="bg-white/10 backdrop-blur-md p-3 rounded-xl border border-white/20 flex items-center space-x-4 w-full sm:w-auto justify-between sm:justify-start">
+                    <div>
+                        <div class="text-[10px] text-indigo-200 uppercase tracking-wider font-bold">Time Remaining</div>
+                        <div id="timer1Display" class="text-2xl font-mono font-bold">20:00</div>
+                    </div>
+                    <div class="flex space-x-1.5">
+                        <button id="timer1Btn" type="button" onclick="toggleTimer('task1')" class="bg-white text-indigo-800 hover:bg-indigo-50 px-3 py-1.5 rounded-lg text-xs font-bold transition shadow-sm">
+                            Start
+                        </button>
+                        <button type="button" onclick="resetTimer('task1')" class="bg-indigo-900/40 hover:bg-indigo-900/60 text-white px-2.5 py-1.5 rounded-lg text-xs font-semibold transition">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Question Prompt -->
+                <div class="lg:col-span-1 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                    <span class="text-xs font-bold text-indigo-600 uppercase tracking-wide">Question Prompt</span>
+                    <p id="prompt1Text" class="text-sm text-slate-800 font-medium leading-relaxed">
+                        The chart below shows the percentage of households in a European country with access to the internet between 2010 and 2022.
+                    </p>
+
+                    <div class="my-3 rounded-xl overflow-hidden border border-slate-200 bg-slate-50 flex items-center justify-center p-2">
+                        <img id="task1Diagram" 
+                             src="https://placehold.co/600x400/e2e8f0/475569?text=Insert+Task+1+Chart/Graph+Image+Here" 
+                             alt="IELTS Writing Task 1 Chart" 
+                             class="w-full h-auto max-h-64 object-contain rounded-lg shadow-inner">
+                    </div>
+
+                    <p class="text-xs text-slate-500 italic">
+                        Summarise the information by selecting and reporting the main features, and make comparisons where relevant.
+                    </p>
+                </div>
+
+                <!-- Textarea Editor & Controls -->
+                <div class="lg:col-span-2 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4 flex flex-col">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Your Response</span>
+                        <span id="wordCountBadge1" class="text-xs font-bold px-3 py-1 rounded-full bg-amber-100 text-amber-800">
+                            0 / 150 words
+                        </span>
+                    </div>
+
+                    <textarea id="essay1Input" rows="12" oninput="updateWordCount('task1')" placeholder="Type your Task 1 response here..." class="w-full p-4 text-slate-800 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:outline-none resize-y leading-relaxed text-base placeholder-slate-300"></textarea>
+
+                    <div class="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100">
+                        <span id="statusMessage1" class="text-xs text-slate-500">Ready to write.</span>
+                        <div class="flex space-x-2">
+                            <button type="button" onclick="copyText('essay1Input', 'statusMessage1')" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-sm font-semibold rounded-xl shadow-md transition flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                Copy Essay
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- ==================== TASK 2 SECTION ==================== -->
+        <main id="sectionTask2" class="hidden space-y-6">
+            <!-- Timer & Banner -->
+            <div class="bg-gradient-to-r from-emerald-700 to-teal-600 text-white p-5 sm:p-6 rounded-2xl shadow-md flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h2 class="text-xl font-bold mt-1.5">Writing Task 2 Practice</h2>
+                    <p class="text-teal-100 text-xs mt-0.5">Recommended Time: 40 Minutes • Minimum 250 Words</p>
+                </div>
+                
+                <div class="bg-white/10 backdrop-blur-md p-3 rounded-xl border border-white/20 flex items-center space-x-4 w-full sm:w-auto justify-between sm:justify-start">
+                    <div>
+                        <div class="text-[10px] text-teal-200 uppercase tracking-wider font-bold">Time Remaining</div>
+                        <div id="timer2Display" class="text-2xl font-mono font-bold">40:00</div>
+                    </div>
+                    <div class="flex space-x-1.5">
+                        <button id="timer2Btn" type="button" onclick="toggleTimer('task2')" class="bg-white text-teal-800 hover:bg-teal-50 px-3 py-1.5 rounded-lg text-xs font-bold transition shadow-sm">
+                            Start
+                        </button>
+                        <button type="button" onclick="resetTimer('task2')" class="bg-teal-900/40 hover:bg-teal-900/60 text-white px-2.5 py-1.5 rounded-lg text-xs font-semibold transition">
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Question Prompt -->
+                <div class="lg:col-span-1 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-3">
+                    <span class="text-xs font-bold text-teal-600 uppercase tracking-wide">Essay Topic</span>
+                    <p id="prompt2Text" class="text-sm text-slate-800 font-medium leading-relaxed">
+                        Successful sports professionals can earn a great deal more money than people in other important professions. Some people think this is fully justified while others think it is unfair.   
+						<br><br>
+						Discuss both views and give your own opinion.
+                    </p>
+                    <p class="text-xs text-slate-500 italic">
+                       Give reasons for your answer and include any relevant examples from your own knowledge or experience.
+                    </p>
+                </div>
+
+                <!-- Textarea Editor & Controls -->
+                <div class="lg:col-span-2 bg-white p-5 rounded-2xl border border-slate-200 shadow-sm space-y-4 flex flex-col">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Your Response</span>
+                        <span id="wordCountBadge2" class="text-xs font-bold px-3 py-1 rounded-full bg-amber-100 text-amber-800">
+                            0 / 250 words
+                        </span>
+                    </div>
+
+                    <textarea id="essay2Input" rows="14" oninput="updateWordCount('task2')" placeholder="Type your Task 2 essay here..." class="w-full p-4 text-slate-800 border border-slate-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:outline-none resize-y leading-relaxed text-base placeholder-slate-300"></textarea>
+
+                    <div class="pt-2 flex flex-wrap items-center justify-between gap-3 border-t border-slate-100">
+                        <span id="statusMessage2" class="text-xs text-slate-500">Ready to write.</span>
+                        <div class="flex space-x-2">
+                            <button type="button" onclick="copyText('essay2Input', 'statusMessage2')" class="px-5 py-2.5 bg-teal-600 hover:bg-teal-700 active:scale-95 text-white text-sm font-semibold rounded-xl shadow-md transition flex items-center gap-2">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                Copy Essay
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+    </div>
+
+    <!-- Time Up Custom Modal Dialog -->
+    <div id="timeUpModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 text-center transform transition-all">
+            <div class="w-12 h-12 bg-amber-100 rounded-full flex items-center justify-center mx-auto text-amber-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <h3 id="modalTitle" class="text-lg font-bold text-slate-900">时间到 (Time's Up!)</h3>
+            <p id="modalMessage" class="text-sm text-slate-600 leading-relaxed">您的作答时间已结束，请检查并复制您的作文。</p>
+            <button type="button" onclick="closeModal()" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-semibold rounded-xl transition">
+                知道了 (Got it)
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        // State management for timers
+        const timerState = {
+            task1: { time: 20 * 60, initial: 20 * 60, interval: null, running: false, name: 'Task 1' },
+            task2: { time: 40 * 60, initial: 40 * 60, interval: null, running: false, name: 'Task 2' }
+        };
+
+        // Tab Switching Logic
+        function switchTab(taskKey) {
+            const isTask1 = taskKey === 'task1';
+            
+            document.getElementById('sectionTask1').classList.toggle('hidden', !isTask1);
+            document.getElementById('sectionTask2').classList.toggle('hidden', isTask1);
+
+            const tab1 = document.getElementById('tabTask1');
+            const tab2 = document.getElementById('tabTask2');
+
+            if (isTask1) {
+                tab1.className = "px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 bg-white text-indigo-700 shadow-sm";
+                tab2.className = "px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 text-slate-600 hover:text-slate-900";
+            } else {
+                tab2.className = "px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 bg-white text-teal-700 shadow-sm";
+                tab1.className = "px-5 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 text-slate-600 hover:text-slate-900";
+            }
+        }
+
+        // Word Counter Helper
+        function updateWordCount(taskKey) {
+            const isTask1 = taskKey === 'task1';
+            const textarea = document.getElementById(isTask1 ? 'essay1Input' : 'essay2Input');
+            const badge = document.getElementById(isTask1 ? 'wordCountBadge1' : 'wordCountBadge2');
+            const minWords = isTask1 ? 150 : 250;
+
+            const rawText = textarea.value.trim();
+            const words = rawText ? rawText.match(/[a-zA-Z0-9'-]+/g) : null;
+            const count = words ? words.length : 0;
+
+            badge.textContent = `${count} / ${minWords} words`;
+
+            if (count < minWords) {
+                badge.className = "text-xs font-bold px-3 py-1 rounded-full bg-amber-100 text-amber-800 transition-colors";
+            } else {
+                badge.className = "text-xs font-bold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 transition-colors";
+            }
+        }
+
+        // Timer Controls
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        }
+
+        function toggleTimer(taskKey) {
+            const state = timerState[taskKey];
+            const btn = document.getElementById(taskKey === 'task1' ? 'timer1Btn' : 'timer2Btn');
+
+            if (state.running) {
+                clearInterval(state.interval);
+                state.running = false;
+                btn.textContent = 'Resume';
+            } else {
+                state.running = true;
+                btn.textContent = 'Pause';
+                state.interval = setInterval(() => {
+                    if (state.time > 0) {
+                        state.time--;
+                        document.getElementById(taskKey === 'task1' ? 'timer1Display' : 'timer2Display').textContent = formatTime(state.time);
+                    } else {
+                        clearInterval(state.interval);
+                        state.running = false;
+                        btn.textContent = 'Start';
+                        showTimeUpModal(state.name);
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer(taskKey) {
+            const state = timerState[taskKey];
+            clearInterval(state.interval);
+            state.running = false;
+            state.time = state.initial;
+            document.getElementById(taskKey === 'task1' ? 'timer1Display' : 'timer2Display').textContent = formatTime(state.initial);
+            document.getElementById(taskKey === 'task1' ? 'timer1Btn' : 'timer2Btn').textContent = 'Start';
+        }
+
+        // Copy Helper
+        function copyText(textareaId, statusId) {
+            const textarea = document.getElementById(textareaId);
+            const statusMsg = document.getElementById(statusId);
+
+            if (!textarea.value.trim()) {
+                statusMsg.textContent = '请先输入内容再复制 (Empty text cannot be copied).';
+                statusMsg.className = 'text-xs text-amber-600 font-semibold';
+                setTimeout(() => {
+                    statusMsg.textContent = 'Ready to write.';
+                    statusMsg.className = 'text-xs text-slate-500';
+                }, 3000);
+                return;
+            }
+
+            textarea.select();
+            document.execCommand('copy');
+
+            statusMsg.textContent = '已复制到剪贴板！(Copied to clipboard!)';
+            statusMsg.className = 'text-xs text-emerald-600 font-bold';
+
+            setTimeout(() => {
+                statusMsg.textContent = 'Ready to write.';
+                statusMsg.className = 'text-xs text-slate-500';
+            }, 3000);
+        }
+
+        // Modal Helpers
+        function showTimeUpModal(taskName) {
+            const modal = document.getElementById('timeUpModal');
+            const msg = document.getElementById('modalMessage');
+            msg.textContent = `${taskName} 的规定写作时间已结束，请停止作答并复制您的文章。`;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('timeUpModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    </script>
+</body>
+</html>
