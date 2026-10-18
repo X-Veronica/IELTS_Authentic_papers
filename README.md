@@ -33,5 +33,5 @@
 
 ## ✍️ 雅思写作 (IELTS Writing)
 
-- **Writing Practice online**：[IELTS Writing Interactive Practice & AI Evaluation System](https://x-veronica.github.io/IELTS_Authentic_papers/writing_practice_ai.html)
+- **Writing Practice online**：[IELTS Writing Practice](https://x-veronica.github.io/IELTS_Authentic_papers/writing_practice_ai.html)
 
