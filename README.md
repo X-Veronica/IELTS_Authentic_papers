@@ -33,5 +33,5 @@
 
 ## ✍️ 雅思写作 (IELTS Writing)
 
-- **Writing Practice with AI**：[IELTS Writing Interactive Practice & AI Evaluation System](https://x-veronica.github.io/IELTS_Authentic_papers/writing_practice_ai.html)
-  > 💡 **功能特点**：支持 Task 1 & Task 2 计时写作、实时字数统计、并集成 Gemini AI 自动进行四项评分与批改指导。
+- **Writing Practice online**：[IELTS Writing Interactive Practice & AI Evaluation System](https://x-veronica.github.io/IELTS_Authentic_papers/writing_practice_ai.html)
+
