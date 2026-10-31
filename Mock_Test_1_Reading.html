@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Reading Practice · Cambridge 21 Test 2</title>
+<style>
+    :root{
+        --navy:#003366;
+        --navy2:#004080;
+        --bg:#f4f6f9;
+        --line:#e6eaf0;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{
+        font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,"PingFang SC","Microsoft YaHei",sans-serif;
+        color:#333;height:100vh;display:flex;flex-direction:column;overflow:hidden;background:var(--bg);
+    }
+
+    /* 顶部导航 */
+    .nav-bar{
+        background:var(--navy);color:#fff;display:flex;align-items:center;
+        padding:0 16px;height:50px;flex-shrink:0;box-shadow:0 2px 4px rgba(0,0,0,.12);z-index:10;gap:14px;
+    }
+    .nav-title{font-size:15px;font-weight:700;white-space:nowrap;}
+    .nav-tabs{display:flex;gap:8px;flex:1;overflow-x:auto;}
+    .nav-tab{
+        background:rgba(255,255,255,.12);color:#fff;border:none;padding:8px 14px;border-radius:4px;
+        cursor:pointer;font-size:13.5px;transition:background .2s;white-space:nowrap;font-family:inherit;
+    }
+    .nav-tab:hover{background:rgba(255,255,255,.24);}
+    .nav-tab.active{background:#fff;color:var(--navy);font-weight:700;}
+    .nav-tools{display:flex;gap:8px;align-items:center;flex-shrink:0;}
+    .tool-btn{
+        background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.25);
+        padding:7px 12px;border-radius:4px;cursor:pointer;font-size:13px;font-family:inherit;transition:.2s;
+    }
+    .tool-btn:hover{background:rgba(255,255,255,.26);}
+    .tool-btn.primary{background:#fff;color:var(--navy);font-weight:800;border-color:#fff;}
+    .tool-btn.primary:hover{background:#e8eef6;}
+    #progressText{font-size:13px;opacity:.9;font-variant-numeric:tabular-nums;white-space:nowrap;}
+    .timer{
+        font-size:14px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.5px;
+        background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.3);border-radius:4px;
+        padding:5px 11px;min-width:78px;text-align:center;
+    }
+    .timer.warn{background:#b26a00;border-color:#e0902b;color:#fff2d6;}
+    .timer.danger{background:#b3261e;border-color:#e35b52;color:#fff;animation:pulse 1.2s infinite;}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+
+    /* 主体 */
+    .main-container{display:none;flex:1;padding:10px;gap:10px;overflow:hidden;height:calc(100vh - 50px);}
+    .main-container.active{display:flex;}
+    .panel{
+        flex:1;min-width:0;background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08);
+        display:flex;flex-direction:column;overflow:hidden;
+    }
+    .panel-header{
+        background:var(--navy2);color:#fff;padding:12px 18px;font-size:15px;font-weight:700;
+        display:flex;justify-content:space-between;align-items:center;gap:10px;flex-shrink:0;
+    }
+    .panel-header .hint{font-size:12px;font-weight:400;opacity:.8;}
+    .panel-content{padding:24px 26px;overflow-y:auto;flex:1;line-height:1.75;font-size:15.5px;}
+
+    /* 文章 */
+    .article h2{font-size:22px;color:var(--navy2);margin-bottom:6px;line-height:1.35;}
+    .article .subtitle{color:#5b6b7c;font-style:italic;font-size:14.5px;margin-bottom:20px;}
+    .article p{margin-bottom:15px;text-align:justify;}
+    .article p.para{position:relative;}
+    .para-tag{
+        display:inline-block;min-width:22px;font-weight:700;color:var(--navy2);margin-right:4px;
+    }
+    .footnote{font-size:12.5px;color:#666;border-top:1px solid var(--line);margin-top:18px;padding-top:10px;line-height:1.6;}
+    .highlight{background-color:#ffeb3b;cursor:pointer;}
+
+    /* 题目 */
+    .question-group{margin-bottom:26px;border-bottom:1px solid var(--line);padding-bottom:18px;}
+    .question-group:last-child{border-bottom:none;}
+    .question-group h3{
+        font-size:14.5px;color:var(--navy2);margin-bottom:6px;background:#eef2f7;padding:8px 12px;border-radius:4px;
+    }
+    .q-instruction{font-size:13.5px;color:#55606c;margin:0 0 12px 2px;line-height:1.65;}
+    .q-instruction b{color:#333;}
+    .question-item{margin-bottom:14px;padding:8px 10px;border-radius:5px;transition:background .2s;}
+    .question-title{font-weight:600;margin-bottom:8px;line-height:1.65;}
+    .qnum{color:var(--navy2);font-weight:800;margin-right:2px;}
+    .options label{
+        display:block;margin-bottom:5px;cursor:pointer;padding:5px 8px;border-radius:4px;transition:background .2s;
+        font-size:15px;
+    }
+    .options label:hover{background:#f0f4f8;}
+    .options input[type="radio"]{margin-right:8px;transform:translateY(1px);}
+    .opts-compact{display:grid;grid-template-columns:1fr;gap:2px;max-width:340px;}
+
+    input.blank-input{
+        border:1px solid #c3ccd6;border-radius:4px;padding:3px 6px;font-size:14px;width:130px;
+        text-align:center;margin:0 4px;font-family:inherit;background:#fbfdff;transition:.15s;
+    }
+    input.blank-input.wide{width:150px;}
+    input.blank-input:focus{border-color:var(--navy2);outline:none;box-shadow:0 0 0 3px rgba(0,64,128,.12);}
+    input.blank-input.incorrect{background:#fff1f1;border-color:#e53935;color:#c62828;}
+    input.blank-input.correct-ans{background:#eefaf0;border-color:#43a047;color:#1b5e20;}
+    .blank-num{font-size:12px;color:#7b8894;}
+    .fill-content{line-height:2.2;font-size:15.5px;}
+    .fill-content .blank-input{
+        width:auto !important;min-width:92px;vertical-align:baseline;margin:0 3px;
+        padding:0 4px;line-height:1.2;height:1.6em;font-size:14px;
+    }
+    .fill-content .blank-input[placeholder="22"],
+    .fill-content .blank-input[placeholder="23"],
+    .fill-content .blank-input[placeholder="24"],
+    .fill-content .blank-input[placeholder="25"],
+    .fill-content .blank-input[placeholder="26"]{min-width:120px;}
+
+    .question-item.incorrect{background:#fff5f5;border-left:4px solid #e53935;padding-left:10px;}
+    .question-item.right{background:#f4fbf5;border-left:4px solid #43a047;padding-left:10px;}
+    .error-tag{color:#c62828;font-size:12.5px;font-weight:700;margin-top:4px;display:none;}
+    .answer-tag{color:#1b5e20;font-size:12.5px;font-weight:700;margin-top:4px;display:none;}
+    .question-item.incorrect .error-tag{display:block;}
+    .question-item.right .answer-tag{display:none;}
+
+    /* 表格题 */
+    table.research{width:100%;border-collapse:collapse;font-size:14.5px;}
+    table.research th,table.research td{border:1px solid #b9c3cd;padding:8px 10px;vertical-align:top;line-height:1.6;}
+    table.research th{background:#eef2f7;color:var(--navy2);font-size:14px;text-align:left;}
+    table.research td ul{margin-left:16px;}
+    table.research td ul li{margin-bottom:4px;}
+    table.research .col-label{background:#fafcfe;font-weight:600;width:16%;}
+
+    /* 词库 */
+    .word-bank{
+        background:#fcfdfe;border:1px solid #dbe3ec;border-radius:6px;padding:12px 14px;margin-bottom:14px;font-size:14.5px;
+    }
+    .word-bank strong{display:block;margin-bottom:6px;color:var(--navy2);font-size:13.5px;}
+    .word-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px 12px;}
+    .word-grid span{white-space:nowrap;}
+
+    .tf-rules{margin:0 0 14px 6px;font-size:14px;display:flex;flex-direction:column;gap:6px;}
+    .tf-rules b{color:var(--navy2);display:inline-block;min-width:92px;font-weight:800;letter-spacing:.3px;}
+    table.research .qnum{margin-right:6px;}
+    table.research input.blank-input{width:120px;}
+    .blank-inline{white-space:nowrap;}
+
+    .stage{display:none;}
+    .stage.active{display:block;}
+
+    /* 提交 */
+    .submit-btn{
+        background:var(--navy2);color:#fff;border:none;padding:11px 26px;font-size:15px;font-weight:700;
+        border-radius:6px;cursor:pointer;font-family:inherit;transition:.2s;box-shadow:0 4px 6px rgba(0,0,0,.1);
+    }
+    .submit-btn:hover{background:#002b5c;}
+    .reset-btn{
+        background:#fff;color:#5a6672;border:1px solid #c3ccd6;padding:10px 18px;border-radius:6px;
+        cursor:pointer;font-size:13.5px;font-family:inherit;
+    }
+    .reset-btn:hover{background:#f4f6f9;}
+    .score-board{
+        display:none;font-size:13px;font-weight:800;color:#fff;background:#2e7d32;
+        padding:5px 11px;border-radius:4px;white-space:nowrap;font-variant-numeric:tabular-nums;
+    }
+    .score-board.show{display:inline-block;}
+
+    .band-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:20px;}
+    .band-cell{background:#f4f7fb;border-radius:8px;padding:12px 8px;text-align:center;}
+    .band-cell .num{font-size:22px;font-weight:800;color:var(--navy2);font-variant-numeric:tabular-nums;}
+    .band-cell .lab{font-size:12px;color:#6b7a89;margin-top:2px;}
+    .wrong-list{font-size:14px;line-height:1.9;}
+    .wrong-list h4{font-size:14px;color:#c62828;margin:14px 0 6px;}
+    .chip{display:inline-block;background:#fff1f1;border:1px solid #f3c6c6;color:#b3261e;border-radius:20px;
+        padding:2px 10px;margin:3px 5px 3px 0;font-size:13px;}
+    .chip.correct{background:#f0faf1;border-color:#c3e6c8;color:#1b5e20;}
+    @media (max-width:900px){
+        .main-container{flex-direction:column;height:auto;overflow:visible;}
+        body{overflow:auto;height:auto;display:block;}
+        .panel{min-height:320px;overflow:visible;}
+        .panel-content{overflow:visible;}
+        .opts-compact{grid-template-columns:1fr;}
+        .word-grid{grid-template-columns:repeat(2,1fr);}
+        .band-grid{grid-template-columns:repeat(2,1fr);}
+    }
+    @media (max-width:640px){
+        .nav-bar{height:auto;flex-wrap:wrap;padding:8px 10px;gap:8px;}
+        .nav-title{font-size:13.5px;width:100%;}
+        .nav-tabs{flex:1 1 100%;order:3;gap:6px;}
+        .nav-tab{padding:6px 10px;font-size:12.5px;}
+        .nav-tools{order:2;margin-left:auto;}
+        .tool-btn{padding:5px 10px;font-size:12px;}
+        #progressText{font-size:12px;opacity:.85;}
+        .timer{font-size:12.5px;padding:4px 8px;min-width:62px;}
+        .score-board{font-size:11.5px;padding:4px 8px;}
+        .main-container{height:auto;padding:8px;gap:8px;}
+        .panel-content{padding:16px 15px;font-size:15px;}
+        .article h2{font-size:19px;}
+        table.research{font-size:13px;}
+        table.research th,table.research td{padding:6px 7px;}
+        .fill-content{font-size:15px;}
+        .fill-content .blank-input{min-width:64px !important;}
+        .fill-content .blank-input[placeholder="22"],
+        .fill-content .blank-input[placeholder="23"],
+        .fill-content .blank-input[placeholder="24"],
+        .fill-content .blank-input[placeholder="25"],
+        .fill-content .blank-input[placeholder="26"]{min-width:88px !important;}
+        .band-grid{grid-template-columns:repeat(2,1fr);}
+    }
+</style>
+</head>
+<body>
+
+<div class="nav-bar">
+    <div class="nav-title">Cambridge 21 · Test 2</div>
+    <div class="nav-tabs">
+        <button class="nav-tab active" data-sec="section1">P1 · Do animals dream?</button>
+        <button class="nav-tab" data-sec="section2">P2 · Mapungubwe</button>
+        <button class="nav-tab" data-sec="section3">P3 · Artificial Intelligence</button>
+    </div>
+    <div class="nav-tools">
+        <span id="progressText">0/40</span>
+        <span id="scoreBoard" class="score-board"></span>
+        <span id="timer" class="timer">60:00</span>
+        <button class="tool-btn primary" onclick="submitAll()">提交批改</button>
+        <button class="tool-btn" onclick="resetAll()">清空</button>
+    </div>
+</div>
+
+<!-- ==================== Passage 1 ==================== -->
+<div id="section1" class="main-container active">
+    <div class="panel">
+        <div class="panel-header">
+            <span>Reading Passage 1</span>
+            <span class="hint">选中文字后点击右键可高亮 · 再次右键取消</span>
+        </div>
+        <div class="panel-content article" data-highlight-area>
+            <h2>Do animals dream?</h2>
+            <p>Studies using electrodes attached to the heads of sleepers have shown that when we sleep, we do so in two ways that alternate throughout the night. The first is rapid eye movement (REM) or active sleep. During this stage our eyes move, even though our eyelids are closed. Our muscles also twitch slightly, though they are largely paralysed so we don't hurt ourselves. In contrast, we also engage in non-REM sleep, during which we barely move at all. Most dream states, and certainly those with the most vivid dreams, happen during REM sleep.</p>
+            <p>There's some evidence that other mammals may also dream. For example, researchers compared the brain patterns of rats running through a maze when awake with their brain patterns during REM sleep. They found the patterns were very similar and concluded that the sleeping rats were dreaming about going through the maze.</p>
+            <p>But finding evidence of dreaming in non-mammals has proved more difficult. Their brains are very different from those of humans, and it can often be difficult to record their activity while they are sleeping. Recently, however, researchers succeeded in recording brain activity in sleeping pigeons. As in mammals, the recordings revealed both REM and non-REM sleep. Intriguingly, REM sleep activity was high in brain regions involved in processing visual information, especially images related to physical activities such as flying, which suggests that this may possibly be what the pigeons were dreaming about.</p>
+            <p>That said, dreaming and REM sleep are unlikely to be universal in the animal kingdom. For example, sponges don't have brains, so they lack the machinery for dreaming. There are also some animals with unusual sleep patterns. These include whales and dolphins, which do not shut down their entire brain when they sleep, but only half of it, keeping the rest awake. They also show no sign of REM sleep, suggesting that they may only experience non-REM dreams, which are less vivid. This is surprising because we tend to think of whales and dolphins as having complex inner lives. It's thought that they don't experience REM sleep because during REM sleep animals are more vulnerable to extremes of temperature.</p>
+            <p>Nevertheless, in many cases REM sleep does seem to have benefits. Growing evidence from birds and mammals suggests that REM sleep and dreaming are important for forming memories and learning. It is believed that when events are replayed in dreams, this helps to integrate memories into longer-term storage. As soon as animals evolved moderately complex lifestyles, they would have needed to dream in order to manage these lifestyles.</p>
+            <p>However, we still don't understand how this outward behaviour relates to internal experience. It seems impossible to know what it is like to be a rat or a pigeon, let alone imagine their dreamscapes. We are quick to interpret the twitching limbs and quiet barks of sleeping dogs, but the truth is that we don't know if there is an internal experience of chasing rabbits that comes along with that.</p>
+            <p>Another non-human dreamer offers insight here. In 2019, while making a documentary, David Scheel of Alaska Pacific University in the USA housed an octopus named Heidi in a tank in his living room. At one point, in the middle of the night, Heidi seemed to dream: her limbs and head moved, and her skin rapidly changed colour, as though she was pursuing a crab.</p>
+            <p>Similarly, a report recently emerged of a sleeping octopus apparently having a nightmare. Costello, as the octopus was called, thrashed around, extended his mantle as if trying to make himself look bigger, and squirted ink as though he were being attacked by a predator. The nightmare study is intriguing, says Scheel, but is only based on one animal. He argues that as well as outward behaviour, brain imaging is needed to show that the octopuses are replaying sequences of activities from their waking lives in dreams.</p>
+            <p>The trouble is that we will never be able to experience any animal's dreams. That goes for other humans' dreams too. But we can try to imagine what these dreamscapes are like by meeting animals on their own terms. For example, vision is the dominant sense for many humans, and so our dreams are heavily visual too. Dogs primarily navigate the world using smell while spiders rely much more on vibrations.</p>
+            <p>It is likely that dreaming has served multiple purposes since the first complex animals evolved. And if this is the case, it is possible that better understanding of these purposes might shed light on the true purpose of our own dreams.</p>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-header"><span>Questions 1–13</span></div>
+        <div class="panel-content">
+
+            <div class="question-group">
+                <h3>Questions 1–5 · Table Completion</h3>
+                <div class="q-instruction">Complete the table below.<br>Choose <b>ONE WORD ONLY</b> from the passage for each answer.</div>
+                <table class="research">
+                    <thead>
+                        <tr>
+                            <th colspan="3" style="text-align:center;font-size:15px;">Research into sleep and dreaming</th>
+                        </tr>
+                        <tr>
+                            <th style="width:17%"></th>
+                            <th style="width:50%">Research findings</th>
+                            <th style="width:33%">Comment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-label">Humans</td>
+                            <td>
+                                <ul>
+                                    <li>humans experience REM sleep and non-REM sleep</li>
+                                    <li>in REM sleep, the eyes and muscles move</li>
+                                </ul>
+                            </td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="col-label"><input type="text" class="blank-input" name="q1" placeholder="1" data-q="1" style="width:110px;"></td>
+                            <td>
+                                <ul>
+                                    <li>similar brain patterns were observed when active and sleeping</li>
+                                </ul>
+                            </td>
+                            <td>indicative of dreaming</td>
+                        </tr>
+                        <tr>
+                            <td class="col-label">Pigeons</td>
+                            <td>
+                                <ul>
+                                    <li>when sleeping, pigeons displayed activity in parts of the brain that deal with <span class="blank-inline"><input type="text" class="blank-input" name="q2" placeholder="2" data-q="2"> input</span></li>
+                                </ul>
+                            </td>
+                            <td>may have been dreaming of flying</td>
+                        </tr>
+                        <tr>
+                            <td class="col-label">Whales and dolphins</td>
+                            <td>
+                                <ul>
+                                    <li>still have <span class="blank-inline"><input type="text" class="blank-input" name="q3" placeholder="3" data-q="3"> their brain</span> awake when they sleep</li>
+                                    <li>don't experience REM sleep, as this could affect their sensitivity to <input type="text" class="blank-input" name="q4" placeholder="4" data-q="4"></li>
+                                </ul>
+                            </td>
+                            <td>their dreams are probably not very <input type="text" class="blank-input" name="q5" placeholder="5" data-q="5" style="width:110px;"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="question-group">
+                <h3>Questions 6–13 · TRUE / FALSE / NOT GIVEN</h3>
+                <div class="q-instruction">Do the following statements agree with the information given in Reading Passage 1?</div>
+                <div class="tf-rules">
+                    <div><b>TRUE</b> if the statement agrees with the information</div>
+                    <div><b>FALSE</b> if the statement contradicts the information</div>
+                    <div><b>NOT GIVEN</b> if there is no information on this</div>
+                </div>
+                <div id="tf-p1"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ==================== Passage 2 ==================== -->
+<div id="section2" class="main-container">
+    <div class="panel">
+        <div class="panel-header">
+            <span>Reading Passage 2</span>
+            <span class="hint">选中文字后点击右键可高亮</span>
+        </div>
+        <div class="panel-content article" data-highlight-area>
+            <h2>Mapungubwe</h2>
+            <p class="subtitle">Located in southern Africa just below the Limpopo River, the kingdom of Mapungubwe, flourished between the 11th and 13th century CE</p>
+            <p class="para"><span class="para-tag">A</span>Mapungubwe, which was one of the first states in southern Africa, was formed by Bantu-speaking peoples who were farmers. The area controlled by the rulers of Mapungubwe had at its heart a large sandstone plateau, which was easily defended due to its inaccessibility. As with other kingdoms in the region of southern Africa, cattle herding and other types of farming brought plenty of food and a surplus that could be traded for needed goods. Archaeology has revealed extensive layers of bones and manure, which indicate that from the 9th century CE there were large cattle herds, the traditional source of political power in southern African communities. The archaeological record for the 10th century shows a marked increase in the number of domesticated cattle in the area as well as cotton cultivation and weaving, as indicated by abundant finds of spindle whorls.</p>
+            <p class="para"><span class="para-tag">B</span>The total population of Mapungubwe at its peak in the mid-13th century was around 5,000 people. The chief or king of Mapungubwe was likely the wealthiest individual in the society, and would have owned more cattle and precious materials than anyone else. The king and his advisers dwelt in a stone enclosure composed of stone walls and housing built on the highest level of the community's territory, a natural sandstone hill which is some 30 metres high and 100 metres in length. Occupation on the hill dates from the 11th century and the entire complex was surrounded by a wooden palisade*, as indicated by postholes made in the rock. The rest of the community lived in mud and thatch housing spread out below the hill, although there is one stone structure here. This settlement, known as Babandyanalo, covers around 5 hectares (12.3 acres) and predates the hilltop structures.</p>
+            <p class="para"><span class="para-tag">C</span>The kings of Mapungubwe were buried at the top of the hill site in a demarcated area away from the dwellings, while other members of the community were buried at the surrounding valley level. A wooden staircase connected the two levels, the sockets for the steps being clearly visible in the sandstone cliff face. There were some grander residences dotted around the outskirts of Babandyanalo, and these probably belonged to male relatives of the king. There are many other smaller but still impressive sites across the Mapungubwe plateau, which are located anywhere from 15 to 100 kilometres from the major hill site. Containing stone residences and walls, they likely belonged to local chiefs who served as agents to the king.</p>
+            <p class="para"><span class="para-tag">D</span>The Mapungubwe plateau has a very high number of carnivore animal remains and ivory splinters, suggesting that the skins of these large animals and ivory elephant tusks were accumulated, probably for trade with coastal areas reached by the Limpopo River. The presence of glass beads, almost certainly from India, indicate there was trade of some sort with other states on the coast who, in turn, traded with merchants travelling from India by sea. Mapungubwe also benefited from locally-sourced copper and the gold trade as it passed from the kingdom of Great Zimbabwe (12-15th century), situated to the north of Mapungubwe, to the coastal city of Kosiata. It is likely that trade links led to a strengthening of political authority in order to control and even monopolise these lucrative interregional connections.</p>
+            <p class="para"><span class="para-tag">E</span>Archaeological discoveries reveal that pottery was produced on a scale large enough to suggest the presence of professional potters, and is another indicator of the prosperity of Mapungubwe society. Archaeological finds include spherical vessels with short necks, beakers, and bowls, many of which have decorative stamps. There are also ceramic discs, and whistles. In addition, cattle, sheep, and goat figurines, and small figures of highly stylised humans with elongated bodies and short limbs have been found. The figures may have been used in ceremonies as offerings to ancestors, but their precise function is not known. Other discoveries include small jewellery items made from locally sourced copper.</p>
+            <p class="para"><span class="para-tag">F</span>Beautifully decorated artefacts made of gold have also been found at Mapungubwe. A type of decoration, found nowhere else except Great Zimbabwe, involved the crafting of gold into small rectangular sheets and carving geometrical patterns into it. These sheets were then used to cover wooden objects (which have not survived) using small tacks, also made of gold. One such object that has been discovered may have been a sceptre, while additional evidence of local gold-working is a rhinoceros figurine made from small hammered sheets, and thousands of small gold beads. These objects were all found at the royal burial site and date to c. 1150. They are the first known indicators that gold had an intrinsic value of its own (as opposed to that of a currency) in southern Africa.</p>
+            <p class="para"><span class="para-tag">G</span>The kingdom of Mapungubwe was already in decline by the late 13th century, probably because overpopulation placed too much stress on local resources, a situation that may have been brought to a crisis point by a series of droughts. Trade routes may also have shifted northwards. Certainly, the areas that now prospered were to the north, such as Great Zimbabwe.</p>
+            <div class="footnote">* palisade: typically a row of closely placed, high vertical wooden or iron posts used as a means of defence</div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-header"><span>Questions 14–26</span></div>
+        <div class="panel-content">
+
+            <div class="question-group">
+                <h3>Questions 14–19 · Matching Information</h3>
+                <div class="q-instruction">Reading Passage 2 has seven paragraphs, <b>A–G</b>. Which paragraph contains the following information?<br>Write the correct letter, <b>A–G</b>, for each question.</div>
+                <div id="match-p2"></div>
+            </div>
+
+            <div class="question-group">
+                <h3>Questions 20–21 · Multiple Choice (TWO answers)</h3>
+                <div class="q-instruction">Choose <b>TWO</b> letters, <b>A–E</b>. The order of your two letters does not matter.</div>
+                <div class="question-item" id="item-q20" style="background:#fbfdff;border:1px dashed #cfd9e4;">
+                    <div class="question-title"><span class="qnum">20 &amp; 21</span> The archaeological record reveals information about gold and the kingdom of Mapungubwe. Which <b>TWO</b> pieces of information are mentioned by the writer?</div>
+                    <div class="options">
+                        <label><input type="checkbox" name="q20" value="A" data-q="20"> <b>A</b>&nbsp; Not everyone in Mapungubwe used gold as a form of payment.</label>
+                        <label><input type="checkbox" name="q20" value="B" data-q="20"> <b>B</b>&nbsp; Items of gold were placed close to where Mapungubwe kings were buried.</label>
+                        <label><input type="checkbox" name="q20" value="C" data-q="20"> <b>C</b>&nbsp; The most valuable item discovered in Mapungubwe was a sceptre made of gold.</label>
+                        <label><input type="checkbox" name="q20" value="D" data-q="20"> <b>D</b>&nbsp; The way gold was decorated in Mapungubwe was also practised in another kingdom.</label>
+                        <label><input type="checkbox" name="q20" value="E" data-q="20"> <b>E</b>&nbsp; Working with gold was a respected occupation in the Mapungubwe community.</label>
+                    </div>
+                    <div class="error-tag">✗ 本题答案有误，请回原文核对</div>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <h3>Questions 22–26 · Summary Completion</h3>
+                <div class="q-instruction">Complete the summary below.<br>Choose <b>ONE WORD ONLY</b> from the passage for each answer.</div>
+                <div style="font-weight:700;color:var(--navy2);font-size:16px;margin:4px 0 12px;">Archaeological discoveries</div>
+                <div class="fill-content">
+                    The Mapungubwe community's <input type="text" class="blank-input" name="q22" placeholder="22" data-q="22" style="width:150px"> is indicated by the amount of professionally made pottery discovered at the site. Many of these objects, such as beakers and bowls, are highly decorated and have been marked with stamps. Other finds include round ceramic objects, <input type="text" class="blank-input" name="q23" placeholder="23" data-q="23" style="width:150px"> and figures of various animals, as well as models of people with stretched <input type="text" class="blank-input" name="q24" placeholder="24" data-q="24" style="width:150px">. It is possible that these had a role in ceremonies to honour <input type="text" class="blank-input" name="q25" placeholder="25" data-q="25" style="width:150px">. In addition, pieces of <input type="text" class="blank-input" name="q26" placeholder="26" data-q="26" style="width:150px"> made from a local metal have been found at the site.
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- ==================== Passage 3 ==================== -->
+<div id="section3" class="main-container">
+    <div class="panel">
+        <div class="panel-header">
+            <span>Reading Passage 3</span>
+            <span class="hint">选中文字后点击右键可高亮</span>
+        </div>
+        <div class="panel-content article" data-highlight-area>
+            <h2>Artificial Intelligence</h2>
+            <p>In many countries in the West, hysteria about the future of artificial intelligence (AI) is everywhere. There seems to be no shortage of sensationalist news about how AI could cure diseases, accelerate human innovation and improve human creativity. Just looking at the media headlines, you might think that we are already living in a future where AI has infiltrated every aspect of society.</p>
+            <p>While it is undeniable that AI has opened up a wealth of promising opportunities, it has also led to the emergence of a mindset that can be best described as 'AI solutionism'. This is the philosophy that, given enough data, machine learning algorithms can solve all of humanity's problems. But, in fact, instead of supporting AI progress, this mindset actually jeopardises the value of machine intelligence by disregarding important AI safety principles and setting unrealistic expectations about what AI can really do for humanity.</p>
+            <p>In only a few years, AI solutionism has made its way from the technology evangelists' mouths in Silicon Valley in California to the minds of government officials and policymakers around the world. The pendulum has swung from the dystopian notion that AI will destroy humanity to the utopian belief that our algorithmic saviour is here.</p>
+            <p>We are now seeing governments pledge support to national AI initiatives and compete in a technological race to dominate the burgeoning machine-learning sector. While many politicians proclaim the transformative effects of the coming 'AI revolution', they fail to realise the complexity around deploying advanced machine learning systems in the real world.</p>
+            <p>One of the most promising varieties of AI technologies are neural networks. This form of machine learning is loosely modelled on the neuronal structure of the human brain, but on a much smaller scale. But what many politicians do not understand is that simply adding a neural network to a problem will not automatically mean that you'll find a solution. Similarly, adding a neural network to a system of government does not mean it will be instantaneously more inclusive or fair.</p>
+            <p>AI systems need a lot of data to function, but the public sector typically does not have the appropriate data infrastructure to support advanced machine learning. Most of the data remains stored in offline archives. The few digitised sources of data that exist tend to be buried in bureaucracy. More often than not, data is spread across different government departments that each require special permissions to be accessed. Above all, the public sector typically lacks the human talent with the right technological capabilities to fully reap the benefits of machine intelligence.</p>
+            <p>For these reasons, the sensationalism over AI has attracted many critics. Stuart Russell, a professor of computer science at the University of California, Berkeley, has long advocated a more sensible and realistic approach that focuses on simple everyday applications of AI instead of the hypothetical takeover by super-intelligent robots. Similarly, Rodney Brooks, professor of robotics at Massachusetts Institute of Technology, writes that 'almost all innovations in robotics and AI take far, far, longer to be really widely deployed than people in the field and outside the field imagine'.</p>
+            <p>One of the many difficulties in deploying machine learning systems is that AI is extremely susceptible to adversarial attacks. This means that a malicious AI can target another AI to make it behave in a certain way, such as forcing it to make wrong predictions. Many researchers have warned against the rolling out of AI without appropriate security standards and defence mechanisms. Still, AI security remains an often overlooked topic when machine learning systems are installed.</p>
+            <p>If we are to reap the benefits and minimise the potential harms of AI, we must start thinking about how machine learning can be meaningfully applied to specific areas of government, business and society. This means we need to have a discussion about AI ethics and the distrust that many people have towards machine learning.</p>
+            <p>Most importantly, we need to be aware of the limitations of AI and where people still need to take the lead. Instead of painting an unrealistic picture of the power of AI, it is important to take a step back and separate the actual technological capabilities of AI from fantasy.</p>
+            <p>The medical profession has also recognised the drawbacks to AI. The IBM Watson for Oncology programme was a piece of AI that was meant to help doctors treat cancer. Even though it was developed to deliver the best recommendations, human experts found it hard to trust the machine. As a result, the AI programme was abandoned in most hospitals where it was trialled.</p>
+            <p>Similar difficulties arose in the legal domain when algorithms were used in courts in the US to sentence criminals. An algorithm calculated risk assessment scores and advised judges on the sentencing. The system was found to amplify structural racial discrimination and was later abandoned.</p>
+            <p>There are some crucial lessons here for everyone aiming to boost investments in national AI programmes. These examples demonstrate that there is no AI solution for everything. Using AI simply for the sake of AI may not always be productive or useful, and not every issue is best addressed by applying machine intelligence to it. All solutions come with a cost and not everything that can be automated should be.</p>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="panel-header"><span>Questions 27–40</span></div>
+        <div class="panel-content">
+
+            <div class="question-group">
+                <h3>Questions 27–29 · Multiple Choice</h3>
+                <div class="q-instruction">Choose the correct letter, <b>A</b>, <b>B</b>, <b>C</b> or <b>D</b>.</div>
+                <div id="mc-p3"></div>
+            </div>
+
+            <div class="question-group">
+                <h3>Questions 30–35 · Summary Completion (List of Words)</h3>
+                <div class="q-instruction">Complete the summary using the list of words, <b>A–I</b>, below. Write the correct letter, <b>A–I</b>, for each question.</div>
+                <div style="font-weight:700;color:var(--navy2);font-size:16px;margin:4px 0 12px;">AI in government, medicine and the law</div>
+                <div class="fill-content" style="line-height:2.4;">
+                    Neural networks are a promising area of AI technology for governments. However, many politicians overestimate their capabilities, believing that the mere addition of a neural network will produce solutions and promote <input type="text" class="blank-input" name="q30" placeholder="30" data-q="30">.<br>
+                    Most public sector organisations have not set up the necessary <input type="text" class="blank-input" name="q31" placeholder="31" data-q="31"> to manage the huge amount of data required to enable AI to function. Complex bureaucracy is another issue, as each person involved needs <input type="text" class="blank-input" name="q32" placeholder="32" data-q="32"> to access the relevant data, which is often spread across different departments. But the main problem is that few public sector employees have the <input type="text" class="blank-input" name="q33" placeholder="33" data-q="33"> to take full advantage of machine intelligence.<br>
+                    The medical profession experimented with an AI programme, but their experts had little faith in its <input type="text" class="blank-input" name="q34" placeholder="34" data-q="34">, and the programme was abandoned. US courts also abandoned the use of algorithms when it was found that these reflected and magnified the existing <input type="text" class="blank-input" name="q35" placeholder="35" data-q="35"> within the legal profession.
+                </div>
+                <div class="word-bank">
+                    <strong>List of Words</strong>
+                    <div class="word-grid">
+                        <span><b>A</b>&nbsp; reliability</span>
+                        <span><b>B</b>&nbsp; funding</span>
+                        <span><b>C</b>&nbsp; skills</span>
+                        <span><b>D</b>&nbsp; prejudices</span>
+                        <span><b>E</b>&nbsp; computers</span>
+                        <span><b>F</b>&nbsp; equality</span>
+                        <span><b>G</b>&nbsp; framework</span>
+                        <span><b>H</b>&nbsp; confidentiality</span>
+                        <span><b>I</b>&nbsp; approval</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="question-group">
+                <h3>Questions 36–39 · YES / NO / NOT GIVEN</h3>
+                <div class="q-instruction">Do the following statements agree with the claims of the writer in Reading Passage 3?</div>
+                <div class="tf-rules">
+                    <div><b>YES</b> if the statement agrees with the claims of the writer</div>
+                    <div><b>NO</b> if the statement contradicts the claims of the writer</div>
+                    <div><b>NOT GIVEN</b> if it is impossible to say what the writer thinks about this</div>
+                </div>
+                <div id="tf-p3"></div>
+            </div>
+
+            <div class="question-group">
+                <h3>Question 40 · Multiple Choice</h3>
+                <div class="q-instruction">Choose the correct letter, <b>A</b>, <b>B</b>, <b>C</b> or <b>D</b>.</div>
+                <div id="mc-q40"></div>
+
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+/* ============ 题目数据 ============ */
+const TF_P1 = [
+    {q:6,  text:'Dreaming about past experiences helps us to create lasting memories of them.'},
+    {q:7,  text:'It is now possible to tell what type of dream a dog is having.'},
+    {q:8,  text:"David Scheel's documentary was influential on other research into the sleeping patterns of octopuses."},
+    {q:9,  text:'While it was asleep, the octopus called Costello reacted as if it was hunting.'},
+    {q:10, text:"Scheel believes more research into octopuses' dreams should be carried out."},
+    {q:11, text:'We may soon be able to share the dreams of other human beings.'},
+    {q:12, text:'Hearing may be an important part of the dreams of some animals.'},
+    {q:13, text:'Interest in the reasons why humans dream has increased greatly in recent times.'}
+];
+
+const MATCH_P2 = [
+    {q:14, text:'a mention of the uncertainty regarding the purpose of certain objects'},
+    {q:15, text:'the likelihood that a climatic factor increased the problems Mapungubwe faced'},
+    {q:16, text:"a mention of the location where members of the king's family are thought to have lived"},
+    {q:17, text:'a reference to people who brought goods by ship'},
+    {q:18, text:'an estimate of the size to which the Mapungubwe community grew'},
+    {q:19, text:'a mention of agricultural produce being exchanged for other items'}
+];
+
+const MC_P3 = [
+    {q:27, stem:'What is the writer doing in the first paragraph?',
+     opts:{A:'predicting the future impact of AI', B:'describing a public perception of AI', C:'outlining some possible benefits of AI', D:'highlighting the breadth of the influence of AI'}},
+    {q:28, stem:'When discussing AI solutionism in the second paragraph, the writer',
+     opts:{A:'points out a risk involved.', B:'specifies its probable origins.', C:'mentions its chief supporters.', D:'weighs up some pros and cons.'}},
+    {q:29, stem:'In the fourth paragraph, the writer suggests that many politicians may',
+     opts:{A:'have failed to appreciate the true potential of AI initiatives.', B:'have misunderstood the function of the machine-learning sector.', C:'be unaware of the challenges of implementing national AI initiatives.', D:'be too keen to enter the race to dominate the machine-learning sector.'}}
+];
+
+const TF_P3 = [
+    {q:36, text:"Stuart Russell's proposals regarding the use of AI are impractical."},
+    {q:37, text:"Rodney Brooks' view has attracted unfair criticism from supporters of AI."},
+    {q:38, text:'Nowadays, the need to protect AI systems is always taken into account when they are set up.'},
+    {q:39, text:"In order to benefit from AI and minimise the harms, we have to explore people's concerns about its use."}
+];
+
+const MC_Q40 = {q:40, stem:'What would be a suitable subtitle for Reading Passage 3?',
+    opts:{A:'How to make the most of what AI has to offer', B:'Why AI may not be the answer to our problems',
+          C:'Why governments should not invest in AI systems', D:'How AI could improve the efficiency of the public sector'}};
+
+/* ============ 标准答案 ============ */
+const ANSWERS = {
+    1:['rats'], 2:['visual'], 3:['half'], 4:['temperature'], 5:['vivid'],
+    6:['TRUE'], 7:['FALSE'], 8:['NOT GIVEN'], 9:['FALSE'], 10:['TRUE'], 11:['FALSE'], 12:['NOT GIVEN'], 13:['NOT GIVEN'],
+    14:['E'], 15:['G'], 16:['C'], 17:['D'], 18:['B'], 19:['A'],
+    20:['B','D','BD','DB'], 21:['B','D','BD','DB'],
+    22:['prosperity'], 23:['whistles'], 24:['bodies'], 25:['ancestors'], 26:['jewellery','jewelry'],
+    27:['B'], 28:['A'], 29:['C'],
+    30:['F'], 31:['G'], 32:['I'], 33:['C'], 34:['A'], 35:['D'],
+    36:['NO'], 37:['NOT GIVEN'], 38:['NO'], 39:['YES'], 40:['B']
+};
+const DISPLAY = {20:'B & D（顺序不限）', 21:'B & D（顺序不限）', 26:'jewellery / jewelry'};
+
+/* ============ 渲染 ============ */
+function tfOptions(q){
+    return `<div class="options opts-compact">
+        <label><input type="radio" name="q${q}" value="TRUE" data-q="${q}"> TRUE</label>
+        <label><input type="radio" name="q${q}" value="FALSE" data-q="${q}"> FALSE</label>
+        <label><input type="radio" name="q${q}" value="NOT GIVEN" data-q="${q}"> NOT GIVEN</label>
+    </div>`;
+}
+function ynOptions(q){
+    return `<div class="options opts-compact">
+        <label><input type="radio" name="q${q}" value="YES" data-q="${q}"> YES</label>
+        <label><input type="radio" name="q${q}" value="NO" data-q="${q}"> NO</label>
+        <label><input type="radio" name="q${q}" value="NOT GIVEN" data-q="${q}"> NOT GIVEN</label>
+    </div>`;
+}
+
+function renderTF(list, targetId, type){
+    const wrap = document.getElementById(targetId);
+    wrap.innerHTML = list.map(item=>`
+        <div class="question-item" id="item-q${item.q}">
+            <div class="question-title"><span class="qnum">${item.q}</span> ${item.text}</div>
+            ${type==='YES' ? ynOptions(item.q) : tfOptions(item.q)}
+            <div class="error-tag">✗ 本题答案有误，请回原文核对</div>
+        </div>`).join('');
+}
+
+renderTF(TF_P1, 'tf-p1', 'TF');
+renderTF(TF_P3, 'tf-p3', 'YES');
+
+document.getElementById('match-p2').innerHTML = MATCH_P2.map(item=>`
+    <div class="question-item" id="item-q${item.q}">
+        <div class="question-title"><span class="qnum">${item.q}</span> ${item.text}</div>
+        <div class="fill-content" style="line-height:1.8;">
+            <input type="text" class="blank-input" name="q${item.q}" data-q="${item.q}" placeholder="A–G" maxlength="1"
+                   style="width:110px;">
+            <span class="blank-num">（填写字母 A–G）</span>
+        </div>
+        <div class="error-tag">✗ 本题答案有误，请回原文核对</div>
+    </div>`).join('');
+
+function renderMC(list, targetId){
+    document.getElementById(targetId).innerHTML = list.map(item=>`
+        <div class="question-item" id="item-q${item.q}">
+            <div class="question-title"><span class="qnum">${item.q}</span> ${item.stem}</div>
+            <div class="options">
+                ${Object.keys(item.opts).map(k=>`<label><input type="radio" name="q${item.q}" value="${k}" data-q="${item.q}"> <b>${k}</b>&nbsp; ${item.opts[k]}</label>`).join('')}
+            </div>
+            <div class="error-tag">✗ 本题答案有误，请回原文核对</div>
+        </div>`).join('');
+}
+renderMC(MC_P3, 'mc-p3');
+renderMC([MC_Q40], 'mc-q40');
+
+/* 填空框答案提示：捕获阶段拦截 submitAll 内的写入 */
+const nativeSet = Object.getOwnPropertyDescriptor(Element.prototype, 'innerHTML') ? null : null;
+
+/* ============ 交互 ============ */
+// 导航
+document.querySelectorAll('.nav-tab').forEach(btn=>{
+    btn.addEventListener('click', function(){
+        document.querySelectorAll('.main-container').forEach(el=>el.classList.remove('active'));
+        document.querySelectorAll('.nav-tab').forEach(el=>el.classList.remove('active'));
+        document.getElementById(this.dataset.sec).classList.add('active');
+        this.classList.add('active');
+    });
+});
+
+// 右键高亮
+document.querySelectorAll('[data-highlight-area]').forEach(container=>{
+    container.addEventListener('contextmenu', function(e){
+        e.preventDefault();
+        if(e.target.classList.contains('highlight')){
+            const p = e.target.parentNode;
+            p.replaceChild(document.createTextNode(e.target.textContent), e.target);
+            p.normalize();
+            return;
+        }
+        const sel = window.getSelection();
+        if(!sel.isCollapsed && sel.rangeCount>0){
+            const range = sel.getRangeAt(0);
+            if(!container.contains(range.commonAncestorContainer)) return;
+            const span = document.createElement('span');
+            span.className = 'highlight';
+            try{
+                span.appendChild(range.extractContents());
+                range.insertNode(span);
+                sel.removeAllRanges();
+            }catch(err){}
+        }
+    });
+});
+
+// 单选可取消
+document.addEventListener('click', function(e){
+    const t = e.target;
+    if(t.matches('input[type="radio"]')){
+        if(t.dataset.wasChecked === 'true'){
+            t.checked = false;
+            document.querySelectorAll(`input[name="${t.name}"]`).forEach(r=>r.dataset.wasChecked='false');
+        }else{
+            document.querySelectorAll(`input[name="${t.name}"]`).forEach(r=>r.dataset.wasChecked='false');
+            t.dataset.wasChecked='true';
+        }
+        updateProgress();
+    }
+    if(t.matches('input[type="checkbox"]')) updateProgress();
+});
+document.addEventListener('input', function(e){
+    if(e.target.matches('input[type="text"]')) updateProgress();
+});
+
+
+function isAnswered(q){
+    const radios = document.querySelectorAll(`input[type="radio"][name="q${q}"]`);
+    if(radios.length) return !!document.querySelector(`input[type="radio"][name="q${q}"]:checked`);
+    if(q===20||q===21){
+        return document.querySelectorAll('input[type="checkbox"][name="q20"]:checked').length===2;
+    }
+    const inp = document.querySelector(`input[type="text"][name="q${q}"]`);
+    return inp ? inp.value.trim()!=='' : false;
+}
+
+function updateProgress(){
+    let n = 0;
+    for(let q=1;q<=40;q++) if(isAnswered(q)) n++;
+    const isNarrow = window.matchMedia('(max-width:640px)').matches;
+    document.getElementById('progressText').textContent = isNarrow ? `${n}/40` : `已作答 ${n} / 40`;
+}
+
+// 判分
+function norm(s){ return String(s).trim().toUpperCase().replace(/\s+/g,' '); }
+
+function checkAll(){
+    const results = {};
+    for(let q=1;q<=40;q++){
+        const ans = ANSWERS[q];
+        let user = '';
+        if(q===20||q===21){
+            const checked = [...document.querySelectorAll('input[type="checkbox"][name="q20"]:checked')].map(x=>x.value).sort().join('');
+            user = checked;
+            results[q] = checked === 'BD';
+        }else{
+            const radio = document.querySelector(`input[type="radio"][name="q${q}"]:checked`);
+            if(radio){
+                user = norm(radio.value);
+                results[q] = ans.map(norm).includes(user);
+            }else{
+                const inp = document.querySelector(`input[type="text"][name="q${q}"]`);
+                const raw = inp ? inp.value.trim() : '';
+                user = raw;
+                const cand = norm(raw);
+                results[q] = ans.some(a=>{
+                    const na = norm(a);
+                    if(q>=14 && q<=19) return cand === na;
+                    if(q>=30 && q<=35) return cand === na;
+                    // 填空题：忽略大小写、复数和冠词
+                    const strip = x => x.toLowerCase().replace(/^(the|a|an)\s+/,'').replace(/[.,;]/g,'').trim();
+                    const clean = y => y.replace(/^(the|a|an)\s+/,'').replace(/[.,;]/g,'').trim();
+                    const u = strip(raw), c = strip(a);
+                    if(u===c) return true;
+                    if(u+'s'===c || u===c+'s') return true;
+                    if(u.replace(/ies$/,'y')===c || u===c.replace(/ies$/,'y')) return true;
+                    return false;
+                });
+            }
+        }
+    }
+    return results;
+}
+
+function markUI(results){
+    for(let q=1;q<=40;q++){
+        const item = document.getElementById(`item-q${q}`);
+        const ok = results[q];
+        if(item){
+            item.classList.toggle('incorrect', !ok);
+            item.classList.toggle('right', ok);
+        }
+        document.querySelectorAll(`input[data-q="${q}"]`).forEach(el=>{
+            if(el.type==='text'){
+                el.classList.toggle('incorrect', !ok);
+                el.classList.toggle('correct-ans', ok);
+            }
+        });
+    }
+}
+
+/* ================= 计时器：页面打开即开始 60 分钟倒计时 ================= */
+const EXAM_SECONDS = 60*60;
+let remain = EXAM_SECONDS;
+let timerId = null;
+let submitted = false;
+
+function fmt(sec){
+    const m = Math.floor(sec/60), s2 = sec%60;
+    return `${String(m).padStart(2,'0')}:${String(s2).padStart(2,'0')}`;
+}
+
+function paintTimer(){
+    const el = document.getElementById('timer');
+    el.textContent = fmt(remain);
+    const isDanger = remain <= 300;          // 最后 5 分钟：变红闪烁
+    el.classList.toggle('warn', false);
+    el.classList.toggle('danger', isDanger);
+}
+
+function startTimer(){
+    if(timerId) clearInterval(timerId);
+    paintTimer();
+    timerId = setInterval(()=>{
+        if(submitted) return;
+        remain--;
+        if(remain <= 0){
+            remain = 0;
+            paintTimer();
+            clearInterval(timerId); timerId = null;
+            timeUp();
+            return;
+        }
+        paintTimer();
+    }, 1000);
+}
+
+function stopTimer(){
+    if(timerId) clearInterval(timerId);
+    timerId = null;
+}
+
+function timeUp(){
+    if(submitted) return;
+    const results = checkAll();
+    markUI(results);
+    finish(results, true);   // 强制交卷：直接批改评分，不再任何确认提示
+}
+
+/* ================= 提交与结果反馈（不公布正确答案） ================= */
+function sectionOf(q){ return q<=13 ? 1 : (q<=26 ? 2 : 3); }
+
+function finish(results, isTimeout){
+    submitted = true;
+    stopTimer();
+
+    let score = 0;
+    for(let q=1;q<=40;q++) if(results[q]) score++;
+
+    const wrong = [];
+    for(let q=1;q<=40;q++) if(!results[q]) wrong.push(q);
+
+    const blank = [];
+    for(let q=1;q<=40;q++) if(!isAnswered(q)) blank.push(q);
+
+    const secWrong = {1:[], 2:[], 3:[]};
+    wrong.forEach(q=>secWrong[sectionOf(q)].push(q));
+
+    const sbEl = document.getElementById('scoreBoard');
+    sbEl.textContent = `正确 ${score} / 40`;
+    sbEl.classList.add('show');
+
+    /* 简化结果：总正确数 + 各篇错题题号 + 未作答题数 */
+    const lines = [];
+    if(isTimeout) lines.push('时间到，已自动交卷。'), lines.push('');
+    lines.push(`总正确数 ${score}/40`);
+    lines.push('');
+    [1,2,3].forEach(sec=>{
+        lines.push(secWrong[sec].length
+            ? `Passage ${sec} 错题：第 ${secWrong[sec].join('、')} 题`
+            : `Passage ${sec} 错题：无`);
+    });
+    lines.push('');
+    lines.push(`未作答题目数 ${blank.length} 题`);
+    alert(lines.join('\n'));
+
+    // 跳到第一道错题
+    if(wrong.length){
+        const first = wrong[0];
+        const sec = 'section' + sectionOf(first);
+        document.querySelectorAll('.main-container').forEach(el=>el.classList.remove('active'));
+        document.querySelectorAll('.nav-tab').forEach(el=>el.classList.remove('active'));
+        document.getElementById(sec).classList.add('active');
+        document.querySelector(`.nav-tab[data-sec="${sec}"]`).classList.add('active');
+        const el = document.getElementById(`item-q${first}`);
+        if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+}
+
+function submitAll(){
+    if(submitted){
+        if(confirm('已经提交过了。是否重新批改当前答案？')){
+            submitted = false;
+            startTimer();
+        }else{
+            return;
+        }
+    }
+    if(!confirm('确定提交吗？提交后不会显示正确答案，只标出错误题目。')) return;
+    const results = checkAll();
+    markUI(results);
+    finish(results, false);
+}
+
+function resetAll(){
+    let msg = '确定清空所有答案并重新开始吗？';
+    if(submitted) msg += '\n（计时器将重新从 60:00 开始）';
+    if(!confirm(msg)) return;
+    document.querySelectorAll('input[type="text"]').forEach(i=>{
+        i.value=''; i.classList.remove('incorrect','correct-ans');
+    });
+    document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(i=>{
+        i.checked=false; i.dataset.wasChecked='false';
+    });
+    document.querySelectorAll('.question-item').forEach(i=>i.classList.remove('incorrect','right'));
+    const sb = document.getElementById('scoreBoard');
+    sb.textContent=''; sb.classList.remove('show');
+
+    // 回到第一篇
+    document.querySelectorAll('.main-container').forEach(el=>el.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(el=>el.classList.remove('active'));
+    document.getElementById('section1').classList.add('active');
+    document.querySelector('.nav-tab[data-sec="section1"]').classList.add('active');
+
+    if(submitted || remain <= 0){
+        submitted = false;
+        remain = EXAM_SECONDS;
+        startTimer();
+    }
+    updateProgress();
+    document.querySelectorAll('.panel-content').forEach(c=>c.scrollTop=0);
+    window.scrollTo({top:0,behavior:'smooth'});
+}
+
+updateProgress();
+startTimer();
+</script>
+</body>
+</html>

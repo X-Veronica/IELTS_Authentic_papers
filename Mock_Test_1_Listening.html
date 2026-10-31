@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Practice Tests - Listening Test 2</title>
+    <style>
+        :root {
+            --primary-color: #005a9c;
+            --primary-hover: #004070;
+            --bg-color: #f4f6f9;
+            --card-bg: #ffffff;
+            --text-color: #333333;
+            --border-color: #dcdfe6;
+            --accent-color: #e6f1fc;
+            --error-color: #fde8e8;
+            --error-border: #f89898;
+            --correct-color: #e8f8f0;
+            --correct-border: #85ce61;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        header p {
+            font-size: 0.9rem;
+            opacity: 0.85;
+            margin-top: 4px;
+        }
+
+        /* Top Sticky Nav Tabs */
+        .nav-container {
+            background-color: #ffffff;
+            border-bottom: 2px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+
+        .tabs {
+            display: flex;
+            max-width: 1000px;
+            margin: 0 auto;
+            list-style: none;
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            padding: 1rem 1.8rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: #555;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            color: var(--primary-color);
+            background-color: var(--accent-color);
+        }
+
+        .tab-button.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            background-color: #fff;
+        }
+
+        /* Container & Sections */
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .section-content {
+            display: none;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+        }
+
+        .section-content.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .instructions {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            padding: 0.8rem 1rem;
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        /* Inputs */
+        input[type="text"] {
+            border: 1px solid #c0c4cc;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 0.95rem;
+            width: 140px;
+            transition: all 0.2s;
+            margin: 0 4px;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(0,90,156,0.2);
+        }
+
+        /* Input status classes */
+        input[type="text"].input-error {
+            background-color: var(--error-color) !important;
+            border-color: var(--error-border) !important;
+            color: #c53030 !important;
+            font-weight: bold;
+        }
+
+        input[type="text"].input-correct {
+            background-color: var(--correct-color) !important;
+            border-color: var(--correct-border) !important;
+            color: #2f855a !important;
+            font-weight: bold;
+        }
+
+        .question-number {
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-right: 4px;
+        }
+
+        /* Table Styling for Part 1 */
+        .listening-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .listening-table th, .listening-table td {
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            text-align: left;
+            vertical-align: top;
+        }
+
+        .listening-table th {
+            background-color: var(--accent-color);
+            color: var(--primary-color);
+        }
+
+        /* Question Blocks for Multiple Choice */
+        .mc-block {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .options-list {
+            list-style: none;
+            padding-left: 0.5rem;
+        }
+
+        .options-list li {
+            margin-bottom: 0.4rem;
+        }
+
+        .options-list label {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            border-radius: 4px;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+        }
+
+        /* Multiple choice option status */
+        .options-list label.option-correct {
+            background-color: var(--correct-color) !important;
+            border-color: var(--correct-border) !important;
+            color: #2f855a !important;
+            font-weight: 600;
+        }
+
+        .options-list label.option-error {
+            background-color: var(--error-color) !important;
+            border-color: var(--error-border) !important;
+            color: #c53030 !important;
+            font-weight: 600;
+        }
+
+        /* Map Section (Part 2) */
+        .map-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .map-svg-wrapper {
+            flex: 1;
+            min-width: 320px;
+            border: 2px solid #333;
+            background: #fff;
+            padding: 10px;
+        }
+
+        .map-questions {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .map-questions-list {
+            list-style: none;
+        }
+
+        .map-questions-list li {
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Flow-chart Box (Part 3) */
+        .option-box {
+            border: 1px solid var(--primary-color);
+            background-color: var(--accent-color);
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-box h4 {
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+
+        .option-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 0.5rem;
+        }
+
+        .flowchart {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .flow-step {
+            border: 1px solid var(--border-color);
+            background-color: #fafafa;
+            padding: 1rem;
+            border-radius: 6px;
+            text-align: center;
+            position: relative;
+        }
+
+        .flow-arrow {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #888;
+        }
+
+        /* Notes (Part 4) */
+        .notes-container {
+            line-height: 2;
+        }
+
+        .notes-container ul {
+            padding-left: 1.5rem;
+        }
+
+        .notes-container h3 {
+            margin-top: 1rem;
+            color: #444;
+        }
+
+        /* Bottom Controls & Results Bar */
+        .submit-section {
+            margin-top: 2rem;
+            padding: 1.8rem;
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .btn {
+            padding: 0.8rem 2.2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+            margin: 0 0.5rem;
+        }
+
+        .btn-submit {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-submit:hover {
+            background-color: #218838;
+        }
+
+        .btn-reset {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-reset:hover {
+            background-color: #5a6268;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .results-card {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1.2rem;
+            border-radius: 6px;
+            text-align: left;
+            background-color: #fff5f5;
+            border: 1px solid #feb2b2;
+        }
+
+        .results-card h3 {
+            color: #c53030;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .wrong-questions-list {
+            margin-top: 0.8rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .wrong-badge {
+            background-color: #e53e3e;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .wrong-badge:hover {
+            background-color: #c53030;
+        }
+
+        .score-text {
+            font-size: 1.1rem;
+            margin-top: 0.5rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .limit-alert {
+            display: none;
+            margin-top: 8px;
+            color: #e53e3e;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .section-content {
+                padding: 1rem;
+            }
+            .tab-button {
+                padding: 0.8rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>IELTS Listening Test 2</h1>
+        <p>剑桥雅思真题 21 - 听力测试</p>
+    </header>
+
+    <!-- Top Sticky Tabs -->
+    <div class="nav-container">
+        <ul class="tabs">
+            <li><button class="tab-button active" onclick="switchTab(1)">Part 1</button></li>
+            <li><button class="tab-button" onclick="switchTab(2)">Part 2</button></li>
+            <li><button class="tab-button" onclick="switchTab(3)">Part 3</button></li>
+            <li><button class="tab-button" onclick="switchTab(4)">Part 4</button></li>
+        </ul>
+    </div>
+
+    <div class="container">
+        <!-- PART 1 -->
+        <div id="part1" class="section-content active">
+            <h2 class="section-title">PART 1</h2>
+            <div class="instructions">
+                <strong>Questions 1-10</strong><br>
+                Complete the table below.<br>
+                Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.
+            </div>
+
+            <h3 style="text-align: center; margin-bottom: 1rem;">One-day classes at Steynford College</h3>
+
+            <table class="listening-table">
+                <thead>
+                    <tr>
+                        <th>Course</th>
+                        <th>Date</th>
+                        <th>Cost</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Vietnamese food</strong></td>
+                        <td><span class="question-number">1</span> <input type="text" id="q1" name="q1"></td>
+                        <td>£59</td>
+                        <td>
+                            It provides information on the use of herbs.<br>
+                            There are no places at present.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2"><strong>Bread making</strong></td>
+                        <td rowspan="2">20 March</td>
+                        <td rowspan="2">£<span class="question-number">2</span> <input type="text" id="q2" name="q2"></td>
+                        <td>There is also an extra charge for ingredients.</td>
+                    </tr>
+                    <tr>
+                        <td>Participants make white bread, sourdough and <span class="question-number">3</span> <input type="text" id="q3" name="q3"></td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2"><strong>Face massage</strong></td>
+                        <td rowspan="2">23 February</td>
+                        <td rowspan="2">£35</td>
+                        <td>The teacher trained in <span class="question-number">4</span> <input type="text" id="q4" name="q4"></td>
+                    </tr>
+                    <tr>
+                        <td>Bring a <span class="question-number">5</span> <input type="text" id="q5" name="q5"></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Candle making</strong></td>
+                        <td><span class="question-number">6</span> <input type="text" id="q6" name="q6"></td>
+                        <td>£52</td>
+                        <td>
+                            Only <span class="question-number">7</span> <input type="text" id="q7" name="q7"> ingredients are used.<br>
+                            The candles can be used as presents.
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2"><strong>Silk painting</strong></td>
+                        <td rowspan="2">18 May</td>
+                        <td rowspan="2">£<span class="question-number">8</span> <input type="text" id="q8" name="q8"></td>
+                        <td>Bring an apron or old <span class="question-number">9</span> <input type="text" id="q9" name="q9"></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td><strong>DIY for beginners</strong></td>
+                        <td>24 February</td>
+                        <td>£125</td>
+                        <td>
+                            Learn how to:<br>
+                            • use a drill, saw and <span class="question-number">10</span> <input type="text" id="q10" name="q10"><br>
+                            • put up a shelf.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- PART 2 -->
+        <div id="part2" class="section-content">
+            <h2 class="section-title">PART 2</h2>
+            
+            <div class="mc-block" id="block_11_12">
+                <div class="instructions">
+                    <strong>Questions 11 and 12</strong><br>
+                    Choose <strong>TWO</strong> letters, A-E.<br>
+                    Which TWO pieces of advice are given about the Marsden Coastal Walk?
+                </div>
+                <ul class="options-list">
+                    <li><label id="lbl_q11_12_A"><input type="checkbox" name="q11_12" value="A" onclick="limitCheckboxes(this, 'q11_12')"> <strong>A</strong> Stop for lunch in an ancient town.</label></li>
+                    <li><label id="lbl_q11_12_B"><input type="checkbox" name="q11_12" value="B" onclick="limitCheckboxes(this, 'q11_12')"> <strong>B</strong> Don't miss the ruins of a certain building.</label></li>
+                    <li><label id="lbl_q11_12_C"><input type="checkbox" name="q11_12" value="C" onclick="limitCheckboxes(this, 'q11_12')"> <strong>C</strong> Catch a boat to the start of this walk.</label></li>
+                    <li><label id="lbl_q11_12_D"><input type="checkbox" name="q11_12" value="D" onclick="limitCheckboxes(this, 'q11_12')"> <strong>D</strong> Be careful of the steep and rocky paths.</label></li>
+                    <li><label id="lbl_q11_12_E"><input type="checkbox" name="q11_12" value="E" onclick="limitCheckboxes(this, 'q11_12')"> <strong>E</strong> Don't worry about getting lost.</label></li>
+                </ul>
+                <div id="alert_q11_12" class="limit-alert">最多只能选择 2 个选项。</div>
+            </div>
+
+            <div class="mc-block" id="block_13_14">
+                <div class="instructions">
+                    <strong>Questions 13 and 14</strong><br>
+                    Choose <strong>TWO</strong> letters, A-E.<br>
+                    Which TWO things are said about the Melby Heritage Walk?
+                </div>
+                <ul class="options-list">
+                    <li><label id="lbl_q13_14_A"><input type="checkbox" name="q13_14" value="A" onclick="limitCheckboxes(this, 'q13_14')"> <strong>A</strong> This walk is mostly downhill.</label></li>
+                    <li><label id="lbl_q13_14_B"><input type="checkbox" name="q13_14" value="B" onclick="limitCheckboxes(this, 'q13_14')"> <strong>B</strong> The paths can get busy during the day.</label></li>
+                    <li><label id="lbl_q13_14_C"><input type="checkbox" name="q13_14" value="C" onclick="limitCheckboxes(this, 'q13_14')"> <strong>C</strong> This is a circular walk.</label></li>
+                    <li><label id="lbl_q13_14_D"><input type="checkbox" name="q13_14" value="D" onclick="limitCheckboxes(this, 'q13_14')"> <strong>D</strong> A tower stands on the site of an older structure.</label></li>
+                    <li><label id="lbl_q13_14_E"><input type="checkbox" name="q13_14" value="E" onclick="limitCheckboxes(this, 'q13_14')"> <strong>E</strong> There are far-reaching views the whole way.</label></li>
+                </ul>
+                <div id="alert_q13_14" class="limit-alert">最多只能选择 2 个选项。</div>
+            </div>
+
+            <div class="instructions">
+                <strong>Questions 15-20</strong><br>
+                Label the map below.<br>
+                Write the correct letter, <strong>A-I</strong>, next to Questions 15-20.<br>
+                <strong style="font-size: 1.1rem; color: #333;">Melby Coal Mine</strong>
+            </div>
+
+            <div class="map-container">
+                <div class="map-svg-wrapper">
+                    <!-- SVG Map representation matching test image layout -->
+                    <svg viewBox="0 0 500 400" width="100%" height="auto" style="background:#fff;">
+                        <!-- Direction Rose -->
+                        <g transform="translate(100, 35)">
+                            <line x1="0" y1="-15" x2="0" y2="15" stroke="#333" stroke-width="1.5"/>
+                            <line x1="-15" y1="0" x2="15" y2="0" stroke="#333" stroke-width="1.5"/>
+                            <text x="0" y="-18" font-size="10" text-anchor="middle" font-weight="bold">N</text>
+                            <text x="0" y="26" font-size="10" text-anchor="middle" font-weight="bold">S</text>
+                            <text x="-20" y="3" font-size="10" text-anchor="middle" font-weight="bold">W</text>
+                            <text x="20" y="3" font-size="10" text-anchor="middle" font-weight="bold">E</text>
+                        </g>
+
+                        <!-- Map Legend Header -->
+                        <rect x="230" y="10" width="150" height="30" fill="none" stroke="#333" stroke-width="1"/>
+                        <line x1="240" y1="20" x2="280" y2="20" stroke="#666" stroke-width="1.5" stroke-dasharray="3,3"/>
+                        <line x1="240" y1="28" x2="280" y2="28" stroke="#666" stroke-width="1.5" stroke-dasharray="3,3"/>
+                        <text x="290" y="22" font-size="9">Covered</text>
+                        <text x="290" y="32" font-size="9">walkway</text>
+
+                        <!-- Outer Border -->
+                        <rect x="10" y="55" width="480" height="335" fill="none" stroke="#000" stroke-width="2"/>
+
+                        <!-- Covered Walkways (dashed lines) -->
+                        <path d="M 100 215 L 180 215 L 180 280" fill="none" stroke="#555" stroke-width="1.5" stroke-dasharray="3,3"/>
+                        <path d="M 100 220 L 175 220 L 175 285" fill="none" stroke="#555" stroke-width="1.5" stroke-dasharray="3,3"/>
+                        <path d="M 180 215 L 210 160" fill="none" stroke="#555" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+                        <path d="M 310 240 L 310 270" fill="none" stroke="#555" stroke-width="1.5" stroke-dasharray="3,3"/>
+                        <path d="M 320 240 L 320 270" fill="none" stroke="#555" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+                        <path d="M 350 285 L 370 285" fill="none" stroke="#555" stroke-width="1.5" stroke-dasharray="3,3"/>
+                        <path d="M 350 295 L 370 295" fill="none" stroke="#555" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+                        <path d="M 410 240 L 410 270" fill="none" stroke="#555" stroke-width="1.5" stroke-dasharray="3,3"/>
+                        <path d="M 420 240 L 420 270" fill="none" stroke="#555" stroke-width="1.5" stroke-dasharray="3,3"/>
+
+                        <!-- Buildings & Locations -->
+                        <rect x="40" y="215" width="55" height="150" fill="none" stroke="#000" stroke-width="1.5"/>
+                        <text x="67" y="295" font-size="16" font-weight="bold" text-anchor="middle">A</text>
+
+                        <rect x="40" y="70" width="35" height="35" fill="none" stroke="#000" stroke-width="1.5"/>
+                        <text x="57" y="93" font-size="14" font-weight="bold" text-anchor="middle">B</text>
+
+                        <g>
+                            <rect x="40" y="130" width="165" height="45" fill="none" stroke="#000" stroke-width="1.5"/>
+                            <line x1="95" y1="130" x2="95" y2="175" stroke="#000" stroke-width="1.5"/>
+                            <text x="67" y="148" font-size="9" text-anchor="middle">Engine</text>
+                            <text x="67" y="160" font-size="9" text-anchor="middle">house</text>
+                            <text x="145" y="158" font-size="16" font-weight="bold" text-anchor="middle">C</text>
+                        </g>
+
+                        <path d="M 210 70 L 255 70 L 255 110 L 235 110 L 235 90 L 210 90 Z" fill="none" stroke="#000" stroke-width="1.5"/>
+                        <text x="230" y="88" font-size="14" font-weight="bold" text-anchor="middle">D</text>
+
+                        <path d="M 240 160 L 310 160 L 310 200 L 330 200 L 330 240 L 260 240 L 260 200 L 240 200 Z" fill="none" stroke="#000" stroke-width="1.5"/>
+                        <text x="270" y="210" font-size="16" font-weight="bold" text-anchor="middle">E</text>
+
+                        <g>
+                            <rect x="175" y="260" width="55" height="110" fill="none" stroke="#000" stroke-width="1.5"/>
+                            <text x="202" y="320" font-size="16" font-weight="bold" text-anchor="middle">F</text>
+
+                            <rect x="230" y="280" width="60" height="40" fill="none" stroke="#000" stroke-width="1.5"/>
+                            <text x="260" y="305" font-size="16" font-weight="bold" text-anchor="middle">G</text>
+
+                            <rect x="290" y="280" width="60" height="40" fill="none" stroke="#000" stroke-width="1.5"/>
+                            <text x="320" y="295" font-size="9" text-anchor="middle">Ticket</text>
+                            <text x="320" y="307" font-size="9" text-anchor="middle">office</text>
+
+                            <text x="250" y="273" font-size="10" font-weight="bold">Main visitor centre</text>
+                        </g>
+
+                        <rect x="320" y="80" width="130" height="85" fill="none" stroke="#000" stroke-width="1.5"/>
+                        <text x="385" y="130" font-size="16" font-weight="bold" text-anchor="middle">H</text>
+
+                        <rect x="375" y="195" width="50" height="45" fill="none" stroke="#000" stroke-width="1.5"/>
+                        <text x="400" y="223" font-size="16" font-weight="bold" text-anchor="middle">I</text>
+
+                        <path d="M 370 270 L 460 270 L 460 330 L 430 330 L 430 365 L 400 365 L 400 330 L 370 330 Z" fill="none" stroke="#000" stroke-width="1.5"/>
+                        <text x="415" y="303" font-size="10" font-weight="bold" text-anchor="middle">Car park</text>
+                    </svg>
+                </div>
+
+                <div class="map-questions">
+                    <ul class="map-questions-list">
+                        <li>
+                            <span style="width: 130px; display: inline-block;"><span class="question-number">15</span> Exhibition</span>
+                            <input type="text" id="q15" name="q15" style="width: 60px; text-transform: uppercase;" maxlength="1">
+                        </li>
+                        <li>
+                            <span style="width: 130px; display: inline-block;"><span class="question-number">16</span> Baths</span>
+                            <input type="text" id="q16" name="q16" style="width: 60px; text-transform: uppercase;" maxlength="1">
+                        </li>
+                        <li>
+                            <span style="width: 130px; display: inline-block;"><span class="question-number">17</span> Tools</span>
+                            <input type="text" id="q17" name="q17" style="width: 60px; text-transform: uppercase;" maxlength="1">
+                        </li>
+                        <li>
+                            <span style="width: 130px; display: inline-block;"><span class="question-number">18</span> Vehicles</span>
+                            <input type="text" id="q18" name="q18" style="width: 60px; text-transform: uppercase;" maxlength="1">
+                        </li>
+                        <li>
+                            <span style="width: 130px; display: inline-block;"><span class="question-number">19</span> Ponies</span>
+                            <input type="text" id="q19" name="q19" style="width: 60px; text-transform: uppercase;" maxlength="1">
+                        </li>
+                        <li>
+                            <span style="width: 130px; display: inline-block;"><span class="question-number">20</span> Education centre</span>
+                            <input type="text" id="q20" name="q20" style="width: 60px; text-transform: uppercase;" maxlength="1">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- PART 3 -->
+        <div id="part3" class="section-content">
+            <h2 class="section-title">PART 3</h2>
+            
+            <div class="mc-block" id="block_21_22">
+                <div class="instructions">
+                    <strong>Questions 21 and 22</strong><br>
+                    Choose <strong>TWO</strong> letters, A-E.<br>
+                    Which TWO facts in the sessions on food safety were new information for Nadia and Fergus?
+                </div>
+                <ul class="options-list">
+                    <li><label id="lbl_q21_22_A"><input type="checkbox" name="q21_22" value="A" onclick="limitCheckboxes(this, 'q21_22')"> <strong>A</strong> the amount of plastic in the ocean</label></li>
+                    <li><label id="lbl_q21_22_B"><input type="checkbox" name="q21_22" value="B" onclick="limitCheckboxes(this, 'q21_22')"> <strong>B</strong> the number of diseases caused by contaminated food</label></li>
+                    <li><label id="lbl_q21_22_C"><input type="checkbox" name="q21_22" value="C" onclick="limitCheckboxes(this, 'q21_22')"> <strong>C</strong> the amount of food that is wasted</label></li>
+                    <li><label id="lbl_q21_22_D"><input type="checkbox" name="q21_22" value="D" onclick="limitCheckboxes(this, 'q21_22')"> <strong>D</strong> the number of people who are obese</label></li>
+                    <li><label id="lbl_q21_22_E"><input type="checkbox" name="q21_22" value="E" onclick="limitCheckboxes(this, 'q21_22')"> <strong>E</strong> the result of treating animals with antibiotics</label></li>
+                </ul>
+                <div id="alert_q21_22" class="limit-alert">最多只能选择 2 个选项。</div>
+            </div>
+
+            <div class="mc-block" id="block_23_24">
+                <div class="instructions">
+                    <strong>Questions 23 and 24</strong><br>
+                    Choose <strong>TWO</strong> letters, A-E.<br>
+                    Which TWO features of a project aiming to prevent food fraud impressed Fergus?
+                </div>
+                <ul class="options-list">
+                    <li><label id="lbl_q23_24_A"><input type="checkbox" name="q23_24" value="A" onclick="limitCheckboxes(this, 'q23_24')"> <strong>A</strong> the new technology it used</label></li>
+                    <li><label id="lbl_q23_24_B"><input type="checkbox" name="q23_24" value="B" onclick="limitCheckboxes(this, 'q23_24')"> <strong>B</strong> the publicity it received</label></li>
+                    <li><label id="lbl_q23_24_C"><input type="checkbox" name="q23_24" value="C" onclick="limitCheckboxes(this, 'q23_24')"> <strong>C</strong> the use of multiple tests on food items</label></li>
+                    <li><label id="lbl_q23_24_D"><input type="checkbox" name="q23_24" value="D" onclick="limitCheckboxes(this, 'q23_24')"> <strong>D</strong> the variety of dietary requirements included</label></li>
+                    <li><label id="lbl_q23_24_E"><input type="checkbox" name="q23_24" value="E" onclick="limitCheckboxes(this, 'q23_24')"> <strong>E</strong> the way information was made widely accessible</label></li>
+                </ul>
+                <div id="alert_q23_24" class="limit-alert">最多只能选择 2 个选项。</div>
+            </div>
+
+            <div class="mc-block" id="block_25_26">
+                <div class="instructions">
+                    <strong>Questions 25 and 26</strong><br>
+                    Choose <strong>TWO</strong> letters, A-E.<br>
+                    Which TWO topics do both students recommend should be included in the course?
+                </div>
+                <ul class="options-list">
+                    <li><label id="lbl_q25_26_A"><input type="checkbox" name="q25_26" value="A" onclick="limitCheckboxes(this, 'q25_26')"> <strong>A</strong> sustainable fishing</label></li>
+                    <li><label id="lbl_q25_26_B"><input type="checkbox" name="q25_26" value="B" onclick="limitCheckboxes(this, 'q25_26')"> <strong>B</strong> targeted nutrition</label></li>
+                    <li><label id="lbl_q25_26_C"><input type="checkbox" name="q25_26" value="C" onclick="limitCheckboxes(this, 'q25_26')"> <strong>C</strong> global differences in consumption</label></li>
+                    <li><label id="lbl_q25_26_D"><input type="checkbox" name="q25_26" value="D" onclick="limitCheckboxes(this, 'q25_26')"> <strong>D</strong> sustainable agriculture</label></li>
+                    <li><label id="lbl_q25_26_E"><input type="checkbox" name="q25_26" value="E" onclick="limitCheckboxes(this, 'q25_26')"> <strong>E</strong> digital technology and food</label></li>
+                </ul>
+                <div id="alert_q25_26" class="limit-alert">最多只能选择 2 个选项。</div>
+            </div>
+
+            <div class="instructions">
+                <strong>Questions 27-30</strong><br>
+                Complete the flow-chart below.<br>
+                Choose <strong>FOUR</strong> answers from the box and write the correct letter, <strong>A-F</strong>, next to Questions 27-30.
+            </div>
+
+            <div class="option-box">
+                <div class="option-grid">
+                    <div><strong>A</strong> This was challenging but enjoyable.</div>
+                    <div><strong>B</strong> This led to some disagreement.</div>
+                    <div><strong>C</strong> This was easy to decide on.</div>
+                    <div><strong>D</strong> This was helped by the guidelines provided.</div>
+                    <div><strong>E</strong> This seemed like an unnecessary stage.</div>
+                    <div><strong>F</strong> This involved selecting a new ingredient.</div>
+                </div>
+            </div>
+
+            <h3 style="text-align: center; margin-bottom: 1.5rem;">Student project: developing a new food product</h3>
+
+            <div class="flowchart">
+                <div class="flow-step">
+                    <strong>Initial aim</strong><br><br>
+                    <span class="question-number">27</span> <input type="text" id="q27" name="q27" style="width: 60px; text-transform: uppercase;" maxlength="1">
+                </div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-step">
+                    <strong>Literature review</strong><br><br>
+                    <span class="question-number">28</span> <input type="text" id="q28" name="q28" style="width: 60px; text-transform: uppercase;" maxlength="1">
+                </div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-step">
+                    <strong>Product development</strong><br><br>
+                    <span class="question-number">29</span> <input type="text" id="q29" name="q29" style="width: 60px; text-transform: uppercase;" maxlength="1">
+                </div>
+                <div class="flow-arrow">↓</div>
+                <div class="flow-step">
+                    <strong>Product production</strong><br><br>
+                    <span class="question-number">30</span> <input type="text" id="q30" name="q30" style="width: 60px; text-transform: uppercase;" maxlength="1">
+                </div>
+            </div>
+        </div>
+
+        <!-- PART 4 -->
+        <div id="part4" class="section-content">
+            <h2 class="section-title">PART 4</h2>
+            <div class="instructions">
+                <strong>Questions 31-40</strong><br>
+                Complete the notes below.<br>
+                Write <strong>ONE WORD ONLY</strong> for each answer.
+            </div>
+
+            <div class="notes-container">
+                <h2 style="text-align: center; margin-bottom: 1rem;">Challenges facing the cruise ship industry</h2>
+                
+                <h3>Problems with overtourism</h3>
+                <ul>
+                    <li>A tourist <span class="question-number">31</span> <input type="text" id="q31" name="q31"> is one of the worst problems.</li>
+                    <li><span class="question-number">32</span> <input type="text" id="q32" name="q32"> numbers, e.g. Barcelona, is being introduced in some cities to reduce.</li>
+                    <li>Bruges: action was taken to limit day trips from the nearby port because the city was becoming a 'theme park' (e.g. many shops were only stocking <span class="question-number">33</span> <input type="text" id="q33" name="q33"> and souvenirs).</li>
+                    <li>Dubrovnik: limits the number of tourists by managing the <span class="question-number">34</span> <input type="text" id="q34" name="q34"> of cruise ship arrivals.</li>
+                </ul>
+
+                <h3>Problems of perception</h3>
+                <ul>
+                    <li>Cruises are generally associated with the elderly.</li>
+                    <li>There is an assumption about the <span class="question-number">35</span> <input type="text" id="q35" name="q35"> of cruises.</li>
+                    <li>People think there may be too many <span class="question-number">36</span> <input type="text" id="q36" name="q36"></li>
+                </ul>
+
+                <h3>Solutions</h3>
+                <p>Cruise lines are attracting younger customers by:</p>
+                <ul>
+                    <li>becoming more sustainable e.g. using hybrid engines.</li>
+                    <li>having a wide range of activities e.g. boxing, <span class="question-number">37</span> <input type="text" id="q37" name="q37"> and well-being programmes.</li>
+                    <li>offering a diverse selection of food including <span class="question-number">38</span> <input type="text" id="q38" name="q38"> options.</li>
+                    <li>providing reliable <span class="question-number">39</span> <input type="text" id="q39" name="q39"></li>
+                    <li>improving marketing on social media with high quality <span class="question-number">40</span> <input type="text" id="q40" name="q40"></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Bottom Submit & Results Section -->
+        <div class="submit-section">
+            <button class="btn btn-submit" onclick="submitAnswers()">Submit 提交答案</button>
+            <button class="btn btn-reset" onclick="resetForm()">Reset 重置页面</button>
+
+            <div id="resultsCard" class="results-card">
+                <h3>⚠️ 答题结果统计</h3>
+                <div id="scoreText" class="score-text"></div>
+                <div id="wrongQuestionsContainer">
+                    <p style="margin-top: 0.5rem; color: #555; font-size: 0.95rem;">未正确得分的题号如下（点击可跳转到相应 Part）：</p>
+                    <div id="wrongQuestionsList" class="wrong-questions-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 标准答案数据库
+        const answerKey = {
+            1: ["13 january", "13th january", "january 13", "january 13th", "13.01", "13.1"],
+            2: ["48", "forty-eight"],
+            3: ["pizza"],
+            4: ["india"],
+            5: ["mirror"],
+            6: ["6 april", "6th april", "april 6", "april 6th", "06.04", "6.4"],
+            7: ["natural"],
+            8: ["67.50", "67.5", "sixty-seven fifty"],
+            9: ["shirt"],
+            10: ["hammer"],
+
+            // Part 2 多选题
+            '11_12': ["B", "E"],
+            '13_14': ["C", "D"],
+
+            15: ["F"],
+            16: ["B"],
+            17: ["D"],
+            18: ["A"],
+            19: ["H"],
+            20: ["E"],
+
+            // Part 3 多选题
+            '21_22': ["B", "E"],
+            '23_24': ["C", "D"],
+            '25_26': ["A", "C"],
+
+            27: ["C"],
+            28: ["D"],
+            29: ["F"],
+            30: ["A"],
+
+            // Part 4
+            31: ["pollution"],
+            32: ["tax"],
+            33: ["chocolate"],
+            34: ["timing"],
+            35: ["cost"],
+            36: ["rules"],
+            37: ["diving"],
+            38: ["vegan"],
+            39: ["wifi", "wi-fi"],
+            40: ["videos"]
+        };
+
+        // 标签页切换事件
+        function switchTab(partNum) {
+            const sections = document.querySelectorAll('.section-content');
+            sections.forEach(section => section.classList.remove('active'));
+
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => button.classList.remove('active'));
+
+            document.getElementById('part' + partNum).classList.add('active');
+            buttons[partNum - 1].classList.add('active');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 限制多选题勾选数量
+        function limitCheckboxes(checkbox, groupName) {
+            const checkedBoxes = document.querySelectorAll(`input[name="${groupName}"]:checked`);
+            const alertEl = document.getElementById('alert_' + groupName);
+
+            if (checkedBoxes.length > 2) {
+                checkbox.checked = false;
+                if (alertEl) {
+                    alertEl.style.display = 'block';
+                    setTimeout(() => { alertEl.style.display = 'none'; }, 2000);
+                }
+            }
+        }
+
+        function normalizeText(str) {
+            if (!str) return "";
+            return str.trim().toLowerCase().replace(/^(the\s+)/, '');
+        }
+
+        // 提交与智能批改
+        function submitAnswers() {
+            clearHighlights();
+
+            const wrongQuestions = [];
+            let correctCount = 0;
+            const mcDetails = [];   // 多选题逐题明细
+
+            // 1. 批改填空题
+            const textQuestionIds = [1,2,3,4,5,6,7,8,9,10, 15,16,17,18,19,20, 27,28,29,30, 31,32,33,34,35,36,37,38,39,40];
+
+            textQuestionIds.forEach(qNum => {
+                const inputEl = document.getElementById('q' + qNum);
+                if (!inputEl) return;
+
+                const val = normalizeText(inputEl.value);
+                const validAnswers = answerKey[qNum].map(a => normalizeText(a));
+
+                if (val !== "" && validAnswers.includes(val)) {
+                    inputEl.classList.add('input-correct');
+                    correctCount++;
+                } else {
+                    inputEl.classList.add('input-error');
+                    wrongQuestions.push(qNum);
+                }
+            });
+
+            // 2. 批改多选题
+            const doubleChoiceGroups = [
+                { name: 'q11_12', nums: [11, 12], answers: answerKey['11_12'] },
+                { name: 'q13_14', nums: [13, 14], answers: answerKey['13_14'] },
+                { name: 'q21_22', nums: [21, 22], answers: answerKey['21_22'] },
+                { name: 'q23_24', nums: [23, 24], answers: answerKey['23_24'] },
+                { name: 'q25_26', nums: [25, 26], answers: answerKey['25_26'] }
+            ];
+
+                        doubleChoiceGroups.forEach(group => {
+                const checkedBoxes = Array.from(document.querySelectorAll(`input[name="${group.name}"]:checked`));
+                const selectedValues = checkedBoxes.map(cb => cb.value);
+                const correctSet = new Set(group.answers);
+
+                // 统计选对了几个
+                const rightSelectedCount = selectedValues.filter(v => correctSet.has(v)).length;
+
+                                // ===== 高亮规则：只反馈对错，不泄露正确答案 =====
+                // 绿底：仅限"学生自己选中 且 选对了"的选项
+                // 红底：仅限"学生自己选中 但 选错了"的选项
+                // 学生没选的选项一律不高亮（正确与否都不提示）
+                selectedValues.forEach(v => {
+                    const labelEl = document.getElementById(`lbl_${group.name}_${v}`);
+                    if (!labelEl) return;
+                    if (correctSet.has(v)) {
+                        labelEl.classList.add('option-correct');
+                    } else {
+                        labelEl.classList.add('option-error');
+                    }
+                });
+
+
+                // ===== 计分规则 =====
+                // 选对几个就得几分（满分 2 分）
+                correctCount += rightSelectedCount;
+
+                if (rightSelectedCount === 2) {
+                    // 选满 2 个且全对：2 题全对，不记错
+                } else if (rightSelectedCount === 1) {
+                    // 只对 1 个（无论"对1错1"还是"仅选1个对的"）：记错 1 题
+                    wrongQuestions.push(group.nums[1]);
+                } else {
+                    // 一个都没对（含"仅选1个错的"和"未作答"）：记错 2 题
+                    wrongQuestions.push(group.nums[0], group.nums[1]);
+                }
+
+                // 记录多选明细，供结果卡片展示
+                mcDetails.push({
+                    label: `${group.nums[0]}-${group.nums[1]}`,
+                    selected: selectedValues.length ? selectedValues.slice().sort().join('') : '未作答',
+                    correct: group.answers.join(''),
+                    rightNum: rightSelectedCount,
+                    wrongNum: 2 - rightSelectedCount
+                });
+            });
+
+
+            wrongQuestions.sort((a, b) => a - b);
+
+            // 展示测试统计结果
+            const resultsCard = document.getElementById('resultsCard');
+            const scoreText = document.getElementById('scoreText');
+            const wrongContainer = document.getElementById('wrongQuestionsContainer');
+            const wrongList = document.getElementById('wrongQuestionsList');
+
+            resultsCard.style.display = 'block';
+            scoreText.innerHTML = `总得分：<span style="color: #2b6cb0; font-size: 1.3rem;">${correctCount} / 40</span>`;
+
+            wrongList.innerHTML = '';
+            if (wrongQuestions.length === 0) {
+                wrongContainer.style.display = 'none';
+                resultsCard.style.backgroundColor = '#f0fff4';
+                resultsCard.style.borderColor = '#9ae6b4';
+                resultsCard.querySelector('h3').style.color = '#2f855a';
+                resultsCard.querySelector('h3').innerText = '🎉 太棒了！全部回答正确！';
+            } else {
+                wrongContainer.style.display = 'block';
+                resultsCard.style.backgroundColor = '#fff5f5';
+                resultsCard.style.borderColor = '#feb2b2';
+                resultsCard.querySelector('h3').style.color = '#c53030';
+                resultsCard.querySelector('h3').innerText = '⚠️ 答题结果统计';
+
+                wrongQuestions.forEach(qNum => {
+                    const badge = document.createElement('span');
+                    badge.className = 'wrong-badge';
+                    badge.innerText = 'Q' + qNum;
+                    badge.onclick = () => jumpToQuestion(qNum);
+                    wrongList.appendChild(badge);
+                });
+            }
+
+            resultsCard.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function clearHighlights() {
+            document.querySelectorAll('input[type="text"]').forEach(input => {
+                input.classList.remove('input-error', 'input-correct');
+            });
+            document.querySelectorAll('.options-list label').forEach(label => {
+                label.classList.remove('option-error', 'option-correct');
+            });
+        }
+
+        function resetForm() {
+            document.querySelectorAll('input[type="text"]').forEach(input => {
+                input.value = '';
+            });
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.checked = false;
+            });
+
+            clearHighlights();
+            document.getElementById('resultsCard').style.display = 'none';
+            switchTab(1);
+        }
+
+        function jumpToQuestion(qNum) {
+            let partNum = 1;
+            if (qNum >= 11 && qNum <= 20) partNum = 2;
+            else if (qNum >= 21 && qNum <= 30) partNum = 3;
+            else if (qNum >= 31 && qNum <= 40) partNum = 4;
+
+            switchTab(partNum);
+
+            setTimeout(() => {
+                let targetEl;
+                if ([11, 12].includes(qNum)) targetEl = document.getElementById('block_11_12');
+                else if ([13, 14].includes(qNum)) targetEl = document.getElementById('block_13_14');
+                else if ([21, 22].includes(qNum)) targetEl = document.getElementById('block_21_22');
+                else if ([23, 24].includes(qNum)) targetEl = document.getElementById('block_23_24');
+                else if ([25, 26].includes(qNum)) targetEl = document.getElementById('block_25_26');
+                else targetEl = document.getElementById('q' + qNum);
+
+                if (targetEl) {
+                    targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    if (targetEl.tagName === 'INPUT') targetEl.focus();
+                }
+            }, 100);
+        }
+    </script>
+</body>
+</html>
