@@ -30,7 +30,6 @@
 
 - **Listening**：[Link](https://x-veronica.github.io/IELTS_Authentic_papers/Mock_Test_1_Listening.html)
 - **Reading**：[Link](https://x-veronica.github.io/IELTS_Authentic_papers/Mock_Test_1_Reading.html)
----
 
 <br/>
 
