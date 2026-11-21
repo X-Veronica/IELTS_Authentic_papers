@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IELTS Reading Practice - The global importance of wetlands</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #333;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+            background-color: #f4f6f9;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            padding: 10px;
+            gap: 10px;
+        }
+        .panel {
+            flex: 1;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .panel-header {
+            background: #004080;
+            color: #fff;
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .panel-content {
+            padding: 25px;
+            overflow-y: auto;
+            flex: 1;
+            line-height: 1.7;
+            font-size: 16px;
+        }
+        .article h2 {
+            margin-bottom: 20px;
+            color: #004080;
+            font-size: 22px;
+            text-align: center;
+        }
+        .article p {
+            margin-bottom: 16px;
+            text-align: justify;
+        }
+        .article p.para-label {
+            font-weight: bold;
+            color: #004080;
+            margin-bottom: 4px;
+        }
+        .article .footnote {
+            font-size: 13px;
+            color: #666;
+            margin-top: 8px;
+        }
+        .highlight {
+            background-color: #ffeb3b;
+            cursor: pointer;
+        }
+        .question-group {
+            margin-bottom: 30px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 20px;
+        }
+        .question-group h3 {
+            font-size: 16px;
+            color: #004080;
+            margin-bottom: 15px;
+            background: #eef2f7;
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+        .question-group .instruction {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+        .question-item {
+            margin-bottom: 15px;
+            padding: 8px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .question-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            line-height: 1.8;
+        }
+        .options-box {
+            background: #fcfcfc;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+        .options-box h4 {
+            font-size: 15px;
+            color: #004080;
+            margin-bottom: 6px;
+        }
+        input.blank-input, input.match-input {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 4px 8px;
+            font-size: 14px;
+            width: 110px;
+            text-align: center;
+            margin: 0 4px;
+        }
+        input.match-input {
+            width: 60px;
+        }
+        input.blank-input:focus, input.match-input:focus {
+            border-color: #004080;
+            outline: none;
+            box-shadow: 0 0 4px rgba(0,64,128,0.2);
+        }
+        input.blank-input.incorrect, input.match-input.incorrect {
+            background-color: #ffebee;
+            border-color: #f44336;
+            color: #c62828;
+        }
+        .blank-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+        /* 批改错误样式提示 */
+        .question-item.incorrect {
+            background-color: #ffebee;
+            border-left: 4px solid #f44336;
+            padding-left: 12px;
+        }
+        .error-tag {
+            color: #c62828;
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 5px;
+            display: none;
+        }
+        .show-error .error-tag, .question-item.incorrect .error-tag {
+            display: inline-block;
+        }
+        /* 提交按钮区域 */
+        .submit-section {
+            text-align: center;
+            margin: 20px 0 40px 0;
+        }
+        .submit-btn {
+            background-color: #004080;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .submit-btn:hover {
+            background-color: #002b5c;
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        .submit-btn:active {
+            transform: translateY(1px);
+        }
+        .score-board {
+            margin-top: 15px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #004080;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- 左侧：阅读文章面板 -->
+        <div class="panel">
+            <div class="panel-header">Reading Text (Right-click to highlight)</div>
+            <div class="panel-content article" id="readingText">
+                <h2>The global importance of wetlands</h2>
+
+                <p class="para-label">A</p>
+                <p>Wetlands are areas where water covers the soil, or is present either at or near the surface of the soil, for all or part of the year. These are complex ecosystems, rich in unique plant and animal life. But according to the World Wide Fund for Nature (WWFN), half of the world's wetlands have disappeared since 1990 &#8211; converted or destroyed for commercial development, drainage schemes and the extraction of minerals and peat*. Many of those that remain have been damaged by agricultural pesticides and fertilisers, industrial pollutants, and construction works.</p>
+
+                <p class="para-label">B</p>
+                <p>Throughout history, humans have gathered around wetlands, and their fertile ecosystems have played an important part in human development. Consequently, they are of considerable religious, historical and archaeological value to many communities around the world. 'Wetlands directly support the livelihoods and well-being of millions of people,' says Dr Matthew McCartney, principal researcher and hydrologist at the International Water Management Institute (IWMI). 'In many developing countries, large numbers of people are dependent on wetland agriculture for their livelihoods.'</p>
+
+                <p class="para-label">C</p>
+                <p>They also serve a crucial environmental purpose. 'Wetlands are one of the key tools in mitigating climate change across the planet,' says Pieter van Eijk, head of Climate Adaptation at Wetlands International (WI), pointing to their use as buffers that protect coastal areas from sea-level rise and extreme weather events such as hurricanes and flooding. Wetland coastal forests provide food and water, as well as shelter from storms, and WI and other agencies are working to restore those forests which have been lost. 'It can be as simple as planting a few trees per hectare to create shade and substantially change a microclimate,' he says. 'Implementing climate change projects isn't so much about money.'</p>
+
+                <p class="para-label">D</p>
+                <p>The world's wetlands are, unfortunately, rich sources for in-demand commodities, such as palm oil and pulpwood. Peatlands &#8211; wetlands with a waterlogged organic soil layer &#8211; are particularly targeted. When peatlands are drained for cultivation, they become net carbon emitters instead of active carbon stores, and, according to Marcel Silvius, head of Climate-smart Land-use at WI, this practice causes six per cent of all global carbon emissions. The clearance of peatlands for planting also increases the risk of forest fires, which release huge amounts of CO<sub>2</sub>. 'We're seeing huge peatland forests with extremely high biodiversity value being lost for a few decades of oil palm revenues,' says Silvius.</p>
+
+                <p class="para-label">E</p>
+                <p>The damage starts when logging companies arrive to clear the trees. They dig ditches to enter the peat swamps by boat and then float the logs out the same way. These are then used to drain water out of the peatlands to allow for the planting of corn, oil palms or pulpwood trees. Once the water has drained away, bacteria and fungi then break down the carbon in the peat and turn it into CO<sub>2</sub> and methane. Meanwhile, the remainder of the solid matter in the peat starts to move downwards, in a process known as subsidence**. Peat comprises 90 per cent water, so this is one of the most alarming consequences of peatland clearances. 'In the tropics, peat subsides at about four centimetres a year, so within half a century, very large landscapes on Sumatra and Borneo will become flooded as the peat drops below water level,' says Silvius. 'It's a huge catastrophe that's in preparation. Some provinces will lose 40 per cent of their landmass.'</p>
+
+                <p class="para-label">F</p>
+                <p>And while these industries affect wetlands in ways that can easily be documented, Dr Dave Tickner of the WWFN believes that more subtle impacts can be even more devastating. 'Sediment run-off and fertilisers can be pretty invisible,' says Tickner. 'Over-extraction of water is equally invisible. You do get shock stories about rivers running red, or even catching fire, but there's seldom one big impact that really hurts a wetland.' Tickner does not blame anyone for deliberate damage, however. 'I've worked on wetland issues for 20 years and have never met anybody who wanted to damage a wetland,' he says. 'It isn't something that people generally set out to do. Quite often, the effects simply come from people trying to make a living.'</p>
+
+                <p class="para-label">G</p>
+                <p>Silvius also acknowledges the importance of income generation. 'It's not that we just want to restore the biodiversity of wetlands &#8211; which we do &#8211; but we recognise there's a need to provide an income for local people.' This approach is supported by IWMI. 'The idea is that people in a developing country will only protect wetlands if they value and profit from them,' says McCartney. 'For sustainability, it's essential that local people are involved in wetland planning and decision making and have clear rights to use wetlands.'</p>
+
+                <p class="para-label">H</p>
+                <p>The fortunes of wetlands would be improved, Silvius suggests, if more governments recognised their long-term value. 'Different governments have different attitudes,' he says, and goes on to explain that some countries place a high priority on restoring wetlands, while others still deny the issue. McCartney is cautiously optimistic, however. 'Awareness of the importance of wetlands is growing,' he says. 'It's true that wetland degradation still continues at a rapid pace, but my impression is that things are slowly changing.'</p>
+
+                <p class="footnote">*peat: a brown deposit formed by the partial decomposition of vegetation in wet acidic conditions, often cut out and dried for use as fuel</p>
+                <p class="footnote">**subsidence: the sinking of the Earth's surface, most often caused by the removal of resources from the ground</p>
+            </div>
+        </div>
+
+        <!-- 右侧：题目面板 -->
+        <div class="panel">
+            <div class="panel-header">Questions</div>
+            <div class="panel-content" id="questionsContainer">
+
+                <!-- 第一部分：14-17题 段落信息匹配 -->
+                <div class="question-group">
+                    <h3>Questions 14-17: Matching Information</h3>
+                    <div class="instruction">Reading Passage 2 has eight paragraphs, A&#8211;H. Which paragraph contains the following information? Write the correct letter, A&#8211;H, in boxes 14&#8211;17 on your answer sheet.</div>
+                    <div class="options-box">
+                        <div><strong>A</strong> &nbsp;|&nbsp; <strong>B</strong> &nbsp;|&nbsp; <strong>C</strong> &nbsp;|&nbsp; <strong>D</strong> &nbsp;|&nbsp; <strong>E</strong> &nbsp;|&nbsp; <strong>F</strong> &nbsp;|&nbsp; <strong>G</strong> &nbsp;|&nbsp; <strong>H</strong></div>
+                    </div>
+
+                    <div class="question-item" id="item-q14">
+                        <div class="question-title">14. reference to the need to ensure that inhabitants of wetland regions continue to benefit from them <input type="text" class="match-input" name="q14" placeholder="A-H"></div>
+                        <div class="error-tag">❌ Incorrect</div>
+                    </div>
+
+                    <div class="question-item" id="item-q15">
+                        <div class="question-title">15. the proportion of wetlands which have already been lost <input type="text" class="match-input" name="q15" placeholder="A-H"></div>
+                        <div class="error-tag">❌ Incorrect</div>
+                    </div>
+
+                    <div class="question-item" id="item-q16">
+                        <div class="question-title">16. reference to the idea that people are beginning to appreciate the value of wetlands <input type="text" class="match-input" name="q16" placeholder="A-H"></div>
+                        <div class="error-tag">❌ Incorrect</div>
+                    </div>
+
+                    <div class="question-item" id="item-q17">
+                        <div class="question-title">17. mention of the cultural significance of wetlands <input type="text" class="match-input" name="q17" placeholder="A-H"></div>
+                        <div class="error-tag">❌ Incorrect</div>
+                    </div>
+                </div>
+
+                <!-- 第二部分：18-22题 句子填空 -->
+                <div class="question-group summary-completion">
+                    <h3>Questions 18-22: Sentence Completion (ONE WORD ONLY)</h3>
+                    <div class="instruction">Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 18&#8211;22 on your answer sheet.</div>
+
+                    <div class="question-item" id="item-q18">
+                        <div class="question-title">18. Peatlands which have been drained begin to release <span class="blank-wrapper"><input type="text" class="blank-input" name="q18" placeholder="18"></span> instead of storing it.</div>
+                        <div class="error-tag">❌ Incorrect</div>
+                    </div>
+
+                    <div class="question-item" id="item-q19">
+                        <div class="question-title">19. Once peatland areas have been cleared, <span class="blank-wrapper"><input type="text" class="blank-input" name="q19" placeholder="19"></span> are more likely to occur.</div>
+                        <div class="error-tag">❌ Incorrect</div>
+                    </div>
+
+                    <div class="question-item" id="item-q20">
+                        <div class="question-title">20. Clearing peatland forests to make way for oil palm plantations destroys the <span class="blank-wrapper"><input type="text" class="blank-input" name="q20" placeholder="20"></span> of the local environment.</div>
+                        <div class="error-tag">❌ Incorrect</div>
+                    </div>
+
+                    <div class="question-item" id="item-q21">
+                        <div class="question-title">21. Water is drained out of peatlands through the <span class="blank-wrapper"><input type="text" class="blank-input" name="q21" placeholder="21"></span> which are created by logging companies.</div>
+                        <div class="error-tag">❌ Incorrect</div>
+                    </div>
+
+                    <div class="question-item" id="item-q22">
+                        <div class="question-title">22. Draining peatlands leads to <span class="blank-wrapper"><input type="text" class="blank-input" name="q22" placeholder="22"></span> : a serious problem which can eventually result in coastal flooding and land loss.</div>
+                        <div class="error-tag">❌ Incorrect</div>
+                    </div>
+                </div>
+
+                <!-- 第三部分：23-26题 人名观点配对 -->
+                <div class="question-group">
+                    <h3>Questions 23-26: Matching Features</h3>
+                    <div class="instruction">Look at the following statements (Questions 23&#8211;26) and the list of experts below. Match each statement with the correct expert, A&#8211;D. Write the correct letter, A&#8211;D, in boxes 23&#8211;26 on your answer sheet.</div>
+
+                    <div class="options-box">
+                        <h4>List of Experts</h4>
+                        <div><strong>A</strong> &nbsp; Matthew McCartney</div>
+                        <div><strong>B</strong> &nbsp; Pieter van Eijk</div>
+                        <div><strong>C</strong> &nbsp; Marcel Silvius</div>
+                        <div><strong>D</strong> &nbsp; Dave Tickner</div>
+                    </div>
+
+                    <div class="question-item" id="item-q23">
+                        <div class="question-title">23. Communities living in wetland regions must be included in discussions about the future of these areas. <input type="text" class="match-input" name="q23" placeholder="A-D"></div>
+                        <div class="error-tag">❌ Incorrect</div>
+                    </div>
+
+                    <div class="question-item" id="item-q24">
+                        <div class="question-title">24. Official policies towards wetlands vary from one nation to the next. <input type="text" class="match-input" name="q24" placeholder="A-D"></div>
+                        <div class="error-tag">❌ Incorrect</div>
+                    </div>
+
+                    <div class="question-item" id="item-q25">
+                        <div class="question-title">25. People cause harm to wetlands without having any intention to do so. <input type="text" class="match-input" name="q25" placeholder="A-D"></div>
+                        <div class="error-tag">❌ Incorrect</div>
+                    </div>
+
+                    <div class="question-item" id="item-q26">
+                        <div class="question-title">26. Initiatives to reverse environmental damage need not be complex. <input type="text" class="match-input" name="q26" placeholder="A-D"></div>
+                        <div class="error-tag">❌ Incorrect</div>
+                    </div>
+                </div>
+
+                <!-- 提交按钮与分数面板区域 -->
+                <div class="submit-section">
+                    <button class="submit-btn" id="submitBtn">提交答案</button>
+                    <div class="score-board" id="scoreBoard"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 1. 实现右键高亮与取消高亮逻辑
+        const readingText = document.getElementById('readingText');
+
+        readingText.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            if (e.target.classList.contains('highlight')) {
+                const parent = e.target.parentNode;
+                parent.replaceChild(document.createTextNode(e.target.textContent), e.target);
+                parent.normalize();
+                return;
+            }
+            const selection = window.getSelection();
+            if (!selection.isCollapsed && selection.rangeCount > 0) {
+                const range = selection.getRangeAt(0);
+                const span = document.createElement('span');
+                span.className = 'highlight';
+                try {
+                    span.appendChild(range.extractContents());
+                    range.insertNode(span);
+                    selection.removeAllRanges();
+                } catch (err) {
+                    console.log("Highlight error:", err);
+                }
+            }
+        });
+
+        // ==========================================
+        // 💡 标准答案配置（14-26题）
+        // ==========================================
+        const correctAnswers = {
+            q14: 'G',
+            q15: 'A',
+            q16: 'H',
+            q17: 'B',
+            q18: 'carbon',
+            q19: 'fires',
+            q20: 'biodiversity',
+            q21: 'ditches',
+            q22: 'subsidence',
+            q23: 'A',
+            q24: 'C',
+            q25: 'D',
+            q26: 'B'
+        };
+
+        function getPageQuestions() {
+            return Object.keys(correctAnswers);
+        }
+
+        // ==========================================
+        // 🚀 【严格判定核心】未作答题目一律计为错误
+        // ==========================================
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            // 清除上一轮的所有错误红框样式
+            document.querySelectorAll('.incorrect').forEach(el => el.classList.remove('incorrect'));
+
+            const activeQuestions = getPageQuestions();
+            let score = 0;
+            let total = activeQuestions.length;
+
+            console.log(`--- 📝 严格批改系统启动 (总题数: ${total}) ---`);
+
+            activeQuestions.forEach(q => {
+                const correctVal = correctAnswers[q];
+                if (correctVal === undefined) return;
+
+                let isCorrect = false;
+                const itemElem = document.getElementById(`item-${q}`);
+
+                if (document.querySelector(`input[name="${q}"].match-input, select[name="${q}"]`)) {
+                    // 匹配题（段落匹配 / 人名匹配，输入字母）
+                    const matchElem = document.querySelector(`input[name="${q}"], select[name="${q}"]`);
+                    if (matchElem && matchElem.value.trim() !== '') {
+                        const userVal = matchElem.value.trim().toUpperCase();
+                        const correctStr = String(correctVal).trim().toUpperCase();
+                        isCorrect = (userVal === correctStr);
+                    } else {
+                        isCorrect = false; // 未作答视为错误
+                    }
+                } else {
+                    // 填空题 (Text input)
+                    const inputElem = document.querySelector(`input[name="${q}"]`);
+                    if (inputElem && inputElem.value.trim() !== '') {
+                        const userVal = inputElem.value.trim().toLowerCase();
+                        const correctStr = String(correctVal).trim().toLowerCase();
+
+                        let possibleAnswers = correctStr.split('/').map(s => s.trim());
+                        isCorrect = possibleAnswers.includes(userVal);
+                    } else {
+                        isCorrect = false; // 未作答视为错误
+                    }
+                }
+
+                // 错误样式渲染
+                if (!isCorrect) {
+                    if (itemElem) itemElem.classList.add('incorrect');
+                    const specificInput = document.querySelector(`input[name="${q}"]`);
+                    if (specificInput) specificInput.classList.add('incorrect');
+                } else {
+                    score++;
+                }
+            });
+
+            // 显示最终得分
+            const scoreBoard = document.getElementById('scoreBoard');
+            scoreBoard.style.display = 'block';
+            scoreBoard.textContent = `得分: ${score} / ${total}`;
+        });
+    </script>
+</body>
+</html>
