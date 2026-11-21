@@ -35,6 +35,11 @@
 - **Passage 2 (C19T2R2)**：[Atheletes and stress](./C19T2R2.html)
 - **Passage 3 (C19T2R3)**：[An inquiry into the existence of gifted child](https://x-veronica.github.io/IELTS_Authentic_papers/C19T2R3.html)
 
+
+#### 🔹 Test 3
+- **Passage 1 (C19T3R1)**：[Archaeologists discover evidence of prehistoric island settlers](https://x-veronica.github.io/IELTS_Authentic_papers/C19T3R1.html)
+- **Passage 2 (C19T3R2)**：[The global importance of wetlands](./C19T3R2.html)
+- **Passage 3 (C19T3R3)**：[Is the era of artificial speech translation upon us?](https://x-veronica.github.io/IELTS_Authentic_papers/C19T3R3.html)
 ---
 
 ## ✍️ 雅思写作 (IELTS Writing)
